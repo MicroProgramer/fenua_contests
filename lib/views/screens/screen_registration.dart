@@ -16,7 +16,7 @@ class RegistrationScreen extends StatelessWidget {
     Get.lazyPut(() => RegistrationController(), fenix: true);
 
     return Scaffold(
-      backgroundColor: Colors.green,
+      backgroundColor: appSecondaryColor,
       body: WillPopScope(
         onWillPop: () async {
           RegistrationController controller = Get.find<RegistrationController>();
