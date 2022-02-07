@@ -69,3 +69,4 @@ class RegistrationController extends GetxController
 
 enum Credentials { success, error, typing, idle }
 enum FormType {login, signup}
+
