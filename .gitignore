@@ -29,11 +29,10 @@
 .packages
 .pub-cache/
 .pub/
-/build/
-!/build/web/
-!/build/web/**/*
-!/build/web/**/*.*
-!/build/web/**/**/*.*
+/build/app
+/build/kotlin
+/build/flutter_plugin_android_lifecycle
+/build/image_picker
 
 # Web related
 lib/generated_plugin_registrant.dart
