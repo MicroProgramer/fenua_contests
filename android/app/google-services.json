@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "143330305301",
+    "project_id": "fenua-contests",
+    "storage_bucket": "fenua-contests.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143330305301:android:fedeab37908bf854ba351c",
+        "android_client_info": {
+          "package_name": "com.microprogramers.juex.concours.fenua_contests"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "143330305301-f19po44d36f5p0vav7v3fe1cuctpc99f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnURj0L4jR_sVRiLQ9Z2JnEyAu2mZTpYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "143330305301-f19po44d36f5p0vav7v3fe1cuctpc99f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

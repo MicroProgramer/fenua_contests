@@ -1,3 +1,5 @@
+import 'package:fenua_contests/models/user_credentials.dart';
+
 class UserInfo {
   String first_name, last_name, nickname;
   int age;

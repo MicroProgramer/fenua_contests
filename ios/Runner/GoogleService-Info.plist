@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>143330305301-g58k5onnhl5oj7sdp1bbvbnunvm22ra6.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.143330305301-g58k5onnhl5oj7sdp1bbvbnunvm22ra6</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDyobJJja0ypjCNiqKzeVvETCN0cDe_IFA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>143330305301</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.microprogramers.juex.concours.fenuaContests</string>
+	<key>PROJECT_ID</key>
+	<string>fenua-contests</string>
+	<key>STORAGE_BUCKET</key>
+	<string>fenua-contests.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:143330305301:ios:46ca8476a3488cf6ba351c</string>
+</dict>
+</plist>
