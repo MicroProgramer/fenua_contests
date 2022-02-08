@@ -7,7 +7,10 @@ class CustomButton extends StatefulWidget {
   VoidCallback onPressed;
 
   CustomButton(
-      {required this.color, required this.child, required this.onPressed, this.width});
+      {required this.color,
+      required this.child,
+      required this.onPressed,
+      this.width});
 
   @override
   _CustomButtonState createState() => _CustomButtonState();

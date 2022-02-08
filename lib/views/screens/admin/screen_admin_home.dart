@@ -11,15 +11,12 @@ import '../../../helpers/styles.dart';
 class AdminHomeScreen extends StatelessWidget {
   const AdminHomeScreen({Key? key}) : super(key: key);
 
-
-
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => AdminHomeScreenController(), fenix: true);
 
     AdminHomeScreenController controller =
         Get.find<AdminHomeScreenController>();
-
 
     List<Widget> _widgetOptions = <Widget>[
       ContestsAdminLayout(),
@@ -56,9 +53,8 @@ class AdminHomeScreen extends StatelessWidget {
           );
         },
       ),
-      
       body: Container(
-        child: Obx((){
+        child: Obx(() {
           return _widgetOptions[controller.selectedPage.value];
         }),
       ),

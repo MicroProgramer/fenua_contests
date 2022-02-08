@@ -36,8 +36,37 @@
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
+
+  <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyA_VZhJ9vvap-1rXthjnw8l8KywcBEPxrA",
+    authDomain: "fenua-contests.firebaseapp.com",
+    projectId: "fenua-contests",
+    storageBucket: "fenua-contests.appspot.com",
+    messagingSenderId: "143330305301",
+    appId: "1:143330305301:web:dae56d18b929d875ba351c",
+    measurementId: "G-Z2SJVRKLXV"
+  };
+
+<!--  // Initialize Firebase-->
+<!--  const app = initializeApp(firebaseConfig);-->
+<!--  const analytics = getAnalytics(app);-->
+
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+</script>
   <script>
-    var serviceWorkerVersion = '3038461934';
+    var serviceWorkerVersion = '2318848095';
     var scriptLoaded = false;
     function loadMainDartJs() {
       if (scriptLoaded) {

@@ -201,17 +201,21 @@ class EditContestScreen extends StatelessWidget {
                                           centerTitle: true,
                                           actions: [
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: Icon(Icons.close),
                                             ),
                                           ],
                                           title: Container(
-                                            child: /*Icon(
+                                              child: /*Icon(
                                               Icons.horizontal_rule_rounded,
                                               color: Colors.white54,
                                               size: 100,
-                                            ),*/Text("20 Participants", style: heading3_style,)
-                                          ),
+                                            ),*/
+                                                  Text(
+                                            "20 Participants",
+                                            style: heading3_style,
+                                          )),
                                           // backgroundColor: appPrimaryColor,
                                           elevation: 2,
                                           automaticallyImplyLeading:

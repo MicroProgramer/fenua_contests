@@ -64,17 +64,17 @@ TextStyle normal_h5Style = TextStyle(color: appTextColor, fontSize: 11);
 TextStyle normal_h6Style = TextStyle(color: appTextColor, fontSize: 9);
 
 TextStyle normal_h1Style_bold =
-    TextStyle(color: appTextColor,fontSize: 19, fontWeight: FontWeight.bold);
+    TextStyle(color: appTextColor, fontSize: 19, fontWeight: FontWeight.bold);
 TextStyle normal_h2Style_bold =
-    TextStyle(color: appTextColor,fontSize: 17, fontWeight: FontWeight.bold);
+    TextStyle(color: appTextColor, fontSize: 17, fontWeight: FontWeight.bold);
 TextStyle normal_h3Style_bold =
-    TextStyle(color: appTextColor,fontSize: 15, fontWeight: FontWeight.bold);
+    TextStyle(color: appTextColor, fontSize: 15, fontWeight: FontWeight.bold);
 TextStyle normal_h4Style_bold =
-    TextStyle(color: appTextColor,fontSize: 13, fontWeight: FontWeight.bold);
+    TextStyle(color: appTextColor, fontSize: 13, fontWeight: FontWeight.bold);
 TextStyle normal_h5Style_bold =
-    TextStyle(color: appTextColor,fontSize: 11, fontWeight: FontWeight.bold);
+    TextStyle(color: appTextColor, fontSize: 11, fontWeight: FontWeight.bold);
 TextStyle normal_h6Style_bold =
-    TextStyle(color: appTextColor,fontSize: 9, fontWeight: FontWeight.bold);
+    TextStyle(color: appTextColor, fontSize: 9, fontWeight: FontWeight.bold);
 
 TextStyle red_h1Style = TextStyle(color: Colors.red, fontSize: 19);
 TextStyle red_h2Style = TextStyle(color: Colors.red, fontSize: 17);

@@ -15,17 +15,6 @@ class SignupLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _firstname = "",
-        _lastname = "",
-        _email = "",
-        _phone = "",
-        _password = "",
-        _confirmPassword = "";
-    String _country_code = "";
-
-    // FirebaseAuth? _auth;
-    // FirebaseFirestore firestore = FirebaseFirestore.instance;
-    bool buttonEnabled = true;
     double height = Get.height;
 
     return SingleChildScrollView(
@@ -42,7 +31,7 @@ class SignupLayout extends StatelessWidget {
                   backgroundImage: controller.oldPickedImage == null
                       ? AssetImage("assets/images/placeholder.jpg")
                       : FileImage(File(controller.oldPickedImage!.path))
-                  as ImageProvider,
+                          as ImageProvider,
                 ),
                 onTap: () async {
                   controller.getImage();
@@ -54,73 +43,55 @@ class SignupLayout extends StatelessWidget {
             hint: "First Name",
             isPasswordField: false,
             keyboardType: TextInputType.name,
-            onChange: (value) {
-              _firstname = value.toString();
-            },
+            controller: controller.firstName_controller.value,
           ),
           CustomInputField(
             hint: "Last Name",
             keyboardType: TextInputType.name,
             isPasswordField: false,
-            onChange: (value) {
-              _lastname = value.toString();
-            },
+            controller: controller.lastName_controller.value,
           ),
           CustomInputField(
             hint: "Nickname",
             keyboardType: TextInputType.name,
             isPasswordField: false,
-            onChange: (value) {
-              _lastname = value.toString();
-            },
+            controller: controller.nickName_controller.value,
           ),
           CustomInputField(
             hint: "Age",
             keyboardType: TextInputType.number,
             isPasswordField: false,
-            onChange: (value) {
-              _lastname = value.toString();
-            },
+            controller: controller.age_controller.value,
           ),
           CustomInputField(
             hint: "City",
             keyboardType: TextInputType.name,
             isPasswordField: false,
-            onChange: (value) {
-              _lastname = value.toString();
-            },
+            controller: controller.city_controller.value,
           ),
           CustomInputField(
             hint: "Phone Number",
             keyboardType: TextInputType.phone,
             isPasswordField: false,
-            onChange: (value) {
-              _lastname = value.toString();
-            },
+            controller: controller.phone_controller.value,
           ),
           CustomInputField(
             hint: "Email",
             keyboardType: TextInputType.emailAddress,
             isPasswordField: false,
-            onChange: (value) {
-              _email = value.toString();
-            },
+            controller: controller.email_controller.value,
           ),
           CustomInputField(
             hint: "Password",
             keyboardType: TextInputType.visiblePassword,
             isPasswordField: true,
-            onChange: (value) {
-              _password = value.toString();
-            },
+            controller: controller.password_controller.value,
           ),
           CustomInputField(
             hint: "Confirm Password",
             keyboardType: TextInputType.visiblePassword,
             isPasswordField: true,
-            onChange: (value) {
-              _confirmPassword = value.toString();
-            },
+            controller: controller.confirm_password_controller.value,
           ),
           Obx(() {
             return Column(
@@ -160,16 +131,15 @@ class SignupLayout extends StatelessWidget {
               child: Text(
                 "Sign up",
                 style:
-                TextStyle(color: appTextColor, fontWeight: FontWeight.bold),
+                    TextStyle(color: appTextColor, fontWeight: FontWeight.bold),
               ),
-              onPressed: () {
-                String status = controller.submitFormStatus(FormType.signup);
-                if (status != "success"){
-                  print(status);
-                  showSnackBar(status, context);
-                  return;
+              onPressed: () async {
+                String response = await controller.createAccount();
+                if (response == "success") {
+                  Get.to(HomeScreen());
+                } else {
+                  showSnackBar(response, context);
                 }
-                Get.to(HomeScreen());
               }),
           Container(
             padding: EdgeInsets.only(top: 20),

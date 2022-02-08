@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Fenua Contests',
       home: RegistrationScreen(),
-
       theme: ThemeData(
         primarySwatch: appPrimaryColor,
       ),

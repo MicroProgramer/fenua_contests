@@ -1,4 +1,3 @@
-import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -35,14 +34,13 @@ class UserItem extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             InkWell(
-                onTap: (){
+                onTap: () {
                   Get.defaultDialog(
-                    title: "Alert",
-                    middleText: "Are you sure to ban this user?",
-                    textConfirm: "Yes",
-                    textCancel: "No",
-                    confirmTextColor: Colors.white
-                  );
+                      title: "Alert",
+                      middleText: "Are you sure to ban this user?",
+                      textConfirm: "Yes",
+                      textCancel: "No",
+                      confirmTextColor: Colors.white);
                 },
                 child: Icon(Icons.block)),
           ],

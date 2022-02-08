@@ -21,21 +21,13 @@ class LoginLayout extends StatelessWidget {
             CustomInputField(
               hint: "Email Address",
               isPasswordField: false,
-              onChange: (value) {
-                controller.updateAnimationState(
-                    credentialsState:
-                        value!.isEmpty ? Credentials.idle : Credentials.typing);
-              },
+              controller: controller.email_controller.value,
               keyboardType: TextInputType.emailAddress,
             ),
             CustomInputField(
               hint: "Password",
               isPasswordField: true,
-              onChange: (value) {
-                controller.updateAnimationState(
-                    credentialsState:
-                        value!.isEmpty ? Credentials.idle : Credentials.typing);
-              },
+              controller: controller.password_controller.value,
               keyboardType: TextInputType.emailAddress,
             ),
             CustomButton(
@@ -45,23 +37,25 @@ class LoginLayout extends StatelessWidget {
                 style:
                     TextStyle(color: appTextColor, fontWeight: FontWeight.bold),
               ),
-              onPressed: () {
-                String status = controller.submitFormStatus(FormType.login);
+              onPressed: () async {
+                String status = await controller.signIn();
 
                 if (status == "success") {
                 } else if (status == "admin") {
                   Get.to(AdminHomeScreen());
                 } else {
-                  Get.bottomSheet(Container(
-                    height: 100,
-                    color: Colors.red,
-                    child: Center(
-                        child: Text(
-                          status,
-                          style: normal_h3Style,
-                        )),
-                  ));
-
+                  // Get.bottomSheet(Container(
+                  //   height: 100,
+                  //   color: Colors.red,
+                  //   child: Center(
+                  //       child: Text(
+                  //     status,
+                  //     style: normal_h3Style,
+                  //   )),
+                  // ));
+                  Get.snackbar("Alert", status, backgroundColor: Colors.black,
+                    colorText: Colors.white
+                  );
                 }
               },
             ),

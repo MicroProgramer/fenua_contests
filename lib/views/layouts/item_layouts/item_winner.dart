@@ -9,7 +9,7 @@ class WinnerItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListTile(
-        onTap: (){},
+        onTap: () {},
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -21,16 +21,17 @@ class WinnerItem extends StatelessWidget {
               image: DecorationImage(
                 image: AssetImage("assets/images/placeholder.jpg"),
               ),
-              shape: BoxShape.circle, color: Colors.red),
+              shape: BoxShape.circle,
+              color: Colors.red),
         ),
-
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
               "Winner Name",
-              style: TextStyle(color: appPrimaryColor, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  color: appPrimaryColor, fontWeight: FontWeight.bold),
             ),
             Text("Contest Name"),
           ],

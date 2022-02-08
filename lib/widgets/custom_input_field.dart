@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomInputField extends StatefulWidget {
   final String hint;
   final bool isPasswordField;
-  final Function(String? value) onChange;
+  final Function(String? value)? onChange;
   final TextInputType keyboardType;
   Widget? prefix;
   int? limit;
@@ -14,7 +14,7 @@ class CustomInputField extends StatefulWidget {
   CustomInputField(
       {required this.hint,
       required this.isPasswordField,
-      required this.onChange,
+      this.onChange,
       required this.keyboardType,
       this.prefix,
       this.limit,

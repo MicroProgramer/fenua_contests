@@ -6,5 +6,4 @@ class HomeScreenController extends GetxController {
   void changePageIndex(int index) {
     selectedPage.value = index;
   }
-
 }

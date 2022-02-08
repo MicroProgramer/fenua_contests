@@ -17,7 +17,9 @@ class WalletScreen extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Image.asset(
                 "assets/images/wallet.png",
                 height: Get.height * 0.2,
@@ -63,10 +65,9 @@ class WalletScreen extends StatelessWidget {
               ),
               Text(
                 "Win more tickets",
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall!
-                    .merge(TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                style: Theme.of(context).textTheme.headlineSmall!.merge(
+                    TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
               )
             ],
           ),

@@ -6,5 +6,4 @@ class AdminHomeScreenController extends GetxController {
   void changePageIndex(int index) {
     selectedPage.value = index;
   }
-
 }

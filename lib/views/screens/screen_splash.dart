@@ -1,6 +1,7 @@
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -14,11 +15,8 @@ class SplashScreen extends StatelessWidget {
         decoration: BoxDecoration(
             image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage("assets/images/splash.gif")
-            )
-        ),
+                image: AssetImage("assets/images/splash.gif"))),
       ),
     );
   }
 }
-

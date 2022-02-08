@@ -1,5 +1,7 @@
-class UserCredentials{
+class UserCredentials {
   String id, email, password, phone, image_url;
+
+
 
   UserCredentials({
     required this.id,

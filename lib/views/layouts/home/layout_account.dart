@@ -142,14 +142,14 @@ class AccountLayout extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(18.0),
                   child: InkWell(
-                    onTap: (){
+                    onTap: () {
                       Get.defaultDialog(
-                        middleText: "You will have no longer access to your account, Are you sure to delete your account?",
-                        title: "Alert",
-                        textConfirm: "Delete Account",
-                        textCancel: "Cancel",
-                        confirmTextColor: Colors.white
-                      );
+                          middleText:
+                              "You will have no longer access to your account, Are you sure to delete your account?",
+                          title: "Alert",
+                          textConfirm: "Delete Account",
+                          textCancel: "Cancel",
+                          confirmTextColor: Colors.white);
                     },
                     child: Text(
                       "Delete my account",
