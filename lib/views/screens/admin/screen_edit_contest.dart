@@ -221,13 +221,13 @@ class EditContestScreen extends StatelessWidget {
                                           automaticallyImplyLeading:
                                               false, // remove back button in appbar.
                                         ),
-                                        Expanded(
-                                            child: ListView.builder(
-                                                controller: scrollController,
-                                                itemCount: 20,
-                                                itemBuilder: (_, index) {
-                                                  return UserItem();
-                                                }))
+                                        // Expanded(
+                                        //     child: ListView.builder(
+                                        //         controller: scrollController,
+                                        //         itemCount: 20,
+                                        //         itemBuilder: (_, index) {
+                                        //           return UserItem();
+                                        //         }))
                                       ],
                                     ),
                                   );

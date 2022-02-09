@@ -1,9 +1,10 @@
 import 'package:fenua_contests/helpers/styles.dart';
+import 'package:fenua_contests/models/user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class UserItem extends StatelessWidget {
-  const UserItem({Key? key}) : super(key: key);
+  UserInfo user;
 
   @override
   Widget build(BuildContext context) {
@@ -14,38 +15,34 @@ class UserItem extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
+        contentPadding: EdgeInsets.all(10),
         tileColor: Colors.white,
         leading: Container(
-          height: 50,
-          width: 50,
+          height: Get.height * 0.07,
+          width: Get.height * 0.07,
           decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/placeholder.jpg"),
+                fit: BoxFit.cover,
+                image: NetworkImage(user.image_url),
               ),
-              shape: BoxShape.circle,
-              color: Colors.red),
+              shape: BoxShape.circle,),
         ),
         title: Text(
-          "User Name",
+          user.first_name + " " + user.last_name,
           style: TextStyle(color: appPrimaryColor, fontWeight: FontWeight.bold),
         ),
-        subtitle: Text("20 Jan, 2022"),
+        subtitle: Text(user.email),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            InkWell(
-                onTap: () {
-                  Get.defaultDialog(
-                      title: "Alert",
-                      middleText: "Are you sure to ban this user?",
-                      textConfirm: "Yes",
-                      textCancel: "No",
-                      confirmTextColor: Colors.white);
-                },
-                child: Icon(Icons.block)),
+            IconButton(onPressed: (){}, icon: Icon(Icons.block)),
           ],
         ),
       ),
     );
   }
+
+  UserItem({
+    required this.user,
+  });
 }

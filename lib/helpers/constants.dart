@@ -1,4 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/shared_user.dart';
 
 bool userSignedIn = false;
 late String userMail;
@@ -6,6 +11,12 @@ String appName = "Contests App";
 String googleAPIKey = "AIzaSyCp2I8VzxRNn4ls-1bPs1eGJDYDqxcimEM";
 String test_image =
     "https://static.wikia.nocookie.net/mrbean/images/4/4b/Mr_beans_holiday_ver2.jpg/revision/latest?cb=20181130033425";
+
+CollectionReference organizersRef =
+    FirebaseFirestore.instance.collection("organizers");
+CollectionReference contestsRef =
+    FirebaseFirestore.instance.collection("contests");
+CollectionReference usersRef = FirebaseFirestore.instance.collection("users");
 
 void showSnackBar(String message, BuildContext context) {
   ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -106,14 +117,44 @@ Size screenSize(BuildContext context) {
   return MediaQuery.of(context).size;
 }
 
-Future<DateTime> selectDate(BuildContext context) async {
+Future<DateTime> selectDate(
+    BuildContext context, int startTimestamp, int? selectedTimestamp) async {
   DateTime selectedDate = DateTime.now();
   final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2015, 8),
+      initialDate: DateTime.fromMillisecondsSinceEpoch(
+          selectedTimestamp ?? startTimestamp),
+      firstDate: DateTime.fromMillisecondsSinceEpoch(startTimestamp),
       lastDate: DateTime(2101));
   if (picked != null && picked != selectedDate) selectedDate = picked;
 
   return selectedDate;
+}
+
+void saveSharedPref(SharedUser user) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString("id", user.id);
+  prefs.setString("name", user.name);
+  prefs.setString("type", user.userType);
+}
+
+Future<SharedUser> getUserFromSharedPrefs() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return SharedUser(
+    id: prefs.getString("id") ?? "",
+    name: prefs.getString("name") ?? "",
+    userType: prefs.getString("type") ?? "",
+  );
+}
+
+Future<void> logoutSharedUser() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString("id", "");
+  prefs.setString("name", "");
+  prefs.setString("type", "");
+}
+
+String timestampToDateFormat(int timestamp, String format) {
+  DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
+  return DateFormat(format).format(dateTime);
 }

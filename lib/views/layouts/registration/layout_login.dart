@@ -1,5 +1,6 @@
 import 'package:fenua_contests/controllers/controller_registration.dart';
 import 'package:fenua_contests/helpers/styles.dart';
+import 'package:fenua_contests/views/screens/screen_home.dart';
 import 'package:fenua_contests/widgets/custom_button.dart';
 import 'package:fenua_contests/widgets/custom_input_field.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class LoginLayout extends StatelessWidget {
               hint: "Password",
               isPasswordField: true,
               controller: controller.password_controller.value,
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.visiblePassword,
             ),
             CustomButton(
               color: appPrimaryColor,
@@ -41,21 +42,12 @@ class LoginLayout extends StatelessWidget {
                 String status = await controller.signIn();
 
                 if (status == "success") {
+                  Get.off(HomeScreen());
                 } else if (status == "admin") {
-                  Get.to(AdminHomeScreen());
+                  Get.off(AdminHomeScreen());
                 } else {
-                  // Get.bottomSheet(Container(
-                  //   height: 100,
-                  //   color: Colors.red,
-                  //   child: Center(
-                  //       child: Text(
-                  //     status,
-                  //     style: normal_h3Style,
-                  //   )),
-                  // ));
-                  Get.snackbar("Alert", status, backgroundColor: Colors.black,
-                    colorText: Colors.white
-                  );
+                  Get.snackbar("Alert", status,
+                      backgroundColor: Colors.black, colorText: Colors.white);
                 }
               },
             ),

@@ -10,6 +10,8 @@ class CustomInputField extends StatefulWidget {
   TextEditingController? controller;
   VoidCallback? onTap;
   bool? readOnly;
+  Color? fillColor;
+  int? maxLines;
 
   CustomInputField(
       {required this.hint,
@@ -20,7 +22,9 @@ class CustomInputField extends StatefulWidget {
       this.limit,
       this.controller,
       this.onTap,
-      this.readOnly});
+      this.readOnly,
+      this.fillColor,
+      this.maxLines});
 
   @override
   _CustomInputFieldState createState() => _CustomInputFieldState();
@@ -44,13 +48,14 @@ class _CustomInputFieldState extends State<CustomInputField> {
         onChanged: widget.onChange,
         obscureText: _isHidden,
         onTap: widget.onTap,
+        maxLines: widget.maxLines ?? 1,
         readOnly: widget.readOnly ?? false,
         keyboardType: widget.keyboardType,
         controller: widget.controller,
         decoration: InputDecoration(
             prefixIcon: widget.prefix,
             hintText: widget.hint,
-            fillColor: Color(0xFFECECEC),
+            fillColor: widget.fillColor ?? Color(0xFFECECEC),
             filled: true,
             suffixIcon: widget.isPasswordField
                 ? IconButton(
@@ -74,7 +79,8 @@ class _CustomInputFieldState extends State<CustomInputField> {
                   )
                 : null,
             hintStyle: TextStyle(color: Color(0xF0BDBDBD)),
-            contentPadding: EdgeInsets.only(left: 15, right: 15),
+            contentPadding: EdgeInsets.only(
+                left: 15, right: 15, top: (widget.maxLines != null) ? 25 : 8),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
               borderSide: BorderSide.none,

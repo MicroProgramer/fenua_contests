@@ -1,10 +1,13 @@
 import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
+import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/views/layouts/admin/layout_contests_admin.dart';
+import 'package:fenua_contests/views/layouts/admin/layout_organizers_admin.dart';
 import 'package:fenua_contests/views/layouts/admin/layout_users_admin.dart';
+import 'package:fenua_contests/views/screens/screen_registration.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 import '../../../helpers/styles.dart';
 
@@ -13,7 +16,9 @@ class AdminHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => AdminHomeScreenController(), fenix: true);
+
+    Get.put(AdminHomeScreenController(), permanent: true);
+    // Get.lazyPut(() => AdminHomeScreenController(), fenix: true);
 
     AdminHomeScreenController controller =
         Get.find<AdminHomeScreenController>();
@@ -21,12 +26,35 @@ class AdminHomeScreen extends StatelessWidget {
     List<Widget> _widgetOptions = <Widget>[
       ContestsAdminLayout(),
       UsersLayoutAdmin(),
+      OrganizersLayoutAdmin()
     ];
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appSecondaryColor,
         title: Text("Admin Area"),
+        actions: [
+          IconButton(
+            tooltip: "Logout",
+            onPressed: () {
+              Get.defaultDialog(
+                title: "Logout",
+                middleText: "Are you sure to logout?",
+                textCancel: "No",
+                textConfirm: "Yes",
+                confirmTextColor: Colors.white,
+                onConfirm: () async {
+                  await logoutSharedUser();
+                  Get.offAll(RegistrationScreen());
+                },
+                onCancel: (){
+                  Get.back();
+                }
+              );
+            },
+            icon: Icon(Icons.logout),
+          ),
+        ],
       ),
       backgroundColor: appSecondaryColor,
       bottomNavigationBar: GetX<AdminHomeScreenController>(
@@ -42,6 +70,10 @@ class AdminHomeScreen extends StatelessWidget {
                 icon: Icon(Icons.supervisor_account),
                 label: 'Users',
               ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.supervisor_account),
+                label: 'Organizers',
+              ),
             ],
             currentIndex: controller.selectedPage.value,
             selectedItemColor: Colors.black,
@@ -55,7 +87,9 @@ class AdminHomeScreen extends StatelessWidget {
       ),
       body: Container(
         child: Obx(() {
-          return _widgetOptions[controller.selectedPage.value];
+          return ModalProgressHUD(
+              inAsyncCall: controller.showLoading.value,
+              child: _widgetOptions[controller.selectedPage.value]);
         }),
       ),
     );

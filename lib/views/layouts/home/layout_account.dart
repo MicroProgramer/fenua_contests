@@ -1,5 +1,8 @@
+import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/helpers/styles.dart';
+import 'package:fenua_contests/views/screens/screen_registration.dart';
 import 'package:fenua_contests/widgets/custom_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -133,7 +136,20 @@ class AccountLayout extends StatelessWidget {
                                 color: appTextColor,
                                 fontWeight: FontWeight.bold),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.defaultDialog(
+                              title: "Logout",
+                              middleText: "Are you sure to logout",
+                              confirmTextColor: Colors.white,
+                              textCancel: "No",
+                              textConfirm: "Yes",
+                              onConfirm: () async {
+                                await FirebaseAuth.instance.signOut();
+                                await logoutSharedUser();
+                                Get.offAll(RegistrationScreen());
+                              }
+                            );
+                          },
                         ),
                       ),
                     ],

@@ -1,6 +1,8 @@
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/views/layouts/item_layouts/item_contest_admin.dart';
+import 'package:fenua_contests/views/screens/admin/screen_add_new_contest.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ContestsAdminLayout extends StatelessWidget {
   const ContestsAdminLayout({Key? key}) : super(key: key);
@@ -10,7 +12,9 @@ class ContestsAdminLayout extends StatelessWidget {
     return Scaffold(
         backgroundColor: appSecondaryColor,
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Get.to(AddNewContestScreen());
+          },
           child: Icon(Icons.add),
         ),
         body: ListView.builder(

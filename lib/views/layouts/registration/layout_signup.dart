@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:fenua_contests/controllers/controller_registration.dart';
 import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/helpers/styles.dart';

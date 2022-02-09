@@ -1,13 +1,17 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fenua_contests/models/shared_user.dart';
 import 'package:fenua_contests/models/user_info.dart' as model;
+import 'package:fenua_contests/views/screens/admin/screen_admin_home.dart';
 import 'package:fenua_contests/views/screens/screen_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../helpers/constants.dart';
 
 class RegistrationController extends GetxController
     with GetTickerProviderStateMixin {
@@ -29,15 +33,23 @@ class RegistrationController extends GetxController
       confirm_password_controller = TextEditingController().obs,
       phone_controller = TextEditingController().obs;
 
+  var _adminEmail = "admin";
+  var _adminPass = "admin";
+
   @override
-  void onInit() {
+  Future<void> onInit() async {
     tabController = TabController(length: 2, vsync: this);
     tabController.addListener(() {
       selectedPage.value = tabController.index;
     });
 
-    if (FirebaseAuth.instance.currentUser != null) {
-      Get.to(HomeScreen());
+    SharedUser sharedUser = await getUserFromSharedPrefs();
+    if (!sharedUser.userType.isEmpty) {
+      if (sharedUser.userType == "admin") {
+        Get.off(AdminHomeScreen());
+      } else if (sharedUser.userType == "user") {
+        Get.off(HomeScreen());
+      }
     }
 
     super.onInit();
@@ -153,6 +165,10 @@ class RegistrationController extends GetxController
 
     if (email.isEmpty || password.isEmpty) {
       return "Both fields are required";
+    } else if (email.toLowerCase() == _adminEmail ||
+        password.toLowerCase() == _adminPass) {
+      saveSharedPref(SharedUser(id: "admin", name: "Admin", userType: "admin"));
+      return "admin";
     } else {
       String auth_error = "";
       showLoading.value = true;
@@ -163,6 +179,8 @@ class RegistrationController extends GetxController
       });
       showLoading.value = false;
       if (auth != null) {
+        saveSharedPref(
+            SharedUser(id: auth.user!.uid, name: "User", userType: "user"));
         return "success";
       } else {
         return auth_error;
@@ -192,13 +210,12 @@ class RegistrationController extends GetxController
   Future<String> _setDatabase(model.UserInfo info) async {
     String response = "";
     showLoading.value = true;
-    FirebaseFirestore.instance
-        .collection("users")
+    usersRef
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .set(info.toMap())
         .then((value) {
       response = "success";
-    }).catchError((error){
+    }).catchError((error) {
       response = error.toString();
     });
     return response;
