@@ -1,6 +1,7 @@
 import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/views/layouts/item_layouts/item_user.dart';
+import 'package:fenua_contests/widgets/not_found.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,7 +23,7 @@ class UsersLayoutAdmin extends StatelessWidget {
                   user: controller.usersList[index],
                 );
               })
-          : Center(child: Text("No users yet")),
+          : NotFound(message: "No users found"),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         tooltip: "Export Data",
