@@ -4,26 +4,30 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ContestItem extends StatefulWidget {
-  const ContestItem({Key? key}) : super(key: key);
+import '../../../controllers/controller_admin_home_screen.dart';
+import '../../../models/contest.dart';
 
-  @override
-  _ContestItemState createState() => _ContestItemState();
-}
+class ContestItem extends StatelessWidget {
 
-class _ContestItemState extends State<ContestItem> {
+
+  double containerHeight = Get.height * 0.3;
+  Contest contest;
+  AdminHomeScreenController controller;
+
+
   @override
   Widget build(BuildContext context) {
-    double containerHeight = MediaQuery.of(context).size.height * 0.3;
-
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
       height: containerHeight,
       decoration: BoxDecoration(
           image: DecorationImage(
               fit: BoxFit.cover,
-              image: NetworkImage(
-                  'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg')),
+              image: NetworkImage(contest.images[0])
+          ),
           borderRadius: BorderRadius.circular(10),
           boxShadow: [BoxShadow(blurRadius: 5, color: Colors.white)]),
       margin: EdgeInsets.all(10),
@@ -59,19 +63,19 @@ class _ContestItemState extends State<ContestItem> {
                     Container(
                       color: Color(0xD4121212),
                       height: containerHeight * 0.2,
-                      width: MediaQuery.of(context).size.width,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width,
                       padding: EdgeInsets.only(right: 10),
                       alignment: Alignment.centerRight,
-                      child: Hero(
-                        tag: "contest_name",
-                        child: Text(
-                          "Clavier Gaming K55",
-                          textAlign: TextAlign.end,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
+                      child: Text(
+                        contest.name,
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                     SizedBox(
@@ -88,12 +92,17 @@ class _ContestItemState extends State<ContestItem> {
                               bottomLeft: Radius.circular(10),
                               bottomRight: Radius.circular(10))),
                       height: containerHeight * .20,
-                      width: MediaQuery.of(context).size.width,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width,
                       child: Padding(
                         padding: const EdgeInsets.only(right: 15),
                         child: ElevatedButton(
                           onPressed: () {
-                            Get.to(ContestDetailsScreen());
+                            Get.to(() => ContestDetailsScreen(
+                              contest_id: contest.id
+                            ));
                           },
                           style: ElevatedButton.styleFrom(
                               primary: appPrimaryColor,
@@ -105,22 +114,42 @@ class _ContestItemState extends State<ContestItem> {
                     ),
                   ],
                 ),
-                Positioned(
-                    child: Container(
-                  margin: EdgeInsets.all(10),
-                  alignment: Alignment.centerLeft,
-                  decoration: BoxDecoration(
-                    color: appPrimaryColor,
-                    shape: BoxShape.circle,
-                  ),
-                  height: containerHeight * .3,
-                  width: containerHeight * .3,
-                )),
+                Obx(() {
+                  return Positioned(
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                            color: Colors.white70,
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                    getOrganizerImage(contest.organizer_id)
+                                ))),
+                        height: containerHeight * .3,
+                        width: containerHeight * .3,
+                      ));
+                }),
               ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  ContestItem({
+    required this.contest,
+    required this.controller,
+  });
+
+  String getOrganizerImage(String id) {
+    for (var organizer in controller
+        .organizersList) {
+      if (organizer.id == id) {
+        return organizer.image_url;
+      }
+    }
+    return "";
   }
 }

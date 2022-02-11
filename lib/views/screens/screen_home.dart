@@ -6,6 +6,7 @@ import 'package:fenua_contests/views/screens/srceen_wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../controllers/controller_admin_home_screen.dart';
 import '../../controllers/controller_home_screen.dart';
 import '../layouts/home/layout_winners.dart';
 
@@ -20,6 +21,7 @@ class HomeScreen extends StatelessWidget {
       AccountLayout()
     ];
 
+    Get.put(AdminHomeScreenController(), permanent: true);
     Get.lazyPut(() => HomeScreenController(), fenix: true);
 
     HomeScreenController controller = Get.find<HomeScreenController>();

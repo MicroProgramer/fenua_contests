@@ -16,7 +16,7 @@ class NotFound extends StatelessWidget {
           networkImageUrl != null
               ? Image.network(networkImageUrl!)
               : Image.asset(
-                  assetImage ?? "assets/nothing.png",
+                  assetImage ?? "assets/images/nothing.png",
                   color: color,
                   height:
                       imageHeight ?? MediaQuery.of(context).size.height * 0.1,

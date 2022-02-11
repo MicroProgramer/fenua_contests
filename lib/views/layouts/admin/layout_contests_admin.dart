@@ -1,6 +1,8 @@
+import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/views/layouts/item_layouts/item_contest_admin.dart';
 import 'package:fenua_contests/views/screens/admin/screen_add_new_contest.dart';
+import 'package:fenua_contests/widgets/not_found.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +11,9 @@ class ContestsAdminLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AdminHomeScreenController controller =
+        Get.find<AdminHomeScreenController>();
+
     return Scaffold(
         backgroundColor: appSecondaryColor,
         floatingActionButton: FloatingActionButton(
@@ -17,13 +22,20 @@ class ContestsAdminLayout extends StatelessWidget {
           },
           child: Icon(Icons.add),
         ),
-        body: ListView.builder(
-            itemCount: 20,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ContestItemAdmin(),
-              );
-            }));
+        body: Obx(() {
+          return controller.contestsList.length > 0
+              ? ListView.builder(
+                  itemCount: controller.contestsList.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ContestItemAdmin(
+                        controller: controller,
+                        contest: controller.contestsList[index],
+                      ),
+                    );
+                  })
+              : NotFound(color: Colors.black87, message: "No Contests yet");
+        }));
   }
 }

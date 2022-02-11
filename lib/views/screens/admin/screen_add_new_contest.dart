@@ -20,7 +20,7 @@ class AddNewContestScreen extends StatelessWidget {
     Get.lazyPut(() => NewContestController(), fenix: true);
     NewContestController controller = Get.find<NewContestController>();
     AdminHomeScreenController home_controller =
-    Get.find<AdminHomeScreenController>();
+        Get.find<AdminHomeScreenController>();
 
     return Scaffold(
       backgroundColor: appSecondaryColor,
@@ -28,7 +28,8 @@ class AddNewContestScreen extends StatelessWidget {
         backgroundColor: appSecondaryColor,
         title: Text("New Contest"),
       ),
-      body: Obx(() {
+      body: Obx(
+        () {
           return ModalProgressHUD(
             inAsyncCall: controller.showLoading.value,
             child: SingleChildScrollView(
@@ -39,7 +40,8 @@ class AddNewContestScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       "Contest Images",
-                      style: heading3_style.merge(TextStyle(color: Colors.black)),
+                      style:
+                          heading3_style.merge(TextStyle(color: Colors.black)),
                     ),
                   ),
                   Row(
@@ -57,10 +59,10 @@ class AddNewContestScreen extends StatelessWidget {
                                 color: Colors.white,
                                 image: controller.images[0].path != ""
                                     ? DecorationImage(
-                                  image: FileImage(
-                                      File(controller.images[0].path)),
-                                  fit: BoxFit.cover,
-                                )
+                                        image: FileImage(
+                                            File(controller.images[0].path)),
+                                        fit: BoxFit.cover,
+                                      )
                                     : null,
                                 boxShadow: [
                                   BoxShadow(blurRadius: 2, offset: Offset(0, 1))
@@ -84,10 +86,10 @@ class AddNewContestScreen extends StatelessWidget {
                                 color: Colors.white,
                                 image: controller.images[1].path != ""
                                     ? DecorationImage(
-                                  image: FileImage(
-                                      File(controller.images[1].path)),
-                                  fit: BoxFit.cover,
-                                )
+                                        image: FileImage(
+                                            File(controller.images[1].path)),
+                                        fit: BoxFit.cover,
+                                      )
                                     : null,
                                 boxShadow: [
                                   BoxShadow(blurRadius: 2, offset: Offset(0, 1))
@@ -111,10 +113,10 @@ class AddNewContestScreen extends StatelessWidget {
                                 color: Colors.white,
                                 image: controller.images[2].path != ""
                                     ? DecorationImage(
-                                  image: FileImage(
-                                      File(controller.images[2].path)),
-                                  fit: BoxFit.cover,
-                                )
+                                        image: FileImage(
+                                            File(controller.images[2].path)),
+                                        fit: BoxFit.cover,
+                                      )
                                     : null,
                                 boxShadow: [
                                   BoxShadow(blurRadius: 2, offset: Offset(0, 1))
@@ -157,8 +159,7 @@ class AddNewContestScreen extends StatelessWidget {
                   DropdownButton<String>(
                     value: controller.organizer_dropdown_value.value,
                     items: home_controller.organizersList
-                        .map((organizer) =>
-                        DropdownMenuItem<String>(
+                        .map((organizer) => DropdownMenuItem<String>(
                             value: organizer.id,
                             child: Container(
                               child: Row(
@@ -194,9 +195,7 @@ class AddNewContestScreen extends StatelessWidget {
                           onTap: () async {
                             DateTime selectedDate = await selectDate(
                                 context,
-                                DateTime
-                                    .now()
-                                    .millisecondsSinceEpoch,
+                                DateTime.now().millisecondsSinceEpoch,
                                 controller.startTimestamp.value);
                             controller.updateStartDate(selectedDate);
                           },
@@ -207,14 +206,14 @@ class AddNewContestScreen extends StatelessWidget {
                                     color: Colors.black,
                                   ),
                                   children: [
-                                    TextSpan(text: "Starting from "),
-                                    TextSpan(
-                                        text: timestampToDateFormat(
-                                            controller.startTimestamp.value,
-                                            "dd MMM, yyyy"),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                  ])),
+                                TextSpan(text: "Starting from "),
+                                TextSpan(
+                                    text: timestampToDateFormat(
+                                        controller.startTimestamp.value,
+                                        "dd MMM, yyyy"),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                              ])),
                           leading: Icon(Icons.access_time),
                         ),
                       ),
@@ -226,8 +225,9 @@ class AddNewContestScreen extends StatelessWidget {
                           ),
                           tileColor: Colors.white,
                           onTap: () async {
-                            DateTime start = DateTime.fromMillisecondsSinceEpoch(
-                                controller.startTimestamp.value);
+                            DateTime start =
+                                DateTime.fromMillisecondsSinceEpoch(
+                                    controller.startTimestamp.value);
                             DateTime selectedDate = await selectDate(
                                 context,
                                 DateTime(start.year, start.month, start.day + 1)
@@ -242,17 +242,26 @@ class AddNewContestScreen extends StatelessWidget {
                                     color: Colors.black,
                                   ),
                                   children: [
-                                    TextSpan(text: "Ending at "),
-                                    TextSpan(
-                                        text: timestampToDateFormat(
-                                            controller.endTimestamp.value,
-                                            "dd MMM, yyyy"),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                  ])),
+                                TextSpan(text: "Ending at "),
+                                TextSpan(
+                                    text: timestampToDateFormat(
+                                        controller.endTimestamp.value,
+                                        "dd MMM, yyyy"),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                              ])),
                           leading: Icon(Icons.access_time),
                         ),
                       ),
+                      SwitchListTile.adaptive(
+                          title: Text(
+                            "Show participants to users",
+                            style: heading4_style,
+                          ),
+                          value: controller.participantsCheck.value,
+                          onChanged: (newVal) {
+                            controller.updateParticipantsCheck(newVal);
+                          }),
                       Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: CustomButton(
@@ -265,9 +274,9 @@ class AddNewContestScreen extends StatelessWidget {
                             ),
                             onPressed: () async {
                               String response = await controller.addContest();
-                              if (response.isEmpty){
+                              if (response.isEmpty) {
                                 _showSnack("Something went wrong");
-                              } else if (response == "success"){
+                              } else if (response == "success") {
                                 showSnackBar("Contest Add", context);
                                 Get.back(closeOverlays: true);
                               } else {

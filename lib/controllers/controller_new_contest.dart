@@ -20,6 +20,8 @@ class NewContestController extends GetxController {
       description_controller = TextEditingController().obs;
   var showLoading = false.obs;
 
+  var participantsCheck = false.obs;
+
   Future<void> pickImage({required int index}) async {
     var pickedImage = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
@@ -28,6 +30,10 @@ class NewContestController extends GetxController {
       print(images[index].path);
     }
     update();
+  }
+
+  void updateParticipantsCheck(bool status){
+    participantsCheck.value = status;
   }
 
   @override
@@ -83,7 +89,8 @@ class NewContestController extends GetxController {
         start_timestamp: startTimestamp.value,
         end_timestamp: endTimestamp.value,
         winner_id: "",
-        organizer_id: organizer_dropdown_value.value);
+        organizer_id: organizer_dropdown_value.value,
+        show_participants_info: participantsCheck.value);
 
     String response = "";
     await contestsRef.doc(id).set(contest.toMap()).then((value) {

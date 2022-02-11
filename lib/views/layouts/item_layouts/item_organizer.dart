@@ -38,7 +38,8 @@ class OrganizerItem extends StatelessWidget {
                       controller.contestsByOrganizer(organizer.id).length;
                   if (contests != 0) {
                     Get.defaultDialog(
-                      title: "Cannot Delete",
+                      confirmTextColor: Colors.white,
+                      title: "Cannot Delete ${organizer.name}",
                       middleText:
                           "This organizer has organized ${contests} contests",
                       textConfirm: "Ok",

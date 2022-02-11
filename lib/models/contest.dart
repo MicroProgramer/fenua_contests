@@ -1,12 +1,13 @@
 class Contest{
   String id;
   String name;
-  List<String> images;
+  List<dynamic> images;
   String description;
   int start_timestamp;
   int end_timestamp;
   String winner_id;
   String organizer_id;
+  bool show_participants_info;
 
   Contest({
     required this.id,
@@ -17,6 +18,7 @@ class Contest{
     required this.end_timestamp,
     required this.winner_id,
     required this.organizer_id,
+    required this.show_participants_info,
   });
 
   Map<String, dynamic> toMap() {
@@ -29,6 +31,7 @@ class Contest{
       'end_timestamp': this.end_timestamp,
       'winner_id': this.winner_id,
       'organizer_id': this.organizer_id,
+      'show_participants_info': this.show_participants_info,
     };
   }
 
@@ -36,12 +39,13 @@ class Contest{
     return Contest(
       id: map['id'] as String,
       name: map['name'] as String,
-      images: map['images'] as List<String>,
+      images: map['images'] as List<dynamic>,
       description: map['description'] as String,
       start_timestamp: map['start_timestamp'] as int,
       end_timestamp: map['end_timestamp'] as int,
       winner_id: map['winner_id'] as String,
       organizer_id: map['organizer_id'] as String,
+      show_participants_info: map['show_participants_info'] as bool,
     );
   }
 }
