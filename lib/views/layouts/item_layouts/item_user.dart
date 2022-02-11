@@ -2,6 +2,7 @@ import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/models/user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class UserItem extends StatelessWidget {
   UserInfo user;
@@ -23,7 +24,7 @@ class UserItem extends StatelessWidget {
           decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(user.image_url),
+                image: CachedNetworkImageProvider(user.image_url),
               ),
               shape: BoxShape.circle,),
         ),
@@ -32,12 +33,12 @@ class UserItem extends StatelessWidget {
           style: TextStyle(color: appPrimaryColor, fontWeight: FontWeight.bold),
         ),
         subtitle: Text(user.email),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(onPressed: (){}, icon: Icon(Icons.block)),
-          ],
-        ),
+        // trailing: Row(
+        //   mainAxisSize: MainAxisSize.min,
+        //   children: [
+        //     IconButton(onPressed: (){}, icon: Icon(Icons.block)),
+        //   ],
+        // ),
       ),
     );
   }

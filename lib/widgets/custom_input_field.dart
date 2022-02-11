@@ -12,6 +12,7 @@ class CustomInputField extends StatefulWidget {
   bool? readOnly;
   Color? fillColor;
   int? maxLines;
+  String? text;
 
   CustomInputField(
       {required this.hint,
@@ -24,7 +25,8 @@ class CustomInputField extends StatefulWidget {
       this.onTap,
       this.readOnly,
       this.fillColor,
-      this.maxLines});
+      this.maxLines,
+      this.text});
 
   @override
   _CustomInputFieldState createState() => _CustomInputFieldState();
@@ -41,6 +43,9 @@ class _CustomInputFieldState extends State<CustomInputField> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.controller != null) {
+      widget.controller!.text = widget.text ?? "";
+    }
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
@@ -48,6 +53,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
         onChanged: widget.onChange,
         obscureText: _isHidden,
         onTap: widget.onTap,
+        initialValue: widget.controller == null ? widget.text : null,
         maxLines: widget.maxLines ?? 1,
         readOnly: widget.readOnly ?? false,
         keyboardType: widget.keyboardType,

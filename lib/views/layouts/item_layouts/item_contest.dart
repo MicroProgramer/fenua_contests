@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/views/screens/screen_contest_details.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/controller_admin_home_screen.dart';
+import '../../../helpers/constants.dart';
 import '../../../models/contest.dart';
 
 class ContestItem extends StatelessWidget {
@@ -26,7 +28,7 @@ class ContestItem extends StatelessWidget {
       decoration: BoxDecoration(
           image: DecorationImage(
               fit: BoxFit.cover,
-              image: NetworkImage(contest.images[0])
+              image: CachedNetworkImageProvider(contest.images[0])
           ),
           borderRadius: BorderRadius.circular(10),
           boxShadow: [BoxShadow(blurRadius: 5, color: Colors.white)]),
@@ -39,7 +41,7 @@ class ContestItem extends StatelessWidget {
                 padding: EdgeInsets.all(10),
                 margin: EdgeInsets.only(top: 5, right: 5),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Color(0xFFE1E1E1),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Row(
@@ -48,7 +50,19 @@ class ContestItem extends StatelessWidget {
                     SizedBox(
                       width: 5,
                     ),
-                    Text("20 Days left"),
+                    Text(
+                      contest.end_timestamp >
+                          DateTime.now().millisecondsSinceEpoch
+                          ? (contest.start_timestamp >
+                          DateTime.now().millisecondsSinceEpoch
+                          ? convertTimeToText(
+                          "Starting in", contest.start_timestamp, "")
+                          : convertTimeToText(
+                          "", contest.end_timestamp, "left"))
+                          : "Expired",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+
                   ],
                 ),
               )),
@@ -123,7 +137,7 @@ class ContestItem extends StatelessWidget {
                             color: Colors.white70,
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                                image: NetworkImage(
+                                image: CachedNetworkImageProvider(
                                     getOrganizerImage(contest.organizer_id)
                                 ))),
                         height: containerHeight * .3,

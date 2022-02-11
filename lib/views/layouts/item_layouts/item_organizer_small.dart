@@ -2,6 +2,7 @@ import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
 import 'package:fenua_contests/models/organizer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class OrganizerSmallItem extends StatelessWidget {
   Organizer organizer;
@@ -31,7 +32,7 @@ class OrganizerSmallItem extends StatelessWidget {
           height: 50,
           width: 50,
           decoration: BoxDecoration(
-              image: DecorationImage(image: NetworkImage(organizer.image_url))),
+              image: DecorationImage(image: CachedNetworkImageProvider(organizer.image_url))),
         ),
       ),
     );

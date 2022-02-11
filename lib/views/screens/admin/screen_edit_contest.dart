@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/helpers/styles.dart';
@@ -97,7 +98,7 @@ class EditContestScreen extends StatelessWidget {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: NetworkImage(
+                              image: CachedNetworkImageProvider(
                                   "https://miro.medium.com/max/1200/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg"))),
                     ),
                     title: Text(

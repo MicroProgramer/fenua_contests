@@ -46,8 +46,9 @@ dependencies:
   firebase_messaging: ^11.2.6
   shared_preferences: ^2.0.13
   firebase_storage: ^10.2.6
-  cached_network_image: ^2.0.0
-
+  cached_network_image: ^3.2.0
+  custom_image_crop: ^0.0.4
+  admob_flutter: ^2.0.0
 
 
 dev_dependencies:
@@ -98,6 +99,32 @@ flutter:
     - family: JustBubble
       fonts:
         - asset: assets/fonts/JustBubble.ttf
+
+    - family: Metropolis
+      fonts:
+        - asset: assets/fonts/Metropolis-Regular.ttf
+        - asset: assets/fonts/Metropolis-RegularItalic.ttf
+          style: italic
+        - asset: assets/fonts/Metropolis-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Metropolis-BoldItalic.ttf
+          style: italic
+          weight: 700
+        - asset: assets/fonts/Metropolis-ExtraBold.ttf
+          weight: 900
+        - asset: assets/fonts/Metropolis-ExtraBoldItalic.ttf
+          style: italic
+          weight: 900
+        - asset: assets/fonts/Metropolis-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Metropolis-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/Metropolis-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Metropolis-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
   # fonts:
   #   - family: Schyler
   #     fonts:

@@ -1,26 +1,38 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
+import 'package:fenua_contests/controllers/controller_ads.dart';
 import 'package:fenua_contests/helpers/constants.dart';
+import 'package:fenua_contests/helpers/reward_listener.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/models/contest.dart';
 import 'package:fenua_contests/models/organizer.dart';
+import 'package:fenua_contests/models/ticket.dart';
 import 'package:fenua_contests/views/layouts/item_layouts/item_participant_public.dart';
 import 'package:fenua_contests/widgets/custom_button.dart';
+import 'package:fenua_contests/widgets/not_found.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ContestDetailsScreen extends StatelessWidget {
+class ContestDetailsScreen extends StatelessWidget implements RewardListener {
   String contest_id;
 
   @override
   Widget build(BuildContext context) {
     AdminHomeScreenController controller =
         Get.find<AdminHomeScreenController>();
+    controller.getParticipants(contest_id);
+    Contest contest = controller.getContestById(contest_id)!;
+
+    bool contestExpired =
+        contest.end_timestamp < DateTime.now().millisecondsSinceEpoch;
+    if (!contestExpired) {
+      Get.put(AdsController(this));
+    }
 
     return Obx(() {
-      Contest contest = controller.getContestById(contest_id)!;
       Organizer organizer = controller.getOrganizerById(contest.organizer_id)!;
-
       return Scaffold(
         backgroundColor: appSecondaryColor,
         appBar: AppBar(
@@ -51,7 +63,7 @@ class ContestDetailsScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                               image: DecorationImage(
                                   fit: BoxFit.cover,
-                                  image: NetworkImage(
+                                  image: CachedNetworkImageProvider(
                                       contest.images[itemIndex].toString()))),
                         );
                       },
@@ -87,7 +99,9 @@ class ContestDetailsScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                             image: DecorationImage(
                                 fit: BoxFit.fill,
-                                image: NetworkImage(organizer.image_url))),
+                                image: CachedNetworkImageProvider(
+                                  organizer.image_url,
+                                ))),
                       ),
                       title: Text(
                         "Organized by",
@@ -180,7 +194,7 @@ class ContestDetailsScreen extends StatelessWidget {
                                               size: 100,
                                             ),*/
                                                       Text(
-                                                "20 Participants",
+                                                "${controller.participantsMap.length} participants",
                                                 style: heading3_style,
                                               )),
                                               // backgroundColor: appPrimaryColor,
@@ -189,15 +203,35 @@ class ContestDetailsScreen extends StatelessWidget {
                                                   false, // remove back button in appbar.
                                             ),
                                             Expanded(
-                                                child: ListView.builder(
-                                                    controller:
-                                                        scrollController,
-                                                    itemCount: 20,
-                                                    itemBuilder: (_, index) {
-                                                      return ParticipantPublicItem(
-                                                          user: controller
-                                                              .usersList[0]);
-                                                    }))
+                                                child: controller
+                                                            .participantsMap
+                                                            .length >
+                                                        0
+                                                    ? ListView.builder(
+                                                        controller:
+                                                            scrollController,
+                                                        itemCount: controller
+                                                            .participantsMap
+                                                            .length,
+                                                        itemBuilder:
+                                                            (_, index) {
+                                                          String uid = controller
+                                                              .participantsMap
+                                                              .keys
+                                                              .elementAt(index);
+                                                          return ParticipantPublicItem(
+                                                              tickets: controller
+                                                                  .participantsMap[
+                                                                      uid]!
+                                                                  .length,
+                                                              user: controller
+                                                                  .getUserById(
+                                                                      uid)!);
+                                                        })
+                                                    : NotFound(
+                                                        color: Colors.white70,
+                                                        message:
+                                                            "No Participants"))
                                           ],
                                         ),
                                       );
@@ -240,7 +274,15 @@ class ContestDetailsScreen extends StatelessWidget {
                         "Extra Chances".toUpperCase(),
                         style: normal_h2Style_bold,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        if (contestExpired) {
+                          Get.snackbar("Sorry",
+                              "This contest has been expired, try for any other contest",
+                              colorText: Colors.white, backgroundColor: Colors.black);
+                          return;
+                        }
+                        Get.find<AdsController>().showRewardAd();
+                      },
                     ),
                   ),
                 ),
@@ -255,4 +297,19 @@ class ContestDetailsScreen extends StatelessWidget {
   ContestDetailsScreen({
     required this.contest_id,
   });
+
+  @override
+  void onRewarded() {
+    int timestamp = DateTime.now().millisecondsSinceEpoch;
+    contestsRef
+        .doc(contest_id)
+        .collection("tickets")
+        .doc("$timestamp")
+        .set(Ticket(
+                id: "$timestamp",
+                timestamp: timestamp,
+                user_id: FirebaseAuth.instance.currentUser!.uid)
+            .toMap())
+        .then((value) => Get.snackbar("Congrats", "1 ticket added for you"));
+  }
 }

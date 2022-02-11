@@ -1,30 +1,28 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/models/contest.dart';
-import 'package:fenua_contests/views/screens/admin/screen_edit_contest.dart';
+import 'package:fenua_contests/views/screens/admin/screen_update_contest.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../models/organizer.dart';
+import '../../../helpers/constants.dart';
 
 class ContestItemAdmin extends StatelessWidget {
   double containerHeight = Get.height * 0.3;
   Contest contest;
   AdminHomeScreenController controller;
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
+      width: MediaQuery.of(context).size.width,
       height: containerHeight,
       decoration: BoxDecoration(
           image: DecorationImage(
-              fit: BoxFit.cover, image: NetworkImage(contest.images[0])),
+              fit: BoxFit.cover,
+              image: CachedNetworkImageProvider(contest.images[0])),
           borderRadius: BorderRadius.circular(10),
           boxShadow: [BoxShadow(blurRadius: 5, color: Colors.white)]),
       margin: EdgeInsets.all(10),
@@ -36,7 +34,7 @@ class ContestItemAdmin extends StatelessWidget {
                 padding: EdgeInsets.all(10),
                 margin: EdgeInsets.only(top: 5, right: 5),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Color(0xFFE1E1E1),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Row(
@@ -45,7 +43,18 @@ class ContestItemAdmin extends StatelessWidget {
                     SizedBox(
                       width: 5,
                     ),
-                    Text("20 Days left"),
+                    Text(
+                      contest.end_timestamp >
+                              DateTime.now().millisecondsSinceEpoch
+                          ? (contest.start_timestamp >
+                                  DateTime.now().millisecondsSinceEpoch
+                              ? convertTimeToText(
+                                  "Starting in", contest.start_timestamp, "")
+                              : convertTimeToText(
+                                  "", contest.end_timestamp, "left"))
+                          : "Expired",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
               )),
@@ -60,10 +69,7 @@ class ContestItemAdmin extends StatelessWidget {
                     Container(
                       color: Color(0xD4121212),
                       height: containerHeight * 0.2,
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width,
+                      width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.only(right: 10),
                       alignment: Alignment.centerRight,
                       child: Text(
@@ -89,15 +95,12 @@ class ContestItemAdmin extends StatelessWidget {
                               bottomLeft: Radius.circular(10),
                               bottomRight: Radius.circular(10))),
                       height: containerHeight * .20,
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width,
+                      width: MediaQuery.of(context).size.width,
                       child: Padding(
                         padding: const EdgeInsets.only(right: 15),
                         child: ElevatedButton(
                           onPressed: () {
-                            Get.to(() => EditContestScreen());
+                            Get.to(() => UpdateContestScreen(contest: contest));
                           },
                           style: ElevatedButton.styleFrom(
                               primary: appPrimaryColor,
@@ -112,18 +115,17 @@ class ContestItemAdmin extends StatelessWidget {
                 Obx(() {
                   return Positioned(
                       child: Container(
-                        margin: EdgeInsets.all(10),
-                        alignment: Alignment.centerLeft,
-                        decoration: BoxDecoration(
-                            color: Colors.white70,
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    getOrganizerImage(contest.organizer_id)
-                                ))),
-                        height: containerHeight * .3,
-                        width: containerHeight * .3,
-                      ));
+                    margin: EdgeInsets.all(10),
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                        color: Colors.white70,
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: CachedNetworkImageProvider(
+                                getOrganizerImage(contest.organizer_id)))),
+                    height: containerHeight * .3,
+                    width: containerHeight * .3,
+                  ));
                 }),
               ],
             ),
@@ -133,11 +135,8 @@ class ContestItemAdmin extends StatelessWidget {
     );
   }
 
-
-
   String getOrganizerImage(String id) {
-    for (var organizer in controller
-        .organizersList) {
+    for (var organizer in controller.organizersList) {
       if (organizer.id == id) {
         return organizer.image_url;
       }

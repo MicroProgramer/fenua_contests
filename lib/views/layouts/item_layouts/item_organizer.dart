@@ -1,10 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
+import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/models/organizer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../helpers/styles.dart';
+import '../../../widgets/custom_button.dart';
+import '../../../widgets/custom_input_field.dart';
+
 class OrganizerItem extends StatelessWidget {
   Organizer organizer;
+
+  String newName = "";
 
   @override
   Widget build(BuildContext context) {
@@ -31,22 +39,110 @@ class OrganizerItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+            IconButton(
+              onPressed: () {
+                showOptionsBottomSheet(
+                  context: context,
+                  title: Text(
+                    "Edit Options",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  options: [
+                    ListTile(
+                      title: Text("Edit Name"),
+                      leading: Icon(Icons.drive_file_rename_outline),
+                      onTap: () {
+                        Get.back();
+                        Get.defaultDialog(
+                            title: "Update Organizer",
+                            content: Column(
+                              children: [
+                                CustomInputField(
+                                    hint: "Organizer Name",
+                                    onChange: (value) {
+                                      newName = value.toString();
+                                    },
+                                    isPasswordField: false,
+                                    text: organizer.name,
+                                    keyboardType: TextInputType.name),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: CustomButton(
+                                          color: appPrimaryColor,
+                                          child: Text(
+                                            "Update",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          ),
+                                          onPressed: () {
+                                            Get.back();
+                                            if (!newName.isEmpty) {
+                                              print(organizer.id);
+
+                                              organizersRef
+                                                  .doc(organizer.id)
+                                                  .update({"name": newName})
+                                                  .then((value) => Get.snackbar(
+                                                      "Success",
+                                                      "Organizer name updated"))
+                                                  .catchError((error) {
+                                                    Get.snackbar("Error",
+                                                        error.toString());
+                                                  });
+                                            }
+                                          }),
+                                    ),
+                                    Expanded(
+                                      child: CustomButton(
+                                          color: appPrimaryColor,
+                                          child: Text(
+                                            "Cancel",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          ),
+                                          onPressed: () {
+                                            Get.back();
+                                          }),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ));
+                      },
+                    ),
+                    ListTile(
+                      title: Text("Change Image"),
+                      leading: Icon(Icons.image),
+                      onTap: () {
+                        Get.back();
+                        controller.updateOrganizerImage(organizer.id);
+                      },
+                    ),
+                  ],
+                );
+              },
+              icon: Icon(Icons.edit),
+            ),
             IconButton(
                 onPressed: () {
                   int contests =
                       controller.contestsByOrganizer(organizer.id).length;
                   if (contests != 0) {
                     Get.defaultDialog(
-                      confirmTextColor: Colors.white,
-                      title: "Cannot Delete ${organizer.name}",
-                      middleText:
-                          "This organizer has organized ${contests} contests",
-                      textConfirm: "Ok",
-                      onConfirm: (){
-                        Get.back();
-                      }
-                    );
+                        titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+                        confirmTextColor: Colors.white,
+                        title: "Cannot Delete ${organizer.name}",
+                        middleText:
+                            "This organizer has organized ${contests} contests",
+                        textConfirm: "Ok",
+                        onConfirm: () {
+                          Get.back();
+                        });
+                  } else {
+                    controller.deleteOrganizer(organizer.id, organizer.name);
                   }
                 },
                 icon: Icon(Icons.delete)),
@@ -56,10 +152,10 @@ class OrganizerItem extends StatelessWidget {
           height: 50,
           width: 50,
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
+              shape: BoxShape.circle,
               image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(organizer.image_url))),
+                  image: CachedNetworkImageProvider(organizer.image_url))),
         ),
       ),
     );

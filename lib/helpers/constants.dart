@@ -158,3 +158,59 @@ String timestampToDateFormat(int timestamp, String format) {
   DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
   return DateFormat(format).format(dateTime);
 }
+
+void showOptionsBottomSheet(
+    {required BuildContext context,
+    required Text title,
+    required List<ListTile> options}) {
+  List<Widget> optionsWithTitle = [];
+  optionsWithTitle.add(Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: title,
+  ));
+  optionsWithTitle.addAll(options);
+  optionsWithTitle.add(ListTile());
+  showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Wrap(
+          children: optionsWithTitle,
+        );
+      });
+}
+String convertTimeToText(String prefix, int timestamp, String suffix) {
+  String convTime = "";
+
+  try {
+    DateTime dateTime1 = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    DateTime dateTime2 = DateTime.fromMillisecondsSinceEpoch(
+        DateTime.now().millisecondsSinceEpoch);
+
+    int second = dateTime1.difference(dateTime2).inSeconds;
+    int minute = dateTime1.difference(dateTime2).inMinutes;
+    int hour = dateTime1.difference(dateTime2).inHours;
+    int day = dateTime1.difference(dateTime2).inDays;
+
+    if (second < 60) {
+      convTime = "$prefix ${second} secs $suffix";
+    } else if (minute < 60) {
+      convTime = "$prefix ${minute} mins $suffix";
+    } else if (hour < 24) {
+      convTime = "$prefix ${hour} hrs $suffix";
+    } else if (day >= 7) {
+      if (day > 360) {
+        convTime = "$prefix ${day ~/ 360} yrs $suffix";
+      } else if (day > 30) {
+        convTime = "$prefix ${day ~/ 30} mons $suffix";
+      } else {
+        convTime = "$prefix ${day ~/ 7} weeks $suffix";
+      }
+    } else if (day < 7) {
+      convTime = "$prefix ${day} days $suffix";
+    }
+  } catch (e) {
+    print(e.toString() + "------");
+  }
+
+  return convTime;
+}
