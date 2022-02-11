@@ -9124,7 +9124,7 @@ var $async$JG=A.v(function(a,b){if(a===1)return A.y(b,r)
 while(true)switch(s){case 0:if($.N==null)A.amv()
 $.N.toString
 s=2
-return A.t(A.a6I(A.aE3("AIzaSyA_VZhJ9vvap-1rXthjnw8l8KywcBEPxrA","1:143330305301:web:dae56d18b929d875ba351c",null,null,null,"143330305301","fenua-contests",null)),$async$JG)
+return A.t(A.a6I(A.aE3("AIzaSyA_VZhJ9vvap-1rXthjnw8l8KywcBEPxrA","1:143330305301:web:dae56d18b929d875ba351c",null,null,null,"143330305301","fenua-contests","gs://fenua-contests.appspot.com")),$async$JG)
 case 2:B.v7.d7("initialize",null,!1,t.z)
 s=3
 return A.t(new A.a18(),$async$JG)
