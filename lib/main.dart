@@ -8,9 +8,20 @@ import 'helpers/styles.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  if (GetPlatform.isWeb) {
+    await Firebase.initializeApp(
+      options: FirebaseOptions(
+        apiKey: "AIzaSyA_VZhJ9vvap-1rXthjnw8l8KywcBEPxrA",
+        appId: "1:143330305301:web:dae56d18b929d875ba351c",
+        messagingSenderId: "143330305301",
+        projectId: "fenua-contests",
+      ),
+    );
+  } else {
+    await Firebase.initializeApp();
+  }
   await Admob.initialize();
-  if (GetPlatform.isIOS){
+  if (GetPlatform.isIOS) {
     await Admob.requestTrackingAuthorization();
   }
   runApp(const MyApp());
