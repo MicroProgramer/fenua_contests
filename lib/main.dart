@@ -15,7 +15,7 @@ void main() async {
         appId: "1:143330305301:web:dae56d18b929d875ba351c",
         messagingSenderId: "143330305301",
         projectId: "fenua-contests",
-        storageBucket: "gs://fenua-contests.appspot.com"
+        storageBucket: "gs://fenua-contests.appspot.com/"
       ),
     );
   } else {
