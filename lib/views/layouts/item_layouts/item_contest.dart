@@ -10,31 +10,67 @@ import '../../../helpers/constants.dart';
 import '../../../models/contest.dart';
 
 class ContestItem extends StatelessWidget {
-
-
   double containerHeight = Get.height * 0.3;
   Contest contest;
   AdminHomeScreenController controller;
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
+      width: MediaQuery.of(context).size.width,
       height: containerHeight,
       decoration: BoxDecoration(
           image: DecorationImage(
               fit: BoxFit.cover,
-              image: CachedNetworkImageProvider(contest.images[0])
-          ),
+              image: CachedNetworkImageProvider(contest.images[0])),
           borderRadius: BorderRadius.circular(10),
           boxShadow: [BoxShadow(blurRadius: 5, color: Colors.white)]),
       margin: EdgeInsets.all(10),
       child: Stack(
         children: [
+          Visibility(
+            visible: contest.winner_id.isNotEmpty,
+            child: Positioned(
+                left: 2,
+                top: 0,
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.only(top: 5, right: 5),
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.check,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Container(
+                        width: Get.width * 0.35,
+                        child: Text(
+                          contest.winner_id.isNotEmpty
+                              ? controller
+                              .getUserById(contest.winner_id)!
+                              .first_name +
+                              " " +
+                              controller
+                                  .getUserById(contest.winner_id)!
+                                  .last_name
+                              : "",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
+          ),
           Positioned(
               right: 0,
               child: Container(
@@ -51,18 +87,18 @@ class ContestItem extends StatelessWidget {
                       width: 5,
                     ),
                     Text(
-                      contest.end_timestamp >
-                          DateTime.now().millisecondsSinceEpoch
+                      (contest.end_timestamp >
+                                  DateTime.now().millisecondsSinceEpoch &&
+                              contest.winner_id.isEmpty)
                           ? (contest.start_timestamp >
-                          DateTime.now().millisecondsSinceEpoch
-                          ? convertTimeToText(
-                          "Starting in", contest.start_timestamp, "")
-                          : convertTimeToText(
-                          "", contest.end_timestamp, "left"))
+                                  DateTime.now().millisecondsSinceEpoch
+                              ? convertTimeToText(
+                                  "Starting in", contest.start_timestamp, "")
+                              : convertTimeToText(
+                                  "", contest.end_timestamp, "left"))
                           : "Expired",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-
                   ],
                 ),
               )),
@@ -77,10 +113,7 @@ class ContestItem extends StatelessWidget {
                     Container(
                       color: Color(0xD4121212),
                       height: containerHeight * 0.2,
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width,
+                      width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.only(right: 10),
                       alignment: Alignment.centerRight,
                       child: Text(
@@ -106,17 +139,13 @@ class ContestItem extends StatelessWidget {
                               bottomLeft: Radius.circular(10),
                               bottomRight: Radius.circular(10))),
                       height: containerHeight * .20,
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width,
+                      width: MediaQuery.of(context).size.width,
                       child: Padding(
                         padding: const EdgeInsets.only(right: 15),
                         child: ElevatedButton(
                           onPressed: () {
-                            Get.to(() => ContestDetailsScreen(
-                              contest_id: contest.id
-                            ));
+                            Get.to(() =>
+                                ContestDetailsScreen(contest_id: contest.id));
                           },
                           style: ElevatedButton.styleFrom(
                               primary: appPrimaryColor,
@@ -131,18 +160,17 @@ class ContestItem extends StatelessWidget {
                 Obx(() {
                   return Positioned(
                       child: Container(
-                        margin: EdgeInsets.all(10),
-                        alignment: Alignment.centerLeft,
-                        decoration: BoxDecoration(
-                            color: Colors.white70,
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: CachedNetworkImageProvider(
-                                    getOrganizerImage(contest.organizer_id)
-                                ))),
-                        height: containerHeight * .3,
-                        width: containerHeight * .3,
-                      ));
+                    margin: EdgeInsets.all(10),
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                        color: Colors.white70,
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: CachedNetworkImageProvider(
+                                getOrganizerImage(contest.organizer_id)))),
+                    height: containerHeight * .3,
+                    width: containerHeight * .3,
+                  ));
                 }),
               ],
             ),
@@ -158,8 +186,7 @@ class ContestItem extends StatelessWidget {
   });
 
   String getOrganizerImage(String id) {
-    for (var organizer in controller
-        .organizersList) {
+    for (var organizer in controller.organizersList) {
       if (organizer.id == id) {
         return organizer.image_url;
       }

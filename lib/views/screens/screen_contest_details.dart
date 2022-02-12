@@ -2,12 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
 import 'package:fenua_contests/controllers/controller_ads.dart';
+import 'package:fenua_contests/controllers/controller_home_screen.dart';
 import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/helpers/reward_listener.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/models/contest.dart';
 import 'package:fenua_contests/models/organizer.dart';
 import 'package:fenua_contests/models/ticket.dart';
+import 'package:fenua_contests/models/user_info.dart' as model;
 import 'package:fenua_contests/views/layouts/item_layouts/item_participant_public.dart';
 import 'package:fenua_contests/widgets/custom_button.dart';
 import 'package:fenua_contests/widgets/not_found.dart';
@@ -24,6 +26,8 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
         Get.find<AdminHomeScreenController>();
     controller.getParticipants(contest_id);
     Contest contest = controller.getContestById(contest_id)!;
+    HomeScreenController homeScreenController =
+        Get.find<HomeScreenController>();
 
     bool contestExpired =
         contest.end_timestamp < DateTime.now().millisecondsSinceEpoch;
@@ -219,14 +223,15 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
                                                               .participantsMap
                                                               .keys
                                                               .elementAt(index);
+                                                          model.UserInfo user = controller
+                                                              .getUserById(
+                                                              uid)!;
                                                           return ParticipantPublicItem(
                                                               tickets: controller
                                                                   .participantsMap[
                                                                       uid]!
                                                                   .length,
-                                                              user: controller
-                                                                  .getUserById(
-                                                                      uid)!);
+                                                              user: user, winner: user.id == contest.winner_id,);
                                                         })
                                                     : NotFound(
                                                         color: Colors.white70,
@@ -242,9 +247,20 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                           tileColor: appSecondaryColorDark,
-                          title: Text(
-                            "Participants",
-                            style: normal_h2Style_bold,
+                          title: Row(
+                            children: [
+                              Text(
+                                "Participants",
+                                style: normal_h2Style_bold,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "(${controller.participantsMap.length})",
+                                style: normal_h1Style_bold,
+                              ),
+                            ],
                           ),
                           trailing: Icon(
                             Icons.navigate_next,
@@ -266,23 +282,70 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     width: Get.width,
-                    color: appSecondaryColor,
-                    child: CustomButton(
-                      color: appPrimaryColor,
-                      width: Get.width * 0.7,
-                      child: Text(
-                        "Extra Chances".toUpperCase(),
-                        style: normal_h2Style_bold,
-                      ),
-                      onPressed: () {
-                        if (contestExpired) {
-                          Get.snackbar("Sorry",
-                              "This contest has been expired, try for any other contest",
-                              colorText: Colors.white, backgroundColor: Colors.black);
-                          return;
-                        }
-                        Get.find<AdsController>().showRewardAd();
-                      },
+                    decoration: BoxDecoration(
+                        color: appSecondaryColor,
+                        boxShadow: [
+                          BoxShadow(blurRadius: 0.1, offset: Offset(0, -0.5))
+                        ]),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "You invested ${controller.participantsMap[FirebaseAuth.instance.currentUser!.uid]!.length} tickets",
+                            style: normal_h3Style_bold
+                                .merge(TextStyle(color: Colors.black)),
+                          ),
+                        ),
+                        CustomButton(
+                          color: appPrimaryColor,
+                          width: Get.width * 0.7,
+                          child: Text(
+                            "Extra Chances".toUpperCase(),
+                            style: normal_h2Style_bold,
+                          ),
+                          onPressed: () {
+                            if (contestExpired) {
+                              Get.snackbar("Sorry",
+                                  "This contest has been expired, try for any other contest",
+                                  colorText: Colors.white,
+                                  backgroundColor: Colors.black);
+                              return;
+                            }
+                            if (homeScreenController.myTickets.length > 0) {
+                              Get.defaultDialog(
+                                  title: "Use account ticket",
+                                  middleText:
+                                      "You already have ${homeScreenController.myTickets.length} in your account balance. You can either use them or watch more ads to earn more tickets.",
+                                  onConfirm: () async {
+                                    Get.back();
+                                    Ticket ticket =
+                                        homeScreenController.myTickets.value[0];
+                                    await homeScreenController
+                                        .deleteTicket(ticket.id);
+                                    contestsRef
+                                        .doc(contest_id)
+                                        .collection("tickets")
+                                        .doc("${ticket.id}")
+                                        .set(ticket.toMap())
+                                        .then(
+                                          (value) => Get.snackbar("Congrats",
+                                              "1 ticket added for you"),
+                                        );
+                                  },
+                                  onCancel: () {
+                                    Get.back();
+                                    Get.find<AdsController>().showRewardAd();
+                                  },
+                                  textCancel: "Watch Ad anyway",
+                                  textConfirm: "Use account ticket",
+                                  confirmTextColor: Colors.white);
+                            } else {
+                              Get.find<AdsController>().showRewardAd();
+                            }
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 ),

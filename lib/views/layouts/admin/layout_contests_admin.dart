@@ -30,7 +30,7 @@ class ContestsAdminLayout extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ContestItemAdmin(
-                        controller: controller,
+                        controller_1: controller,
                         contest: controller.contestsList[index],
                       ),
                     );

@@ -1,12 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/models/user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class ParticipantPublicItem extends StatelessWidget {
   UserInfo user;
   int tickets;
+  bool winner;
 
   @override
   Widget build(BuildContext context) {
@@ -23,17 +24,22 @@ class ParticipantPublicItem extends StatelessWidget {
           height: Get.height * 0.07,
           width: Get.height * 0.07,
           decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: CachedNetworkImageProvider(user.image_url),
-              ),
-              shape: BoxShape.circle,),
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: CachedNetworkImageProvider(user.image_url),
+            ),
+            shape: BoxShape.circle,
+          ),
         ),
+        trailing: winner ? Text(
+          "Winner",
+          style: normal_h2Style_bold.merge(TextStyle(color: Colors.green)),
+        ) : Container(),
         title: Text(
           user.first_name + " " + user.last_name,
           style: TextStyle(color: appPrimaryColor, fontWeight: FontWeight.bold),
         ),
-        subtitle: Text("Purchased $tickets tickets"),
+        subtitle: Text("Invested $tickets tickets"),
       ),
     );
   }
@@ -41,5 +47,6 @@ class ParticipantPublicItem extends StatelessWidget {
   ParticipantPublicItem({
     required this.user,
     required this.tickets,
+    required this.winner,
   });
 }

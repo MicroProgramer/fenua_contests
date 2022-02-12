@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fenua_contests/helpers/constants.dart';
@@ -8,7 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import '../models/ticket.dart';
 import '../models/user_info.dart';
 
@@ -282,4 +283,51 @@ class AdminHomeScreenController extends GetxController {
   void getParticipants(String contest_id) {
     ticketsList.bindStream(participantsStream(contest_id));
   }
+
+  Future<void> withdraw(String id) async {
+    var rng = new Random();
+    int winner_index = rng.nextInt(ticketsList.length);
+    Ticket winner_ticket = ticketsList[winner_index];
+
+    contestsRef
+        .doc(id)
+        .update({"winner_id": winner_ticket.user_id}).then((value) {
+      UserInfo winner = getUserById(winner_ticket.user_id)!;
+      return Get.snackbar("Success",
+          winner.first_name + " " + winner.last_name + " won the contest");
+    });
+
+
+  }
+
+  void emailWinner(UserInfo winner, String contestName) async {
+
+    final Uri params = Uri(
+      scheme: 'mailto',
+      path: '${winner.email}',
+      query: 'subject=Prize from $appName&body=Hi ${winner.first_name} ${winner.last_name}, You have won prize in $contestName and your prize is ................., '
+    );
+
+    var url = params.toString();
+    if (await canLaunch(url)) {
+      launch(url,
+        forceSafariVC: true,
+        enableJavaScript: true,);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  void launchMail(
+      {required String toMailId,
+        required String subject,
+        required String body}) async {
+    var url = 'mailto:$toMailId?subject=$subject&body=$body';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
 }

@@ -4,7 +4,6 @@ import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
 import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/models/contest.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,7 +16,7 @@ class NewContestController extends GetxController {
   late Rx<int> endTimestamp;
   Rx<DateTime> _currentDate = DateTime.now().obs;
   Rx<TextEditingController> title_controller = TextEditingController().obs,
-      description_controller = TextEditingController().obs;
+      description_controller =  TextEditingController().obs;
   var showLoading = false.obs;
 
   var participantsCheck = false.obs;
@@ -32,8 +31,9 @@ class NewContestController extends GetxController {
     update();
   }
 
-  void updateParticipantsCheck(bool status){
+  void updateParticipantsCheck(bool status) {
     participantsCheck.value = status;
+    update();
   }
 
   @override
@@ -49,14 +49,19 @@ class NewContestController extends GetxController {
 
   void updateDropdown(String value) {
     organizer_dropdown_value.value = value;
+    update();
   }
 
   void updateStartDate(DateTime selectedDate) {
     startTimestamp.value = selectedDate.millisecondsSinceEpoch;
+    update();
+
   }
 
   void updateEndDate(DateTime selectedDate) {
     endTimestamp.value = selectedDate.millisecondsSinceEpoch;
+    update();
+
   }
 
   Future<String> addContest() async {

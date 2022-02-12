@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
     ];
 
     Get.put(AdminHomeScreenController(), permanent: true);
-    Get.lazyPut(() => HomeScreenController(), fenix: true);
+    Get.put(HomeScreenController(), permanent: true);
 
     HomeScreenController controller = Get.find<HomeScreenController>();
 
@@ -41,7 +41,12 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(
                     width: 5,
                   ),
-                  Hero(tag: "wallet", child: Text("100")),
+                  Hero(
+                    tag: "wallet",
+                    child: Obx(() {
+                      return Text(controller.myTickets.length.toString());
+                    }),
+                  ),
                 ],
               ),
             ),

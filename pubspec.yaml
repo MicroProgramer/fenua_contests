@@ -49,6 +49,7 @@ dependencies:
   cached_network_image: ^3.2.0
   custom_image_crop: ^0.0.4
   admob_flutter: ^2.0.0
+  url_launcher: ^6.0.20
 
 
 dev_dependencies:
@@ -139,3 +140,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+

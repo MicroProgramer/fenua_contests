@@ -4,13 +4,14 @@ class CustomButton extends StatefulWidget {
   Color color;
   Widget child;
   double? width;
+  double? height;
   VoidCallback onPressed;
 
   CustomButton(
       {required this.color,
       required this.child,
       required this.onPressed,
-      this.width});
+      this.width, this.height});
 
   @override
   _CustomButtonState createState() => _CustomButtonState();
@@ -28,7 +29,7 @@ class _CustomButtonState extends State<CustomButton> {
           color: widget.color,
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
-        height: 50,
+        height: widget.height ?? 50,
         width: widget.width ?? MediaQuery.of(context).size.width,
         child: Center(
           child: widget.child,

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/models/user_info.dart' as model;
@@ -12,10 +13,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../models/ticket.dart';
+
 class HomeScreenController extends GetxController {
   var selectedPage = 0.obs;
   XFile? oldPickedImage;
   ImagePicker _picker = ImagePicker();
+
+  final myTickets = List<Ticket>.empty(growable: true).obs;
+
   var mUser = model.UserInfo(
           first_name: "User",
           last_name: "Name",
@@ -37,6 +43,7 @@ class HomeScreenController extends GetxController {
 
   @override
   void onInit() {
+    myTickets.bindStream(myTicketsStream());
     listenForDocChange(FirebaseAuth.instance.currentUser!.uid);
     super.onInit();
   }
@@ -183,5 +190,24 @@ class HomeScreenController extends GetxController {
             Get.snackbar("Error", error.toString());
           });
     }
+  }
+
+  Stream<List<Ticket>> myTicketsStream() {
+    Stream<QuerySnapshot> stream = usersRef
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("tickets")
+        .snapshots();
+
+    return stream.map((querySnapshot) => querySnapshot.docs
+        .map((doc) => Ticket.fromMap(doc.data() as Map<String, dynamic>))
+        .toList());
+  }
+
+  Future<void> deleteTicket(String id) async {
+    await usersRef
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("tickets")
+        .doc(id)
+        .delete();
   }
 }
