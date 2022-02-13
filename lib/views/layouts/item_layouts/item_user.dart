@@ -143,6 +143,7 @@ class UserItem extends StatelessWidget {
           height: Get.height * 0.07,
           width: Get.height * 0.07,
           decoration: BoxDecoration(
+            color: Colors.white,
             image: DecorationImage(
               fit: BoxFit.cover,
               image: CachedNetworkImageProvider(user.image_url),

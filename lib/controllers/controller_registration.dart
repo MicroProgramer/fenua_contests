@@ -43,12 +43,14 @@ class RegistrationController extends GetxController
       selectedPage.value = tabController.index;
     });
 
-    SharedUser sharedUser = await getUserFromSharedPrefs();
-    if (!sharedUser.userType.isEmpty) {
-      if (sharedUser.userType == "admin") {
-        Get.off(AdminHomeScreen());
-      } else if (sharedUser.userType == "user") {
-        Get.off(HomeScreen());
+    if (!GetPlatform.isWeb){
+      SharedUser sharedUser = await getUserFromSharedPrefs();
+      if (!sharedUser.userType.isEmpty) {
+        if (sharedUser.userType == "admin") {
+          Get.off(AdminHomeScreen());
+        } else if (sharedUser.userType == "user") {
+          Get.off(HomeScreen());
+        }
       }
     }
 

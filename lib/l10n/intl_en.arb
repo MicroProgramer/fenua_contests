@@ -1,0 +1,5 @@
+{
+  "endOfContest": "End of contest",
+  "organizedBy": "Organized by",
+  "controllerparticipantsmaplengthParticipants": "${controller.participantsMap.length} participants"
+}

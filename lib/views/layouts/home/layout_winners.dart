@@ -21,7 +21,7 @@ class WinnersLayout extends StatelessWidget {
                 Contest contest = controller.getWonContests()[index];
                 return WinnerItem(
                   contest: contest,
-                  winner: controller.getUserById(contest.winner_id)!,
+                  winner: controller.getUserById(contest.winner_id),
                 );
               })
           : NotFound(

@@ -13,33 +13,41 @@ class ParticipantPublicItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: ListTile(
-        onTap: () {},
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        contentPadding: EdgeInsets.all(10),
-        tileColor: Colors.white,
-        leading: Container(
-          height: Get.height * 0.07,
-          width: Get.height * 0.07,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: CachedNetworkImageProvider(user.image_url),
-            ),
-            shape: BoxShape.circle,
+      child: Container(
+        width: Get.width * 0.7,
+        child: ListTile(
+          minLeadingWidth: 50,
+          onTap: () {},
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
+          contentPadding: EdgeInsets.all(10),
+          tileColor: Colors.white,
+          leading: Container(
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: CachedNetworkImageProvider(user.image_url),
+              ),
+              shape: BoxShape.circle,
+            ),
+          ),
+          trailing: winner ? Text(
+            "Winner",
+            style: normal_h2Style_bold.merge(TextStyle(color: Colors.green)),
+          ) : Container(height: 10, width: 10,),
+          title: Container(
+            width: Get.width * 0.5,
+            child: Text(
+              user.first_name + " " + user.last_name,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: appPrimaryColor, fontWeight: FontWeight.bold),
+            ),
+          ),
+          subtitle: Text("Invested $tickets tickets"),
         ),
-        trailing: winner ? Text(
-          "Winner",
-          style: normal_h2Style_bold.merge(TextStyle(color: Colors.green)),
-        ) : Container(),
-        title: Text(
-          user.first_name + " " + user.last_name,
-          style: TextStyle(color: appPrimaryColor, fontWeight: FontWeight.bold),
-        ),
-        subtitle: Text("Invested $tickets tickets"),
       ),
     );
   }

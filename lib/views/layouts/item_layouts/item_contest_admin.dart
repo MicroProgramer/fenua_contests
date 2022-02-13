@@ -44,7 +44,7 @@ class ContestItemAdmin extends StatelessWidget {
                   top: 0,
                   child: InkWell(
                     onTap: (){
-                      UserInfo winner = controller.getUserById(contest.winner_id)!;
+                      UserInfo winner = controller.getUserById(contest.winner_id);
 
                       Get.defaultDialog(
                           title: "Email ${winner.first_name + " " + winner.last_name}",
@@ -80,11 +80,11 @@ class ContestItemAdmin extends StatelessWidget {
                             child: Text(
                               contest.winner_id.isNotEmpty
                                   ? controller
-                                          .getUserById(contest.winner_id)!
+                                          .getUserById(contest.winner_id)
                                           .first_name +
                                       " " +
                                       controller
-                                          .getUserById(contest.winner_id)!
+                                          .getUserById(contest.winner_id)
                                           .last_name
                                   : "",
                               overflow: TextOverflow.ellipsis,
@@ -289,7 +289,7 @@ class ContestItemAdmin extends StatelessWidget {
                                                                 UserInfo user =
                                                                     controller
                                                                         .getUserById(
-                                                                            uid)!;
+                                                                            uid);
                                                                 return ParticipantPublicItem(
                                                                   tickets: controller
                                                                       .participantsMap[

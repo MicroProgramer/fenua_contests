@@ -16,6 +16,10 @@ class ContestItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool contestExpired =
+        contest.end_timestamp < DateTime.now().millisecondsSinceEpoch &&
+            contest.winner_id.isNotEmpty;
+
     return Container(
       width: MediaQuery.of(context).size.width,
       height: containerHeight,
@@ -54,17 +58,16 @@ class ContestItem extends StatelessWidget {
                         child: Text(
                           contest.winner_id.isNotEmpty
                               ? controller
-                              .getUserById(contest.winner_id)!
-                              .first_name +
-                              " " +
-                              controller
-                                  .getUserById(contest.winner_id)!
-                                  .last_name
+                                      .getUserById(contest.winner_id)
+                                      .first_name +
+                                  " " +
+                                  controller
+                                      .getUserById(contest.winner_id)
+                                      .last_name
                               : "",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                              fontWeight: FontWeight.bold, color: Colors.white),
                         ),
                       ),
                     ],
@@ -87,9 +90,7 @@ class ContestItem extends StatelessWidget {
                       width: 5,
                     ),
                     Text(
-                      (contest.end_timestamp >
-                                  DateTime.now().millisecondsSinceEpoch &&
-                              contest.winner_id.isEmpty)
+                      (!contestExpired)
                           ? (contest.start_timestamp >
                                   DateTime.now().millisecondsSinceEpoch
                               ? convertTimeToText(
@@ -151,7 +152,7 @@ class ContestItem extends StatelessWidget {
                               primary: appPrimaryColor,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10))),
-                          child: Text("Participate"),
+                          child: Text(contestExpired ? "Open" : "Participate"),
                         ),
                       ),
                     ),

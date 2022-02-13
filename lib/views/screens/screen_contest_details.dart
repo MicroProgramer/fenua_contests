@@ -22,21 +22,22 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
 
   @override
   Widget build(BuildContext context) {
-    AdminHomeScreenController controller =
-        Get.find<AdminHomeScreenController>();
+    AdminHomeScreenController controller = Get.put(AdminHomeScreenController(), tag: contest_id);
     controller.getParticipants(contest_id);
-    Contest contest = controller.getContestById(contest_id)!;
     HomeScreenController homeScreenController =
         Get.find<HomeScreenController>();
 
-    bool contestExpired =
-        contest.end_timestamp < DateTime.now().millisecondsSinceEpoch;
-    if (!contestExpired) {
-      Get.put(AdsController(this));
-    }
 
     return Obx(() {
-      Organizer organizer = controller.getOrganizerById(contest.organizer_id)!;
+      Contest contest = controller.getContestById(contest_id);
+      bool contestExpired =
+          contest.end_timestamp < DateTime.now().millisecondsSinceEpoch;
+
+      if (!contestExpired) {
+        Get.put(AdsController(this));
+      }
+
+      Organizer organizer = controller.getOrganizerById(contest.organizer_id);
       return Scaffold(
         backgroundColor: appSecondaryColor,
         appBar: AppBar(
@@ -173,6 +174,8 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
                                 enableDrag: true,
                                 backgroundColor: appPrimaryColor,
                                 builder: (context) {
+                                  print("controller.participantsMap: " +
+                                      controller.participantsMap.toString());
                                   return DraggableScrollableSheet(
                                     maxChildSize: 0.8,
                                     expand: false,
@@ -192,12 +195,7 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
                                                     icon: Icon(Icons.close))
                                               ],
                                               title: Container(
-                                                  child: /*Icon(
-                                              Icons.horizontal_rule_rounded,
-                                              color: Colors.white54,
-                                              size: 100,
-                                            ),*/
-                                                      Text(
+                                                  child: Text(
                                                 "${controller.participantsMap.length} participants",
                                                 style: heading3_style,
                                               )),
@@ -206,37 +204,41 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
                                               automaticallyImplyLeading:
                                                   false, // remove back button in appbar.
                                             ),
-                                            Expanded(
-                                                child: controller
-                                                            .participantsMap
-                                                            .length >
-                                                        0
-                                                    ? ListView.builder(
-                                                        controller:
-                                                            scrollController,
-                                                        itemCount: controller
-                                                            .participantsMap
-                                                            .length,
-                                                        itemBuilder:
-                                                            (_, index) {
-                                                          String uid = controller
-                                                              .participantsMap
-                                                              .keys
-                                                              .elementAt(index);
-                                                          model.UserInfo user = controller
-                                                              .getUserById(
-                                                              uid)!;
-                                                          return ParticipantPublicItem(
-                                                              tickets: controller
+                                            controller.participantsMap.length >
+                                                    0
+                                                ? Expanded(
+                                                  child: ListView.builder(
+                                                      controller:
+                                                          scrollController,
+                                                      itemCount: controller
+                                                          .participantsMap.length,
+                                                      itemBuilder: (_, index) {
+                                                        String uid = controller
+                                                            .participantsMap.keys
+                                                            .elementAt(index)
+                                                            .trim();
+                                                        model.UserInfo user =
+                                                            controller
+                                                                .getUserById(uid);
+                                                        return ParticipantPublicItem(
+                                                          tickets: controller
+                                                                          .participantsMap[
+                                                                      uid] ==
+                                                                  null
+                                                              ? 0
+                                                              : controller
                                                                   .participantsMap[
                                                                       uid]!
                                                                   .length,
-                                                              user: user, winner: user.id == contest.winner_id,);
-                                                        })
-                                                    : NotFound(
-                                                        color: Colors.white70,
-                                                        message:
-                                                            "No Participants"))
+                                                          user: user,
+                                                          winner: user.id ==
+                                                              contest.winner_id,
+                                                        );
+                                                      }),
+                                                )
+                                                : NotFound(
+                                                    color: Colors.white70,
+                                                    message: "No Participants")
                                           ],
                                         ),
                                       );
@@ -278,21 +280,19 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
               Positioned(
                 bottom: 0,
                 child: Align(
-                  alignment: Alignment.center,
+                  alignment: Alignment.bottomCenter,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                     width: Get.width,
                     decoration: BoxDecoration(
-                        color: appSecondaryColor,
-                        boxShadow: [
-                          BoxShadow(blurRadius: 0.1, offset: Offset(0, -0.5))
-                        ]),
+                      color: appSecondaryColor,
+                    ),
                     child: Column(
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            "You invested ${controller.participantsMap[FirebaseAuth.instance.currentUser!.uid]!.length} tickets",
+                            "You invested ${controller.participantsMap[FirebaseAuth.instance.currentUser!.uid] == null ? "0" : controller.participantsMap[FirebaseAuth.instance.currentUser!.uid]!.length} tickets",
                             style: normal_h3Style_bold
                                 .merge(TextStyle(color: Colors.black)),
                           ),
@@ -301,7 +301,8 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
                           color: appPrimaryColor,
                           width: Get.width * 0.7,
                           child: Text(
-                            "Extra Chances".toUpperCase(),
+                            "${contestExpired ? "contest expired" : "Extra Chances"}"
+                                .toUpperCase(),
                             style: normal_h2Style_bold,
                           ),
                           onPressed: () {
