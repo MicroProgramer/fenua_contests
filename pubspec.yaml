@@ -50,6 +50,10 @@ dependencies:
   custom_image_crop: ^0.0.4
   admob_flutter: ^2.0.0
   url_launcher: ^6.0.20
+  syncfusion_flutter_datagrid_export: ^19.4.50-beta
+  syncfusion_flutter_datagrid: ^19.4.50
+  open_file: ^3.2.1
+  path_provider: ^2.0.2
 
 
 dev_dependencies:
@@ -140,5 +144,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-flutter_intl:
-  enabled: true
+#flutter_intl:
+#  enabled: true

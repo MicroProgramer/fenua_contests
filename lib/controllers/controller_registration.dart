@@ -217,6 +217,7 @@ class RegistrationController extends GetxController
         .set(info.toMap())
         .then((value) {
       response = "success";
+      Get.off(HomeScreen());
     }).catchError((error) {
       response = error.toString();
     });

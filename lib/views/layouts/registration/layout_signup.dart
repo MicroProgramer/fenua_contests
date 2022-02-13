@@ -58,7 +58,7 @@ class SignupLayout extends StatelessWidget {
           ),
           CustomInputField(
             hint: "Age",
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.datetime,
             isPasswordField: false,
             controller: controller.age_controller.value,
           ),

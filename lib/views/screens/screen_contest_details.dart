@@ -4,7 +4,7 @@ import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
 import 'package:fenua_contests/controllers/controller_ads.dart';
 import 'package:fenua_contests/controllers/controller_home_screen.dart';
 import 'package:fenua_contests/helpers/constants.dart';
-import 'package:fenua_contests/helpers/reward_listener.dart';
+import 'package:fenua_contests/interfaces/ads_listener.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/models/contest.dart';
 import 'package:fenua_contests/models/organizer.dart';
@@ -34,7 +34,8 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
           contest.end_timestamp < DateTime.now().millisecondsSinceEpoch;
 
       if (!contestExpired) {
-        Get.put(AdsController(this));
+        AdsController adsController = Get.put(AdsController(rewardListener: this));
+        adsController.loadRewardAd();
       }
 
       Organizer organizer = controller.getOrganizerById(contest.organizer_id);
@@ -346,6 +347,7 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
                             }
                           },
                         ),
+
                       ],
                     ),
                   ),

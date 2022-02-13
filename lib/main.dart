@@ -22,9 +22,7 @@ void main() async {
     await Firebase.initializeApp();
   }
   await Admob.initialize();
-  if (GetPlatform.isIOS) {
-    await Admob.requestTrackingAuthorization();
-  }
+
   runApp(const MyApp());
 }
 

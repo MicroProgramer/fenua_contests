@@ -1,7 +1,7 @@
 import 'package:fenua_contests/controllers/controller_ads.dart';
 import 'package:fenua_contests/controllers/controller_home_screen.dart';
 import 'package:fenua_contests/helpers/constants.dart';
-import 'package:fenua_contests/helpers/reward_listener.dart';
+import 'package:fenua_contests/interfaces/ads_listener.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/models/ticket.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,8 +14,9 @@ class WalletScreen extends StatelessWidget implements RewardListener {
   @override
   Widget build(BuildContext context) {
     HomeScreenController controller = Get.find<HomeScreenController>();
-    Get.put(AdsController(this));
-    AdsController adsController = Get.find<AdsController>();
+    AdsController adsController = Get.put(AdsController(rewardListener: this));
+    adsController.loadRewardAd();
+
 
     return Scaffold(
       backgroundColor: appSecondaryColor,

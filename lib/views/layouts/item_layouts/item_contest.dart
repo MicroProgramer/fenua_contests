@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fenua_contests/helpers/styles.dart';
+import 'package:fenua_contests/interfaces/home_listener.dart';
 import 'package:fenua_contests/views/screens/screen_contest_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class ContestItem extends StatelessWidget {
   double containerHeight = Get.height * 0.3;
   Contest contest;
   AdminHomeScreenController controller;
+  ContestItemListener contestItemListener;
 
   @override
   Widget build(BuildContext context) {
@@ -145,8 +147,7 @@ class ContestItem extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 15),
                         child: ElevatedButton(
                           onPressed: () {
-                            Get.to(() =>
-                                ContestDetailsScreen(contest_id: contest.id));
+                            contestItemListener.onItemOpen(contest_id: contest.id);
                           },
                           style: ElevatedButton.styleFrom(
                               primary: appPrimaryColor,
@@ -184,6 +185,7 @@ class ContestItem extends StatelessWidget {
   ContestItem({
     required this.contest,
     required this.controller,
+    required this.contestItemListener
   });
 
   String getOrganizerImage(String id) {

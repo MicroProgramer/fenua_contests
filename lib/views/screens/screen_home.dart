@@ -1,7 +1,10 @@
+import 'package:fenua_contests/controllers/controller_ads.dart';
+import 'package:fenua_contests/interfaces/ads_listener.dart';
 import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/views/layouts/home/layout_account.dart';
 import 'package:fenua_contests/views/layouts/home/layout_contests.dart';
+import 'package:fenua_contests/views/screens/screen_contest_details.dart';
 import 'package:fenua_contests/views/screens/srceen_wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -105,4 +108,5 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
 }

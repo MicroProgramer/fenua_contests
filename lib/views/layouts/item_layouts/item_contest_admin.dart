@@ -174,15 +174,13 @@ class ContestItemAdmin extends StatelessWidget {
                                 color: appPrimaryColor,
                                 width: Get.width * 0.4,
                                 height: Get.height * 0.05,
-                                child: Expanded(
-                                  child: Text(
-                                    "Participants (${controller.participantsMap.length})",
-                                    textAlign: TextAlign.center,
-                                    overflow: TextOverflow.visible,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                                child: Text(
+                                  "Participants (${controller.participantsMap.length})",
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.visible,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 onPressed: () {
                                   ShapeBorder shape = RoundedRectangleBorder(

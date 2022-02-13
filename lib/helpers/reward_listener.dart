@@ -1,3 +1,0 @@
-class RewardListener{
-  void onRewarded(){}
-}

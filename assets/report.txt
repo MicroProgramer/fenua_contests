@@ -1,0 +1,453 @@
+Targets
+    Occurrences of '"(.*?)"' in Directory /Users/mubasharhussain/Documents/Flutter Projects/fenua_contests/lib
+Found Occurrences  (393 usages found)
+    Usage in comments  (10 usages found)
+        fenua_contests  (10 usages found)
+            lib/views/layouts/home  (5 usages found)
+                layout_account.dart  (5 usages found)
+                    187 //               "You will have no longer access to your account, Are you sure to delete your account?",
+                    188 //           title: "Alert",
+                    189 //           textConfirm: "Delete Account",
+                    190 //           textCancel: "Cancel",
+                    194 //       "Delete my account",
+            lib/views/layouts/item_layouts  (5 usages found)
+                item_user.dart  (5 usages found)
+                    40 //                         tooltip: "Close",
+                    53 //                     "User Details",
+                    78 //                         user.first_name + " " + user.last_name,
+                    89 //                                 "Date of birth:",
+                    112 //                                 "Tickets:",
+    Usage in string constants  (383 usages found)
+        fenua_contests  (383 usages found)
+            lib  (5 usages found)
+                main.dart  (5 usages found)
+                    14 apiKey: "AIzaSyA_VZhJ9vvap-1rXthjnw8l8KywcBEPxrA",
+                    15 appId: "1:143330305301:web:dae56d18b929d875ba351c",
+                    16 messagingSenderId: "143330305301",
+                    17 projectId: "fenua-contests",
+                    18 storageBucket: "gs://fenua-contests.appspot.com/"
+            lib/controllers  (136 usages found)
+                controller_admin_home_screen.dart  (40 usages found)
+                    25 XFile organizerImage = XFile("");
+                    56 print("data " + doc.data().toString());
+                    72 contestsRef.doc(contest_id).collection("tickets").snapshots();
+                    115 Get.snackbar("Alert", "Please enter organizer name",
+                    118 } else if (organizerImage.path == "") {
+                    119 Get.snackbar("Alert", "Please select logo for organizer",
+                    136 Get.snackbar("Uploading Image", "Uploading organizer image to database");
+                    138 FirebaseStorage.instance.ref().child("organizers/${organizer_id}.png");
+                    161 return Organizer(id: "id", name: "name", image_url: "image_url");
+                    172 name: "Contest",
+                    174 description: "description",
+                    177 winner_id: "",
+                    178 organizer_id: "",
+                    186 title: "Are you sure to upload this image",
+                    198 textConfirm: "Yes",
+                    200 textCancel: "Cancel",
+                    204 Get.snackbar("Please Wait", "Updating organizer picture",
+                    209 .update({"image_url": image_url}).catchError((error) {
+                    210 Get.snackbar("Error", error.toString());
+                    212 Get.snackbar("Success", "Organizer image updated successfully");
+                    222 FirebaseStorage.instance.ref().child("organizers/${id}.png");
+                    228 Get.snackbar("Error", error.toString());
+                    238 title: "Delete Organizer",
+                    249 "Are you sure to delete organizer ",
+                    256 "\"$name\"",
+                    262 textConfirm: "Delete",
+                    267 Get.snackbar("Alert", "Organizer \"$name\" deleted");
+                    269 textCancel: "Cancel",
+                    292 first_name: "first_name",
+                    293 last_name: "last_name",
+                    294 nickname: "nickname",
+                    295 age: "age",
+                    296 city: "city",
+                    301 email: "email",
+                    302 password: "password",
+                    303 phone: "phone",
+                    304 image_url: "image_url");
+                    318 .update({"winner_id": winner_ticket.user_id}).then((value) {
+                    320 return Get.snackbar("Success",
+                    321 winner.first_name + " " + winner.last_name + " won the contest");
+                controller_ads.dart  (1 usage found)
+                    65 Get.snackbar("Please Wait", "Loading video ad");
+                controller_home_screen.dart  (30 usages found)
+                    26 first_name: "User",
+                    27 last_name: "Name",
+                    28 nickname: "nickname",
+                    29 age: "age",
+                    30 city: "city",
+                    34 id: "id",
+                    35 email: "email",
+                    36 password: "password",
+                    37 phone: "phone",
+                    38 image_url: "image_url")
+                    59 title: "Are you sure to upload this image",
+                    71 textConfirm: "Yes",
+                    73 textCancel: "Cancel",
+                    78 Get.snackbar("Please Wait", "Updating your profile picture",
+                    83 .update({"image_url": image_url}).catchError((error) {
+                    84 Get.snackbar("Error", error.toString());
+                    86 Get.snackbar("Success", "Profile image updated successfully");
+                    111 FirebaseStorage.instance.ref().child("profile_images/${uid}.png");
+                    120 Get.snackbar("Error", error.toString());
+                    130 title: "Update Name",
+                    134 hint: "First Name",
+                    140 hint: "Last Name",
+                    151 "Update",
+                    164 "Cancel",
+                    185 "first_name": firstName,
+                    186 "last_name": lastName,
+                    188 .then((value) => Get.snackbar("Success", "Name updated successfully"))
+                    190 Get.snackbar("Error", error.toString());
+                    198 .collection("tickets")
+                    209 .collection("tickets")
+                controller_new_contest.dart  (15 usages found)
+                    12 List<XFile> images = [XFile(""), XFile(""), XFile("")].obs;
+                    14 var organizer_dropdown_value = "".obs;
+                    69 if (image.path == "") {
+                    70 _showSnack("Please select all images");
+                    71 return "";
+                    77 _showSnack("All fields are required");
+                    78 return "";
+                    80 _showSnack("Invalid ending date");
+                    81 return "";
+                    96 winner_id: "",
+                    100 String response = "";
+                    102 response = "success";
+                    112 Get.snackbar("Alert", message,
+                    117 Get.snackbar("Uploading Image", "Uploading organizer image to database");
+                    120 .child("contests/${contest_id}_$index.png");
+                controller_registration.dart  (24 usages found)
+                    19 var stateName = "idle".obs;
+                    36 var _adminEmail = "admin";
+                    37 var _adminPass = "admin";
+                    49 if (sharedUser.userType == "admin") {
+                    51 } else if (sharedUser.userType == "user") {
+                    89 String status = "success";
+                    93 status = "Make sure you check all the agreements";
+                    98 status = "admin";
+                    117 return "Please select your image";
+                    125 return "Fill all fields";
+                    127 return "Invalid Email Address";
+                    134 Get.snackbar("Please wait", "Creating your account");
+                    138 Get.snackbar("Error", "Image not uploaded");
+                    157 Get.snackbar("Error", error.toString());
+                    169 return "Both fields are required";
+                    172 saveSharedPref(SharedUser(id: "admin", name: "Admin", userType: "admin"));
+                    173 return "admin";
+                    175 String auth_error = "";
+                    185 SharedUser(id: auth.user!.uid, name: "User", userType: "user"));
+                    186 return "success";
+                    194 Get.snackbar("Uploading Image", "Uploading your image to database");
+                    196 FirebaseStorage.instance.ref().child("profile_images/${uid}.png");
+                    213 String response = "";
+                    219 response = "success";
+                controller_update_contest.dart  (26 usages found)
+                    12 List<String> images = ["", "", ""].obs;
+                    14 var organizer_dropdown_value = "".obs;
+                    21 var winner_id = "".obs;
+                    23 var contest_id = "".obs;
+                    31 title: "Are you sure to upload this image",
+                    44 textConfirm: "Yes",
+                    46 textCancel: "Cancel",
+                    55 .update({"images": images}).catchError((error) {
+                    56 Get.snackbar("Error", error.toString());
+                    58 Get.snackbar("Success", "Image ${index + 1} updated");
+                    99 _showSnack("All fields are required");
+                    100 return "";
+                    102 _showSnack("Invalid ending date");
+                    103 return "";
+                    106 String response = "";
+                    108 "title": title,
+                    109 "description": description,
+                    110 "start_timestamp": startTimestamp.value,
+                    111 "end_timestamp": endTimestamp.value,
+                    112 "winner_id": winner_id.value,
+                    113 "organizer_id": organizer_dropdown_value.value,
+                    114 "show_participants_info": participantsCheck.value
+                    116 response = "success";
+                    126 Get.snackbar("Alert", message,
+                    131 Get.snackbar("Uploading Image", "Uploading organizer image to database");
+                    134 .child("contests/${contest_id}_$index.png");
+            lib/generated/intl  (4 usages found)
+                messages_en.dart  (4 usages found)
+                    25 "controllerparticipantsmaplengthParticipants":
+                    27 "\${controller.participantsMap.length} participants"),
+                    28 "endOfContest": MessageLookupByLibrary.simpleMessage("End of contest"),
+                    29 "organizedBy": MessageLookupByLibrary.simpleMessage("Organized by")
+            lib/helpers  (30 usages found)
+                constants.dart  (30 usages found)
+                    10 String appName = "Contests App";
+                    11 String googleAPIKey = "AIzaSyCp2I8VzxRNn4ls-1bPs1eGJDYDqxcimEM";
+                    13 "https://static.wikia.nocookie.net/mrbean/images/4/4b/Mr_beans_holiday_ver2.jpg/revision/latest?cb=20181130033425";
+                    16 FirebaseFirestore.instance.collection("organizers");
+                    18 FirebaseFirestore.instance.collection("contests");
+                    19 CollectionReference usersRef = FirebaseFirestore.instance.collection("users");
+                    34 r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                    48 showSnackBar("Re-select your phone country", context);
+                    51 if (phone.startsWith("0")) {
+                    52 showSnackBar("Do not include first 0 with in phone number", context);
+                    54 } else if (phone.length != 10 || !phone.startsWith("3")) {
+                    55 showSnackBar("Enter valid phone number", context);
+                    136 prefs.setString("id", user.id);
+                    137 prefs.setString("name", user.name);
+                    138 prefs.setString("type", user.userType);
+                    144 id: prefs.getString("id") ?? "",
+                    145 name: prefs.getString("name") ?? "",
+                    146 userType: prefs.getString("type") ?? "",
+                    152 prefs.setString("id", "");
+                    153 prefs.setString("name", "");
+                    154 prefs.setString("type", "");
+                    182 String convTime = "";
+                    195 convTime = "$prefix ${second} secs $suffix";
+                    197 convTime = "$prefix ${minute} mins $suffix";
+                    199 convTime = "$prefix ${hour} hrs $suffix";
+                    202 convTime = "$prefix ${day ~/ 360} yrs $suffix";
+                    204 convTime = "$prefix ${day ~/ 30} mons $suffix";
+                    206 convTime = "$prefix ${day ~/ 7} weeks $suffix";
+                    209 convTime = "$prefix ${day} days $suffix";
+                    212 print(e.toString() + "------");
+            lib/l10n  (3 usages found)
+                intl_en.arb  (3 usages found)
+                    2 "endOfContest": "End of contest",
+                    3 "organizedBy": "Organized by",
+                    4 "controllerparticipantsmaplengthParticipants": "${controller.participantsMap.length} participants"
+            lib/views/layouts/admin  (10 usages found)
+                layout_contests_admin.dart  (1 usage found)
+                    38 : NotFound(color: Colors.black87, message: "No Contests yet");
+                layout_organizers_admin.dart  (7 usages found)
+                    33 "No Data",
+                    41 title: "New Organizer",
+                    49 hint: "Organizer Name",
+                    53 Text("Logo"),
+                    59 child: controller.organizerImage.path != ""
+                    65 image: controller.organizerImage.path != ""
+                    84 "Add",
+                layout_users_admin.dart  (2 usages found)
+                    26 : NotFound(message: "No users found"),
+                    29 tooltip: "Export Data",
+            lib/views/layouts/home  (11 usages found)
+                layout_account.dart  (9 usages found)
+                    78 "${controller.mUser.value.first_name} ${controller.mUser.value.last_name}",
+                    110 "Help".toUpperCase(),
+                    125 "Privacy Policy".toUpperCase(),
+                    140 "Terms And Conditions".toUpperCase(),
+                    158 "Logout",
+                    165 title: "Logout",
+                    166 middleText: "Are you sure to logout",
+                    168 textCancel: "No",
+                    169 textConfirm: "Yes",
+                layout_contests.dart  (1 usage found)
+                    29 : NotFound(color: Colors.black87, message: "No Contests");
+                layout_winners.dart  (1 usage found)
+                    28 message: "No winners yet",
+            lib/views/layouts/item_layouts  (57 usages found)
+                item_contest.dart  (7 usages found)
+                    63 " " +
+                    67 : "",
+                    97 "Starting in", contest.start_timestamp, "")
+                    99 "", contest.end_timestamp, "left"))
+                    100 : "Expired",
+                    155 child: Text(contestExpired ? "Open" : "Participate"),
+                    195 return "";
+                item_contest_admin.dart  (20 usages found)
+                    50 title: "Email ${winner.first_name + " " + winner.last_name}",
+                    51 middleText: "Do you want to inform the winner by emailing him?",
+                    52 textCancel: "Cancel",
+                    53 textConfirm: "Email",
+                    85 " " +
+                    89 : "",
+                    123 "Starting in", contest.start_timestamp, "")
+                    125 "", contest.end_timestamp, "left"))
+                    126 : "Expired",
+                    179 "Participants (${controller.participantsMap.length})",
+                    223 "Withdraw Contest Prize",
+                    225 "Are you sure to do the contest prize withdraw between"
+                    226 " ${controller.participantsMap.length} participants",
+                    228 "Cancel",
+                    230 "Withdraw",
+                    245 tooltip: "Withdraw",
+                    263 "${controller.participantsMap.length} participants",
+                    309 "No Participants"))
+                    329 child: Text("Edit"),
+                    367 return "";
+                item_organizer.dart  (17 usages found)
+                    15 String newName = "";
+                    30 title: Text("${organizer.name}"),
+                    35 "Organized ${logic.contestsByOrganizer(organizer.id).length} contests");
+                    47 "Edit Options",
+                    52 title: Text("Edit Name"),
+                    57 title: "Update Organizer",
+                    61 hint: "Organizer Name",
+                    74 "Update",
+                    86 .update({"name": newName})
+                    88 "Success",
+                    89 "Organizer name updated"))
+                    91 Get.snackbar("Error",
+                    101 "Cancel",
+                    117 title: Text("Change Image"),
+                    137 title: "Cannot Delete ${organizer.name}",
+                    139 "This organizer has organized ${contests} contests",
+                    140 textConfirm: "Ok",
+                item_organizer_small.dart  (2 usages found)
+                    23 title: Text("${organizer.name}"),
+                    28 "Organized ${logic.contestsByOrganizer(organizer.id).length} contests");
+                item_participant_public.dart  (3 usages found)
+                    38 "Winner",
+                    44 user.first_name + " " + user.last_name,
+                    49 subtitle: Text("Invested $tickets tickets"),
+                item_test.dart  (5 usages found)
+                    20 image: AssetImage("assets/images/placeholder.jpg"),
+                    30 "Winner Name",
+                    34 Text("Contest Name"),
+                    37 subtitle: Text("20 Jan, 2022"),
+                    38 trailing: Text("App Image"),
+                item_user.dart  (1 usage found)
+                    155 user.first_name + " " + user.last_name,
+                item_winner.dart  (2 usages found)
+                    39 winner.first_name + " " + winner.last_name,
+                    46 subtitle: Text(timestampToDateFormat(contest.end_timestamp, "dd MMM, yyyy")),
+            lib/views/layouts/registration  (25 usages found)
+                layout_login.dart  (8 usages found)
+                    23 hint: "Email Address",
+                    29 hint: "Password",
+                    37 "Login",
+                    44 if (status == "success") {
+                    46 } else if (status == "admin") {
+                    49 Get.snackbar("Alert", status,
+                    61 "Don't have an account? ",
+                    66 "Sign Up",
+                layout_signup.dart  (17 usages found)
+                    31 ? AssetImage("assets/images/placeholder.jpg")
+                    42 hint: "First Name",
+                    48 hint: "Last Name",
+                    54 hint: "Nickname",
+                    60 hint: "Age",
+                    66 hint: "City",
+                    72 hint: "Phone Number",
+                    78 hint: "Email",
+                    84 hint: "Password",
+                    90 hint: "Confirm Password",
+                    105 "I agree to receive commercial offers from FENUA CONTESTS - 100% FREE and its partners"),
+                    114 "I acknowledge having read and accepted the general conditions of use of the application"),
+                    123 "I certify that I am over 18 years of age or a authorization of my legal representative"),
+                    131 "Sign up",
+                    137 if (response == "success") {
+                    150 "Already have an account? ",
+                    155 "Sign In",
+            lib/views/screens  (42 usages found)
+                screen_contest_details.dart  (26 usages found)
+                    90 tag: "contest_name",
+                    112 "Organized by",
+                    124 "End of contest",
+                    130 contest.end_timestamp, "EEE, dd/MM"),
+                    151 "Game Rules",
+                    177 print("controller.participantsMap: " +
+                    199 "${controller.participantsMap.length} participants",
+                    241 message: "No Participants")
+                    255 "Participants",
+                    262 "(${controller.participantsMap.length})",
+                    295 "You invested ${controller.participantsMap[FirebaseAuth.instance.currentUser!.uid] == null ? "0" : controller.participantsMap[FirebaseAuth.instance.currentUser!.uid]!.length} tickets",
+                    304 "${contestExpired ? "contest expired" : "Extra Chances"}"
+                    310 Get.snackbar("Sorry",
+                    311 "This contest has been expired, try for any other contest",
+                    318 title: "Use account ticket",
+                    320 "You already have ${homeScreenController.myTickets.length} in your account balance. You can either use them or watch more ads to earn more tickets.",
+                    329 .collection("tickets")
+                    330 .doc("${ticket.id}")
+                    333 (value) => Get.snackbar("Congrats",
+                    334 "1 ticket added for you"),
+                    341 textCancel: "Watch Ad anyway",
+                    342 textConfirm: "Use account ticket",
+                    370 .collection("tickets")
+                    371 .doc("$timestamp")
+                    373 id: "$timestamp",
+                    377 .then((value) => Get.snackbar("Congrats", "1 ticket added for you"));
+                screen_home.dart  (1 usage found)
+                    45 tag: "wallet",
+                screen_registration.dart  (2 usages found)
+                    42 child: Image.asset("assets/images/icon_gif.gif"),
+                    52 tabs_titles_list: ["Sign In", "Sign Up"],
+                screen_splash.dart  (1 usage found)
+                    18 image: AssetImage("assets/images/splash.gif"))),
+                srceen_wallet.dart  (12 usages found)
+                    24 title: Text("Wallet"),
+                    34 "assets/images/wallet.png",
+                    52 tag: "wallet",
+                    59 fontFamily: "JustBubble"),
+                    68 "1 ticket = 1 more chance",
+                    84 title: "Win more tickets",
+                    86 "Click the button below to watch video ad and earn more tickets",
+                    88 textConfirm: "Earn 1 ticket",
+                    94 child: Text("Win more tickets",
+                    112 .collection("tickets")
+                    118 Get.snackbar("Congrats", "You earned 1 ticket");
+                    120 Get.snackbar("Error", error.toString());
+            lib/views/screens/admin  (58 usages found)
+                screen_add_new_contest.dart  (22 usages found)
+                    27 title: Text("New Contest"),
+                    40 "Contest Images",
+                    52 child: controller.images[0].path != ""
+                    58 image: controller.images[0].path != ""
+                    80 child: controller.images[1].path != ""
+                    86 image: controller.images[1].path != ""
+                    108 child: controller.images[2].path != ""
+                    114 image: controller.images[2].path != ""
+                    136 "Contest Details",
+                    141 hint: "Title",
+                    147 hint: "Description",
+                    156 "Organizer",
+                    213 TextSpan(text: "Starting from "),
+                    217 "dd MMM, yyyy"),
+                    250 TextSpan(text: "Ending at "),
+                    254 "dd MMM, yyyy"),
+                    263 "Show participants to users",
+                    275 "Add",
+                    284 _showSnack("Something went wrong");
+                    285 } else if (response == "success") {
+                    286 showSnackBar("Contest Add", context);
+                    305 Get.snackbar("Alert", message,
+                screen_admin_home.dart  (6 usages found)
+                    35 title: Text("Admin Area"),
+                    38 tooltip: "Logout",
+                    41 title: "Logout",
+                    42 middleText: "Are you sure to logout?",
+                    43 textCancel: "No",
+                    44 textConfirm: "Yes",
+                screen_edit_contest.dart  (15 usages found)
+                    24 title: Text("Edit Contest"),
+                    45 child: Text("$itemIndex"));
+                    60 "Edit",
+                    77 "Clever Gaming K55",
+                    102 "https://miro.medium.com/max/1200/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg"))),
+                    105 "Organized by",
+                    110 "You",
+                    119 "End of contest",
+                    136 "Fri 25/03",
+                    160 "Long Description Long Description Long Description Long Description Long Description Long Description Long Description Long Description Long Description Long Description Long Description Long Description Long Description Long Description ",
+                    167 "Edit",
+                    217 "20 Participants",
+                    243 "Participants",
+                    270 "Save Chances".toUpperCase(),
+                    274 showSnackBar("Changes Saved", context);
+                screen_update_contest.dart  (15 usages found)
+                    50 "Contest Images",
+                    125 "Contest Details",
+                    130 hint: "Title",
+                    137 hint: "Description",
+                    147 "Organizer",
+                    201 TextSpan(text: "Starting from "),
+                    205 "dd MMM, yyyy"),
+                    237 TextSpan(text: "Ending at "),
+                    241 "dd MMM, yyyy"),
+                    250 "Show participants to users",
+                    262 "Update",
+                    271 _showSnack("Something went wrong");
+                    272 } else if (response == "success") {
+                    273 showSnackBar("Contest Updated", context);
+                    292 Get.snackbar("Alert", message,
+            lib/widgets  (2 usages found)
+                custom_input_field.dart  (1 usage found)
+                    47 widget.controller!.text = widget.text ?? "";
+                not_found.dart  (1 usage found)
+                    19 assetImage ?? "assets/images/nothing.png",
