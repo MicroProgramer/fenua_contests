@@ -4,8 +4,8 @@ import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
 import 'package:fenua_contests/controllers/controller_ads.dart';
 import 'package:fenua_contests/controllers/controller_home_screen.dart';
 import 'package:fenua_contests/helpers/constants.dart';
-import 'package:fenua_contests/interfaces/ads_listener.dart';
 import 'package:fenua_contests/helpers/styles.dart';
+import 'package:fenua_contests/interfaces/ads_listener.dart';
 import 'package:fenua_contests/models/contest.dart';
 import 'package:fenua_contests/models/organizer.dart';
 import 'package:fenua_contests/models/ticket.dart';
@@ -17,24 +17,27 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ContestDetailsScreen extends StatelessWidget implements RewardListener {
+class ContestDetailsScreen extends StatelessWidget
+    implements RewardListener, InterstitialListener {
   String contest_id;
 
   @override
   Widget build(BuildContext context) {
-    AdminHomeScreenController controller = Get.put(AdminHomeScreenController(), tag: contest_id);
+    AdminHomeScreenController controller =
+        Get.put(AdminHomeScreenController(), tag: contest_id);
     controller.getParticipants(contest_id);
     HomeScreenController homeScreenController =
         Get.find<HomeScreenController>();
-
 
     return Obx(() {
       Contest contest = controller.getContestById(contest_id);
       bool contestExpired =
           contest.end_timestamp < DateTime.now().millisecondsSinceEpoch;
 
+      AdsController adsController = Get.put(
+          AdsController(rewardListener: this, interstitialListener: this),
+          tag: contest_id);
       if (!contestExpired) {
-        AdsController adsController = Get.put(AdsController(rewardListener: this));
         adsController.loadRewardAd();
       }
 
@@ -52,10 +55,11 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
           //   ),
           // ],
         ),
-        body: SafeArea(
-          child: Stack(
-            children: [
-              SingleChildScrollView(
+        body: Column(
+          children: [
+            Expanded(
+              flex: 8,
+              child: SingleChildScrollView(
                 child: Column(
                   children: [
                     CarouselSlider.builder(
@@ -175,8 +179,6 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
                                 enableDrag: true,
                                 backgroundColor: appPrimaryColor,
                                 builder: (context) {
-                                  print("controller.participantsMap: " +
-                                      controller.participantsMap.toString());
                                   return DraggableScrollableSheet(
                                     maxChildSize: 0.8,
                                     expand: false,
@@ -197,49 +199,54 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
                                               ],
                                               title: Container(
                                                   child: Text(
-                                                "${controller.participantsMap.length} participants",
-                                                style: heading3_style,
-                                              )),
+                                                    "${controller.participantsMap.length} participants",
+                                                    style: heading3_style,
+                                                  )),
                                               // backgroundColor: appPrimaryColor,
                                               elevation: 2,
                                               automaticallyImplyLeading:
-                                                  false, // remove back button in appbar.
+                                              false, // remove back button in appbar.
                                             ),
                                             controller.participantsMap.length >
-                                                    0
+                                                0
                                                 ? Expanded(
-                                                  child: ListView.builder(
-                                                      controller:
-                                                          scrollController,
-                                                      itemCount: controller
-                                                          .participantsMap.length,
-                                                      itemBuilder: (_, index) {
-                                                        String uid = controller
-                                                            .participantsMap.keys
-                                                            .elementAt(index)
-                                                            .trim();
-                                                        model.UserInfo user =
-                                                            controller
-                                                                .getUserById(uid);
-                                                        return ParticipantPublicItem(
-                                                          tickets: controller
-                                                                          .participantsMap[
-                                                                      uid] ==
-                                                                  null
-                                                              ? 0
-                                                              : controller
-                                                                  .participantsMap[
-                                                                      uid]!
-                                                                  .length,
-                                                          user: user,
-                                                          winner: user.id ==
-                                                              contest.winner_id,
-                                                        );
-                                                      }),
-                                                )
+                                              child: ListView.builder(
+                                                  controller:
+                                                  scrollController,
+                                                  itemCount: controller
+                                                      .participantsMap
+                                                      .length,
+                                                  itemBuilder:
+                                                      (_, index) {
+                                                    String uid = controller
+                                                        .participantsMap
+                                                        .keys
+                                                        .elementAt(index)
+                                                        .trim();
+                                                    model.UserInfo user =
+                                                    controller
+                                                        .getUserById(
+                                                        uid);
+                                                    return ParticipantPublicItem(
+                                                      tickets: controller
+                                                          .participantsMap[
+                                                      uid] ==
+                                                          null
+                                                          ? 0
+                                                          : controller
+                                                          .participantsMap[
+                                                      uid]!
+                                                          .length,
+                                                      user: user,
+                                                      winner: user.id ==
+                                                          contest
+                                                              .winner_id,
+                                                    );
+                                                  }),
+                                            )
                                                 : NotFound(
-                                                    color: Colors.white70,
-                                                    message: "No Participants")
+                                                color: Colors.white70,
+                                                message: "No Participants")
                                           ],
                                         ),
                                       );
@@ -272,89 +279,76 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 100,
-                    )
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "You invested ${controller.participantsMap[FirebaseAuth.instance.currentUser!.uid] == null ? "0" : controller.participantsMap[FirebaseAuth.instance.currentUser!.uid]!.length} tickets",
+                        style: normal_h3Style_bold
+                            .merge(TextStyle(color: Colors.black)),
+                      ),
+                    ),
+                    CustomButton(
+                      color: appPrimaryColor,
+                      width: Get.width * 0.7,
+                      child: Text(
+                        "${contestExpired ? "contest expired" : "Extra Chances"}"
+                            .toUpperCase(),
+                        style: normal_h2Style_bold,
+                      ),
+                      onPressed: () {
+                        if (contestExpired) {
+                          Get.snackbar("Sorry",
+                              "This contest has been expired, try for any other contest",
+                              colorText: Colors.white,
+                              backgroundColor: Colors.black);
+                          return;
+                        }
+                        if (homeScreenController.myTickets.length > 0) {
+                          Get.defaultDialog(
+                              title: "Use account ticket",
+                              middleText:
+                              "You already have ${homeScreenController.myTickets.length} in your account balance. You can either use them or watch more ads to earn more tickets.",
+                              onConfirm: () async {
+                                Get.back();
+                                Ticket ticket =
+                                homeScreenController.myTickets.value[0];
+                                await homeScreenController
+                                    .deleteTicket(ticket.id);
+                                contestsRef
+                                    .doc(contest_id)
+                                    .collection("tickets")
+                                    .doc("${ticket.id}")
+                                    .set(ticket.toMap())
+                                    .then(
+                                      (value) => Get.snackbar("Congrats",
+                                      "1 ticket added for you"),
+                                );
+                              },
+                              onCancel: () {
+                                Get.back();
+                                Get.find<AdsController>(tag: contest_id)
+                                    .showRewardAd();
+                              },
+                              textCancel: "Watch Ad anyway",
+                              textConfirm: "Use account ticket",
+                              confirmTextColor: Colors.white);
+                        } else {
+                          Get.find<AdsController>(tag: contest_id).showRewardAd();
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),
-              Positioned(
-                bottom: 0,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                    width: Get.width,
-                    decoration: BoxDecoration(
-                      color: appSecondaryColor,
-                    ),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "You invested ${controller.participantsMap[FirebaseAuth.instance.currentUser!.uid] == null ? "0" : controller.participantsMap[FirebaseAuth.instance.currentUser!.uid]!.length} tickets",
-                            style: normal_h3Style_bold
-                                .merge(TextStyle(color: Colors.black)),
-                          ),
-                        ),
-                        CustomButton(
-                          color: appPrimaryColor,
-                          width: Get.width * 0.7,
-                          child: Text(
-                            "${contestExpired ? "contest expired" : "Extra Chances"}"
-                                .toUpperCase(),
-                            style: normal_h2Style_bold,
-                          ),
-                          onPressed: () {
-                            if (contestExpired) {
-                              Get.snackbar("Sorry",
-                                  "This contest has been expired, try for any other contest",
-                                  colorText: Colors.white,
-                                  backgroundColor: Colors.black);
-                              return;
-                            }
-                            if (homeScreenController.myTickets.length > 0) {
-                              Get.defaultDialog(
-                                  title: "Use account ticket",
-                                  middleText:
-                                      "You already have ${homeScreenController.myTickets.length} in your account balance. You can either use them or watch more ads to earn more tickets.",
-                                  onConfirm: () async {
-                                    Get.back();
-                                    Ticket ticket =
-                                        homeScreenController.myTickets.value[0];
-                                    await homeScreenController
-                                        .deleteTicket(ticket.id);
-                                    contestsRef
-                                        .doc(contest_id)
-                                        .collection("tickets")
-                                        .doc("${ticket.id}")
-                                        .set(ticket.toMap())
-                                        .then(
-                                          (value) => Get.snackbar("Congrats",
-                                              "1 ticket added for you"),
-                                        );
-                                  },
-                                  onCancel: () {
-                                    Get.back();
-                                    Get.find<AdsController>().showRewardAd();
-                                  },
-                                  textCancel: "Watch Ad anyway",
-                                  textConfirm: "Use account ticket",
-                                  confirmTextColor: Colors.white);
-                            } else {
-                              Get.find<AdsController>().showRewardAd();
-                            }
-                          },
-                        ),
-
-                      ],
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                width: Get.width,
+                  color: appSecondaryColor,
+                  child: adsController.bannerAd!),
+            )
+          ],
         ),
       );
     });
@@ -376,6 +370,17 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
                 timestamp: timestamp,
                 user_id: FirebaseAuth.instance.currentUser!.uid)
             .toMap())
-        .then((value) => Get.snackbar("Congrats", "1 ticket added for you"));
+        .then((value) => Get.snackbar("Congrats", "1 ticket added for you",
+            colorText: Colors.white, backgroundColor: Colors.green));
+  }
+
+  @override
+  void onInterstitialClose() {
+    // TODO: implement onInterstitialClose
+  }
+
+  @override
+  void onInterstitialFailed() {
+    // TODO: implement onInterstitialFailed
   }
 }

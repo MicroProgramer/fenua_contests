@@ -4,37 +4,41 @@ import 'package:get/get.dart';
 
 class AdsController extends GetxController {
   late AdmobReward rewardAd;
-  RewardListener? rewardListener;
-  InterstitialListener? interstitialListener;
+  RewardListener rewardListener;
+  InterstitialListener interstitialListener;
   late AdmobInterstitial interstitialAd;
+  var bannerLoaded = false.obs;
   AdmobBannerSize? _bannerSize;
   AdmobBanner? bannerAd;
 
   AdsController({
-    this.rewardListener,
-    this.interstitialListener,
+    required this.rewardListener,
+    required this.interstitialListener,
   });
 
   @override
   void onInit() {
     rewardAd = AdmobReward(
-      adUnitId: getRewardBasedVideoAdUnitId()!,
+      adUnitId: getRewardBasedVideoAdUnitId(),
       listener: (AdmobAdEvent event, Map<String, dynamic>? args) {
         if (event == AdmobAdEvent.closed) rewardAd.load();
         handleEvent(event, args, 'Reward');
       },
     );
     interstitialAd = AdmobInterstitial(
-      adUnitId: getInterstitialAdUnitId()!,
+      adUnitId: getInterstitialAdUnitId(),
       listener: (AdmobAdEvent event, Map<String, dynamic>? args) {
-        if (event == AdmobAdEvent.closed) interstitialAd.load();
-        handleEvent(event, args, 'Interstitial');
+        if (event == AdmobAdEvent.closed) {
+          interstitialListener.onInterstitialClose();
+        } else if (event == AdmobAdEvent.failedToLoad) {
+          interstitialListener.onInterstitialFailed();
+        }
       },
     );
     _bannerSize = AdmobBannerSize.BANNER;
 
     bannerAd = AdmobBanner(
-      adUnitId: getBannerAdUnitId()!,
+      adUnitId: getBannerAdUnitId(),
       adSize: _bannerSize!,
       listener: (AdmobAdEvent event, Map<String, dynamic>? args) {
         handleEvent(event, args, 'Banner');
@@ -60,6 +64,10 @@ class AdsController extends GetxController {
     interstitialAd.load();
   }
 
+  AdmobBanner? getAdmobBanner() {
+    return bannerAd;
+  }
+
   @override
   void onClose() {
     rewardAd.dispose();
@@ -71,33 +79,31 @@ class AdsController extends GetxController {
       AdmobAdEvent event, Map<String, dynamic>? args, String adType) {
     switch (event) {
       case AdmobAdEvent.loaded:
+        if (adType == "Banner") {
+          bannerLoaded.value = true;
+        }
         break;
       case AdmobAdEvent.opened:
         break;
       case AdmobAdEvent.closed:
-        if (interstitialListener != null && adType == "Interstitial") {
-          interstitialListener!.onInterstitialClose();
-        }
-        rewardAd.load();
-        break;
-      case AdmobAdEvent.failedToLoad:
-        if (interstitialListener != null && adType == "Interstitial") {
-          interstitialListener!.onInterstitialFailed();
-        }
         break;
       case AdmobAdEvent.rewarded:
-        if (rewardListener != null) {
-          rewardListener!.onRewarded();
-        }
+        print("reward");
+        rewardListener.onRewarded();
 
+        break;
+      case AdmobAdEvent.failedToLoad:
+        if (adType == "Banner") {
+          bannerLoaded.value = false;
+        }
         break;
       default:
     }
   }
 
-  String? getRewardBasedVideoAdUnitId() {
-    String realIos = 'ca-app-pub-9499686178576729/5415338007';
-    String realAndroid = 'ca-app-pub-9499686178576729/4249595996';
+  String getRewardBasedVideoAdUnitId() {
+    // String realIos = 'ca-app-pub-9499686178576729/5415338007';
+    // String realAndroid = 'ca-app-pub-9499686178576729/4249595996';
     String testIos = 'ca-app-pub-3940256099942544/1712485313';
     String testAndroid = 'ca-app-pub-3940256099942544/5224354917';
 
@@ -106,13 +112,15 @@ class AdsController extends GetxController {
     } else if (GetPlatform.isAndroid) {
       return testAndroid;
     }
-    return null;
+    return "";
   }
 
   Future<void> showRewardAd() async {
-    Get.snackbar("Please Wait", "Loading video ad");
     if (await rewardAd.isLoaded) {
       rewardAd.show();
+    } else {
+      rewardAd.load();
+      Get.snackbar("Loading video ad", "Try again after 5 seconds");
     }
   }
 
@@ -125,7 +133,7 @@ class AdsController extends GetxController {
     return "failed";
   }
 
-  String? getBannerAdUnitId() {
+  String getBannerAdUnitId() {
     String testIos = "ca-app-pub-3940256099942544/2934735716";
     String testAndroid = "ca-app-pub-3940256099942544/6300978111";
 
@@ -134,10 +142,10 @@ class AdsController extends GetxController {
     } else if (GetPlatform.isAndroid) {
       return testAndroid;
     }
-    return null;
+    return "";
   }
 
-  String? getInterstitialAdUnitId() {
+  String getInterstitialAdUnitId() {
     String testIos = "ca-app-pub-3940256099942544/4411468910";
     String testAndroid = "ca-app-pub-3940256099942544/1033173712";
 
@@ -146,6 +154,6 @@ class AdsController extends GetxController {
     } else if (GetPlatform.isAndroid) {
       return testAndroid;
     }
-    return null;
+    return "";
   }
 }

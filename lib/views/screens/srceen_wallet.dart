@@ -8,13 +8,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class WalletScreen extends StatelessWidget implements RewardListener {
+class WalletScreen extends StatelessWidget implements RewardListener, InterstitialListener {
   const WalletScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     HomeScreenController controller = Get.find<HomeScreenController>();
-    AdsController adsController = Get.put(AdsController(rewardListener: this));
+    AdsController adsController = Get.put(AdsController(rewardListener: this,
+      interstitialListener: this
+    ));
     adsController.loadRewardAd();
 
 
@@ -120,5 +122,15 @@ class WalletScreen extends StatelessWidget implements RewardListener {
     }).catchError((error) {
       Get.snackbar("Error", error.toString());
     });
+  }
+
+  @override
+  void onInterstitialClose() {
+    // TODO: implement onInterstitialClose
+  }
+
+  @override
+  void onInterstitialFailed() {
+    // TODO: implement onInterstitialFailed
   }
 }

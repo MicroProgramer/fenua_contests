@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import '../item_layouts/item_contest.dart';
 
 class ContestsLayout extends StatelessWidget
-    implements ContestItemListener, InterstitialListener {
+    implements ContestItemListener, InterstitialListener, RewardListener {
   late String contestId;
 
   @override
@@ -18,9 +18,7 @@ class ContestsLayout extends StatelessWidget
     AdminHomeScreenController controller =
         Get.find<AdminHomeScreenController>();
 
-    AdsController adsController =
-        Get.put(AdsController(interstitialListener: this));
-    adsController.loadInterstitialAd();
+    Get.put(AdsController(interstitialListener: this, rewardListener: this), tag: "homescreen").loadInterstitialAd();
 
     return Obx(() {
       return controller.contestsList.length > 0
@@ -44,7 +42,8 @@ class ContestsLayout extends StatelessWidget
   void onItemOpen({required String contest_id}) async {
     print(contest_id);
     contestId = contest_id;
-    String status = await Get.find<AdsController>().showInterstitialAd();
+    String status = await Get.find<AdsController>(tag: "homescreen").showInterstitialAd();
+    print(status);
     if (status != "success"){
       openDetailsScreen();
     }
@@ -56,11 +55,17 @@ class ContestsLayout extends StatelessWidget
 
   @override
   void onInterstitialClose() {
+    print(contestId);
     openDetailsScreen();
   }
 
   @override
   void onInterstitialFailed() {
-    // openDetailsScreen();
+    openDetailsScreen();
+  }
+
+  @override
+  void onRewarded() {
+    // TODO: implement onRewarded
   }
 }

@@ -53,7 +53,6 @@ class AdminHomeScreenController extends GetxController {
     Stream<QuerySnapshot> stream = contestsRef.snapshots();
     update();
     return stream.map((querySnapshot) => querySnapshot.docs.map((doc) {
-          print("data " + doc.data().toString());
           return Contest.fromMap(doc.data() as Map<String, dynamic>);
         }).toList());
 
@@ -103,7 +102,6 @@ class AdminHomeScreenController extends GetxController {
   Future<void> pickOrganizerImage() async {
     var pickedImage = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
-      print(pickedImage.path);
       organizerImage = pickedImage;
     }
     update();

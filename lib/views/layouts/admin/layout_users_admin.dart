@@ -4,6 +4,7 @@ import 'package:fenua_contests/views/layouts/item_layouts/item_user.dart';
 import 'package:fenua_contests/widgets/not_found.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datagrid_export/export.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as excel;
@@ -53,6 +54,17 @@ class UsersLayoutAdmin extends StatelessWidget {
     if (GetPlatform.isWeb){
       await saveAndLaunchFile(bytes, "Users Data.xlsx");
     } else {
+
+      if (GetPlatform.isAndroid){
+        var status = await Permission.storage.status;
+        if (status.isDenied || status.isRestricted) {
+          await Permission.storage.request();
+          return;
+        } else if (status.isPermanentlyDenied){
+          openAppSettings();
+          return;
+        }
+      }
       await saveAndLaunchFile(bytes, 'Users Data.xlsx');
     }
   }

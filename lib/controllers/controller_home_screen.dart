@@ -95,7 +95,6 @@ class HomeScreenController extends GetxController {
   void listenForDocChange(String uid) {
     usersRef.snapshots().listen((querySnapshot) {
       querySnapshot.docChanges.forEach((changedDoc) {
-        print(changedDoc.doc.data());
         model.UserInfo user = model.UserInfo.fromMap(
             changedDoc.doc.data() as Map<String, dynamic>);
         if (user.id == uid) {
