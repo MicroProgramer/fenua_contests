@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
 import 'package:fenua_contests/controllers/controller_ads.dart';
 import 'package:fenua_contests/controllers/controller_home_screen.dart';
+import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/interfaces/ads_listener.dart';
@@ -114,7 +115,7 @@ class ContestDetailsScreen extends StatelessWidget
                                 ))),
                       ),
                       title: Text(
-                        "Organized by",
+                        LocaleKeys.Organizedby.tr,
                         style: normal_h3Style_bold
                             .merge(TextStyle(color: Colors.black)),
                       ),
@@ -126,7 +127,7 @@ class ContestDetailsScreen extends StatelessWidget
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "End of contest",
+                            LocaleKeys.Endofcontest.tr,
                             style: normal_h3Style_bold
                                 .merge(TextStyle(color: Colors.black)),
                           ),
@@ -153,7 +154,7 @@ class ContestDetailsScreen extends StatelessWidget
                             borderRadius: BorderRadius.circular(10)),
                         tileColor: appSecondaryColorDark,
                         title: Text(
-                          "Game Rules",
+                          LocaleKeys.GameRules.tr,
                           style: normal_h2Style_bold,
                         ),
                         trailing: Icon(
@@ -199,7 +200,7 @@ class ContestDetailsScreen extends StatelessWidget
                                               ],
                                               title: Container(
                                                   child: Text(
-                                                    "${controller.participantsMap.length} participants",
+                                                    "${controller.participantsMap.length} ${LocaleKeys.Participants.tr}",
                                                     style: heading3_style,
                                                   )),
                                               // backgroundColor: appPrimaryColor,
@@ -260,7 +261,7 @@ class ContestDetailsScreen extends StatelessWidget
                           title: Row(
                             children: [
                               Text(
-                                "Participants",
+                                LocaleKeys.Participants.tr,
                                 style: normal_h2Style_bold,
                               ),
                               SizedBox(
@@ -291,23 +292,23 @@ class ContestDetailsScreen extends StatelessWidget
                       color: appPrimaryColor,
                       width: Get.width * 0.7,
                       child: Text(
-                        "${contestExpired ? "contest expired" : "Extra Chances"}"
+                        "${contestExpired ? LocaleKeys.Expired.tr : LocaleKeys.EXTRACHANCES.tr}"
                             .toUpperCase(),
                         style: normal_h2Style_bold,
                       ),
                       onPressed: () {
                         if (contestExpired) {
                           Get.snackbar("Sorry",
-                              "This contest has been expired, try for any other contest",
+                              LocaleKeys.Expired.tr,
                               colorText: Colors.white,
                               backgroundColor: Colors.black);
                           return;
                         }
                         if (homeScreenController.myTickets.length > 0) {
                           Get.defaultDialog(
-                              title: "Use account ticket",
+                              title: LocaleKeys.Useaccountticket.tr,
                               middleText:
-                              "You already have ${homeScreenController.myTickets.length} in your account balance. You can either use them or watch more ads to earn more tickets.",
+                              LocaleKeys.Youalreadyhaveinyouraccountbalance.tr.toString().replaceAll("1", "${homeScreenController.myTickets.length}"),
                               onConfirm: () async {
                                 Get.back();
                                 Ticket ticket =
@@ -321,7 +322,7 @@ class ContestDetailsScreen extends StatelessWidget
                                     .set(ticket.toMap())
                                     .then(
                                       (value) => Get.snackbar("Congrats",
-                                      "1 ticket added for you"),
+                                      LocaleKeys.Congrats1ticketaddedforyou.tr),
                                 );
                               },
                               onCancel: () {
@@ -329,8 +330,8 @@ class ContestDetailsScreen extends StatelessWidget
                                 Get.find<AdsController>(tag: contest_id)
                                     .showRewardAd();
                               },
-                              textCancel: "Watch Ad anyway",
-                              textConfirm: "Use account ticket",
+                              textCancel: LocaleKeys.WatchAdanyway.tr,
+                              textConfirm: LocaleKeys.Useaccountticket.tr,
                               confirmTextColor: Colors.white);
                         } else {
                           Get.find<AdsController>(tag: contest_id).showRewardAd();

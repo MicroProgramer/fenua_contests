@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fenua_contests/controllers/controller_home_screen.dart';
+import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/views/screens/screen_registration.dart';
@@ -107,7 +108,7 @@ class AccountLayout extends StatelessWidget {
                         ListTile(
                           onTap: () {},
                           title: Text(
-                            "Help".toUpperCase(),
+                            LocaleKeys.HELP.tr.toUpperCase(),
                             style: TextStyle(color: appTextColor),
                           ),
                           trailing: Icon(
@@ -122,7 +123,7 @@ class AccountLayout extends StatelessWidget {
                         ListTile(
                           onTap: () {},
                           title: Text(
-                            "Privacy Policy".toUpperCase(),
+                            LocaleKeys.PRIVACYPOLICY.tr.toUpperCase(),
                             style: TextStyle(color: appTextColor),
                           ),
                           trailing: Icon(
@@ -137,7 +138,7 @@ class AccountLayout extends StatelessWidget {
                         ListTile(
                           onTap: () {},
                           title: Text(
-                            "Terms And Conditions".toUpperCase(),
+                            LocaleKeys.TERMSANDCONDITIONS.tr.toUpperCase(),
                             style: TextStyle(color: appTextColor),
                           ),
                           trailing: Icon(
@@ -155,18 +156,18 @@ class AccountLayout extends StatelessWidget {
                             width: Get.width * 0.5,
                             color: Color(0xff920000),
                             child: Text(
-                              "Logout",
+                              LocaleKeys.Logout.tr,
                               style: TextStyle(
                                   color: appTextColor,
                                   fontWeight: FontWeight.bold),
                             ),
                             onPressed: () {
                               Get.defaultDialog(
-                                  title: "Logout",
-                                  middleText: "Are you sure to logout",
+                                  title: LocaleKeys.Logout.tr,
+                                  middleText: LocaleKeys.Areyousuretologout.tr,
                                   confirmTextColor: Colors.white,
-                                  textCancel: "No",
-                                  textConfirm: "Yes",
+                                  textCancel: "No".tr,
+                                  textConfirm: "Yes".tr,
                                   onConfirm: () async {
                                     await FirebaseAuth.instance.signOut();
                                     await logoutSharedUser();

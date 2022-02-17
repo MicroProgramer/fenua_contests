@@ -9,6 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mailto/mailto.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/ticket.dart';
@@ -27,6 +28,8 @@ class AdminHomeScreenController extends GetxController {
   XFile? oldPickedImage;
   var showLoading = false.obs;
   Rx<TextEditingController> organizerName_controller =
+      TextEditingController().obs;
+  Rx<TextEditingController> organizerWeb_controller =
       TextEditingController().obs;
 
   @override
@@ -55,7 +58,6 @@ class AdminHomeScreenController extends GetxController {
     return stream.map((querySnapshot) => querySnapshot.docs.map((doc) {
           return Contest.fromMap(doc.data() as Map<String, dynamic>);
         }).toList());
-
   }
 
   Stream<List<UserInfo>> usersStream() {
@@ -109,8 +111,14 @@ class AdminHomeScreenController extends GetxController {
 
   Future<void> addOrganizer() async {
     String name = organizerName_controller.value.text;
+    String website = organizerWeb_controller.value.text;
     if (name.isEmpty) {
       Get.snackbar("Alert", "Please enter organizer name",
+          colorText: Colors.white, backgroundColor: Colors.black);
+      return;
+    }
+    else if (website.isEmpty) {
+      Get.snackbar("Alert", "Please enter organizer website",
           colorText: Colors.white, backgroundColor: Colors.black);
       return;
     } else if (organizerImage.path == "") {
@@ -123,7 +131,7 @@ class AdminHomeScreenController extends GetxController {
     showLoading.value = true;
     String logo_url = await _uploadOrganizerLogo(id.toString());
     Organizer organizer =
-        Organizer(id: id.toString(), name: name, image_url: logo_url);
+        Organizer(id: id.toString(), name: name, image_url: logo_url, website: organizerWeb_controller.value.text);
 
     organizersRef.doc(id.toString()).set(organizer.toMap()).then((value) {
       showLoading.value = false;
@@ -156,7 +164,7 @@ class AdminHomeScreenController extends GetxController {
       }
     }
 
-    return Organizer(id: "id", name: "name", image_url: "image_url");
+    return Organizer(id: "id", name: "name", image_url: "image_url", website: "");
   }
 
   Contest getContestById(String contest_id) {
@@ -325,18 +333,10 @@ class AdminHomeScreenController extends GetxController {
         scheme: 'mailto',
         path: '${winner.email}',
         query:
-            'subject=Prize from $appName&body=Hi ${winner.first_name} ${winner.last_name}, You have won prize in $contestName and your prize is ................., ');
+            'subject=Prize from $appName&body=Hi ${winner.first_name} ${winner.last_name}. You have won prize in $contestName and your prize is ................., ');
 
     var url = params.toString();
-    if (await canLaunch(url)) {
-      launch(
-        url,
-        forceSafariVC: true,
-        enableJavaScript: true,
-      );
-    } else {
-      throw 'Could not launch $url';
-    }
+    launchUrl(url);
   }
 
   void launchMail(
@@ -350,4 +350,32 @@ class AdminHomeScreenController extends GetxController {
       throw 'Could not launch $url';
     }
   }
+
+  void launchUrl(String url) async {
+    if (await canLaunch(url)) {
+      launch(
+        url,
+        forceSafariVC: true,
+        enableJavaScript: true,
+        forceWebView: true
+      );
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  // launchMailto(String email, String subject, String body) async {
+  //   final mailtoLink = Mailto(
+  //     to: ['$email'],
+  //     bcc: ['$email'],
+  //     subject: '$subject',
+  //     body: '$body',
+  //   );
+  //   // Convert the Mailto instance into a string.
+  //   // Use either Dart's string interpolation
+  //   // or the toString() method.
+  //   var response = await launch('$mailtoLink');
+  //   print(response);
+  // }
+
 }

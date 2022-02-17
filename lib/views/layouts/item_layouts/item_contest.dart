@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/interfaces/home_listener.dart';
-import 'package:fenua_contests/views/screens/screen_contest_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -99,7 +99,7 @@ class ContestItem extends StatelessWidget {
                                   "Starting in", contest.start_timestamp, "")
                               : convertTimeToText(
                                   "", contest.end_timestamp, "left"))
-                          : "Expired",
+                          : LocaleKeys.Expired.tr,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -147,13 +147,16 @@ class ContestItem extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 15),
                         child: ElevatedButton(
                           onPressed: () {
-                            contestItemListener.onItemOpen(contest_id: contest.id);
+                            contestItemListener.onItemOpen(
+                                contest_id: contest.id);
                           },
                           style: ElevatedButton.styleFrom(
                               primary: appPrimaryColor,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10))),
-                          child: Text(contestExpired ? "Open" : "Participate"),
+                          child: Text(contestExpired
+                              ? LocaleKeys.Open.tr
+                              : LocaleKeys.Participate.tr),
                         ),
                       ),
                     ),
@@ -161,18 +164,24 @@ class ContestItem extends StatelessWidget {
                 ),
                 Obx(() {
                   return Positioned(
+                    child: GestureDetector(
+                      onTap: () {
+                        launchUrl(getOrganizerWebsite(contest.organizer_id));
+                      },
                       child: Container(
-                    margin: EdgeInsets.all(10),
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                        color: Colors.white70,
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image: CachedNetworkImageProvider(
-                                getOrganizerImage(contest.organizer_id)))),
-                    height: containerHeight * .3,
-                    width: containerHeight * .3,
-                  ));
+                        margin: EdgeInsets.all(10),
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                            color: Colors.white70,
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: CachedNetworkImageProvider(
+                                    getOrganizerImage(contest.organizer_id)))),
+                        height: containerHeight * .3,
+                        width: containerHeight * .3,
+                      ),
+                    ),
+                  );
                 }),
               ],
             ),
@@ -182,16 +191,24 @@ class ContestItem extends StatelessWidget {
     );
   }
 
-  ContestItem({
-    required this.contest,
-    required this.controller,
-    required this.contestItemListener
-  });
+  ContestItem(
+      {required this.contest,
+      required this.controller,
+      required this.contestItemListener});
 
   String getOrganizerImage(String id) {
     for (var organizer in controller.organizersList) {
       if (organizer.id == id) {
         return organizer.image_url;
+      }
+    }
+    return "";
+  }
+
+  String getOrganizerWebsite(String id) {
+    for (var organizer in controller.organizersList) {
+      if (organizer.id == id) {
+        return organizer.website;
       }
     }
     return "";

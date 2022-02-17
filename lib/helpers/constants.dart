@@ -1,13 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/shared_user.dart';
 
 bool userSignedIn = false;
 late String userMail;
-String appName = "Contests App";
+String appName = LocaleKeys.appName.tr;
 String googleAPIKey = "AIzaSyCp2I8VzxRNn4ls-1bPs1eGJDYDqxcimEM";
 String test_image =
     "https://static.wikia.nocookie.net/mrbean/images/4/4b/Mr_beans_holiday_ver2.jpg/revision/latest?cb=20181130033425";
@@ -213,4 +216,16 @@ String convertTimeToText(String prefix, int timestamp, String suffix) {
   }
 
   return convTime;
+}
+void launchUrl(String url) async {
+  if (await canLaunch(url)) {
+    launch(
+        url,
+        forceSafariVC: true,
+        enableJavaScript: true,
+        forceWebView: true
+    );
+  } else {
+    throw 'Could not launch $url';
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
+import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/models/contest.dart';
 import 'package:fenua_contests/models/user_info.dart';
@@ -123,7 +124,7 @@ class ContestItemAdmin extends StatelessWidget {
                                     "Starting in", contest.start_timestamp, "")
                                 : convertTimeToText(
                                     "", contest.end_timestamp, "left"))
-                            : "Expired",
+                            : LocaleKeys.Expired.tr.toString(),
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],

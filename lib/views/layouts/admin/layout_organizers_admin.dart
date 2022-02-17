@@ -50,6 +50,11 @@ class OrganizersLayoutAdmin extends StatelessWidget {
                             isPasswordField: false,
                             controller: controller.organizerName_controller.value,
                             keyboardType: TextInputType.name),
+                        CustomInputField(
+                            hint: "Organizer Website",
+                            isPasswordField: false,
+                            controller: controller.organizerWeb_controller.value,
+                            keyboardType: TextInputType.name),
                         Text("Logo"),
                         GestureDetector(
                           child: Container(

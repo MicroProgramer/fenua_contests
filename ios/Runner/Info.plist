@@ -13,6 +13,11 @@
         <string>tel</string>
         <string>mailto</string>
     </array>
+    <key>CFBundleLocalizations</key>
+    <array>
+    	<string>english</string>
+    	<string>french</string>
+    </array>
     <key>LSApplicationQueriesSchemes</key>
     <array>
         <string>googlegmail</string>

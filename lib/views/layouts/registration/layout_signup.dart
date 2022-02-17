@@ -57,7 +57,7 @@ class SignupLayout extends StatelessWidget {
             controller: controller.nickName_controller.value,
           ),
           CustomInputField(
-            hint: "Age",
+            hint: "Date of Birth",
             keyboardType: TextInputType.datetime,
             isPasswordField: false,
             controller: controller.age_controller.value,
@@ -137,6 +137,7 @@ class SignupLayout extends StatelessWidget {
                 if (response == "success") {
                   Get.to(HomeScreen());
                 } else {
+
                   showSnackBar(response, context);
                 }
               }),

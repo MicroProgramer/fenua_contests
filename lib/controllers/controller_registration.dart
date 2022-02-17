@@ -153,6 +153,7 @@ class RegistrationController extends GetxController
               image_url: url));
         }
       }).catchError((error) {
+        showLoading.value = false;
         auth_error = error.toString();
         Get.snackbar("Error", error.toString());
       });
