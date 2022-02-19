@@ -101,19 +101,6 @@ class AdsController extends GetxController {
     }
   }
 
-  String getRewardBasedVideoAdUnitId() {
-    // String realIos = 'ca-app-pub-9499686178576729/5415338007';
-    // String realAndroid = 'ca-app-pub-9499686178576729/4249595996';
-    String testIos = 'ca-app-pub-3940256099942544/1712485313';
-    String testAndroid = 'ca-app-pub-3940256099942544/5224354917';
-
-    if (GetPlatform.isIOS) {
-      return testIos;
-    } else if (GetPlatform.isAndroid) {
-      return testAndroid;
-    }
-    return "";
-  }
 
   Future<void> showRewardAd() async {
     if (await rewardAd.isLoaded) {
@@ -133,14 +120,32 @@ class AdsController extends GetxController {
     return "failed";
   }
 
+
+  String getRewardBasedVideoAdUnitId() {
+    String realIos = 'ca-app-pub-9499686178576729/5415338007';
+    String realAndroid = 'ca-app-pub-9499686178576729/4249595996';
+    String testIos = 'ca-app-pub-3940256099942544/1712485313';
+    String testAndroid = 'ca-app-pub-3940256099942544/5224354917';
+
+    if (GetPlatform.isIOS) {
+      return realIos;
+    } else if (GetPlatform.isAndroid) {
+      return realAndroid;
+    }
+    return "";
+  }
+
   String getBannerAdUnitId() {
+    String realIos = "ca-app-pub-9499686178576729/5116234348";
+    String realAndroid = "ca-app-pub-9499686178576729/3243915329";
+
     String testIos = "ca-app-pub-3940256099942544/2934735716";
     String testAndroid = "ca-app-pub-3940256099942544/6300978111";
 
     if (GetPlatform.isIOS) {
-      return testIos;
+      return realIos;
     } else if (GetPlatform.isAndroid) {
-      return testAndroid;
+      return realAndroid;
     }
     return "";
   }
@@ -149,10 +154,13 @@ class AdsController extends GetxController {
     String testIos = "ca-app-pub-3940256099942544/4411468910";
     String testAndroid = "ca-app-pub-3940256099942544/1033173712";
 
+    String realIos = "ca-app-pub-9499686178576729/8863907664";
+    String realAndroid = "ca-app-pub-9499686178576729/2298499318";
+
     if (GetPlatform.isIOS) {
-      return testIos;
+      return realIos;
     } else if (GetPlatform.isAndroid) {
-      return testAndroid;
+      return realAndroid;
     }
     return "";
   }

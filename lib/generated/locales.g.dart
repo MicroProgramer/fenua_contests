@@ -74,6 +74,20 @@ class LocaleKeys {
   static const Useaccountticket = 'Useaccountticket';
   static const No = 'No';
   static const Yes = 'Yes';
+  static const Pleaseselectimage = 'Pleaseselectimage';
+  static const Fillallfields = 'Fillallfields';
+  static const InvalidEmailAddress = 'InvalidEmailAddress';
+  static const PleaseWait = 'PleaseWait';
+  static const CreatingYourAccount = 'CreatingYourAccount';
+  static const Error = 'Error';
+  static const ImageNotUploaded = 'ImageNotUploaded';
+  static const BothFieldsRequired = 'BothFieldsRequired';
+  static const Alert = 'Alert';
+  static const Account = 'Account';
+  static const Sorry = 'Sorry';
+  static const ContestHasBeenExpired = 'ContestHasBeenExpired';
+  static const Invested1ticket = 'Invested1ticket';
+  static const NoWinnersYet = 'NoWinnersYet';
   static const EmailAdress = 'EmailAdress';
 }
 
@@ -131,7 +145,7 @@ class Locales {
     'Endingat': 'Ending at  ',
     'Showparticipantstousers': 'Show participants to users',
     'Add': 'Add',
-    'Areyousuretologout': 'Logout / Are you sure to logout ? No - Yes',
+    'Areyousuretologout': 'Are you sure to logout ?',
     'Congrats1ticketaddedforyou': 'Congrats - 1 ticket added for you',
     'morechance': '1 ticket = 1 more chance',
     'Wallet': 'Wallet',
@@ -145,6 +159,20 @@ class Locales {
     'Useaccountticket': 'Use account ticket',
     'No': 'No',
     'Yes': 'Yes',
+    'Pleaseselectimage': 'Please select your image',
+    'Fillallfields': 'Fill all the fields',
+    'InvalidEmailAddress': 'Invalid Email Address',
+    'PleaseWait': 'Please Wait',
+    'CreatingYourAccount': 'Creating Your account',
+    'Error': 'Error',
+    'ImageNotUploaded': 'Image not uploaded',
+    'BothFieldsRequired': 'Both fields are required',
+    'Alert': 'Alert',
+    'Account': 'Account',
+    'Sorry': 'Sorry',
+    'ContestHasBeenExpired': 'Contest Has Been Expired',
+    'Invested1ticket': 'Invested 1 Ticket',
+    'NoWinnersYet': 'No Winners Yet',
   };
   static const fr_FR = {
     'key': 'value',
@@ -199,8 +227,7 @@ class Locales {
     'Endingat': 'Termine le  ',
     'Showparticipantstousers': 'Montrer les participants aux utilisateurs',
     'Add': 'Ajouter',
-    'Areyousuretologout':
-        'Tu es sr de vouloir te dconnecter ?',
+    'Areyousuretologout': 'Tu es sr de vouloir te dconnecter ?',
     'Congrats1ticketaddedforyou': 'Flicitations ! Tu as gagn 1 ticket',
     'morechance': '1 ticket = 1 chance en plus de gagner',
     'Wallet': 'Porte-monnaie',
@@ -211,8 +238,22 @@ class Locales {
     'Youalreadyhaveinyouraccountbalance':
         'Vous avez dj 1 ticket dans votre porte-monnaie. Vous pouvez soit les utiliser: soit regarder plus de publicits pour gagner plus de tickets.',
     'WatchAdanyway': 'Regarder la publicit quand mme',
-    'Useaccountticket': 'Utiliser le ticket de mon porte-smonnaie',
+    'Useaccountticket': 'Utiliser le ticket de mon porte-monnaie',
     'No': 'Non',
     'Yes': 'Oui',
+    'Pleaseselectimage': 'Veuillez sélectionner votre image',
+    'Fillallfields': 'Remplir tous les champs',
+    'InvalidEmailAddress': 'Adresse e-mail invalide',
+    'PleaseWait': 'Veuillez patienter',
+    'CreatingYourAccount': 'Création de votre compte',
+    'Error': 'Erreur',
+    'ImageNotUploaded': 'Image non téléchargée',
+    'BothFieldsRequired': 'Les deux champs sont obligatoires',
+    'Alert': 'Alerte',
+    'Account': 'Profil',
+    'Sorry': 'Pardon',
+    'ContestHasBeenExpired': 'Le contexte a expiré',
+    'Invested1ticket': 'investi 1 billets',
+    'NoWinnersYet': 'Pas encore de gagnants',
   };
 }

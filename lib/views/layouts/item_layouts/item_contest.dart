@@ -19,7 +19,7 @@ class ContestItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool contestExpired =
-        contest.end_timestamp < DateTime.now().millisecondsSinceEpoch &&
+        contest.end_timestamp < DateTime.now().millisecondsSinceEpoch ||
             contest.winner_id.isNotEmpty;
 
     return Container(

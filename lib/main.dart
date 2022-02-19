@@ -11,13 +11,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (GetPlatform.isWeb) {
     await Firebase.initializeApp(
-      options: FirebaseOptions(
-          apiKey: "AIzaSyA_VZhJ9vvap-1rXthjnw8l8KywcBEPxrA",
-          appId: "1:143330305301:web:dae56d18b929d875ba351c",
-          messagingSenderId: "143330305301",
-          projectId: "fenua-contests",
-          storageBucket: "gs://fenua-contests.appspot.com/"),
-    );
+        options: FirebaseOptions(
+            apiKey: "AIzaSyD-buCds9z5qVw51TRMhEoSVSOtfno9cLE",
+            authDomain: "jeux-concours-fenua.firebaseapp.com",
+            projectId: "jeux-concours-fenua",
+            storageBucket: "jeux-concours-fenua.appspot.com",
+            messagingSenderId: "1012490138928",
+            appId: "1:1012490138928:web:164baf8ec1e79cdc7104f5",
+            measurementId: "G-SHQ69WGSB7"));
   } else {
     await Firebase.initializeApp();
   }

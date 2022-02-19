@@ -8,6 +8,7 @@ import 'package:fenua_contests/views/screens/admin/screen_update_contest.dart';
 import 'package:fenua_contests/widgets/custom_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../../helpers/constants.dart';
@@ -44,21 +45,27 @@ class ContestItemAdmin extends StatelessWidget {
                   left: 2,
                   top: 0,
                   child: InkWell(
-                    onTap: (){
-                      UserInfo winner = controller.getUserById(contest.winner_id);
+                    onTap: () {
+                      UserInfo winner =
+                          controller.getUserById(contest.winner_id);
 
                       Get.defaultDialog(
-                          title: "Email ${winner.first_name + " " + winner.last_name}",
-                          middleText: "Do you want to inform the winner by emailing him?",
+                          title:
+                              "Copy ${winner.first_name}'s email",
+                          content: Text(winner.email, style: normal_h2Style_bold.merge(TextStyle(color: Colors.black)),),
                           textCancel: "Cancel",
-                          textConfirm: "Email",
+                          textConfirm: "Copy Email",
                           confirmTextColor: Colors.white,
-                        onCancel: (){Get.back();},
-                        onConfirm: (){
+                          onCancel: () {
                             Get.back();
-                            controller.emailWinner(winner, contest.name);
-                        }
-                      );
+                          },
+                          onConfirm: () async {
+                            Get.back();
+                            ClipboardData data =
+                                ClipboardData(text: winner.email);
+                            await Clipboard.setData(data);
+                            Get.snackbar("Email Copied", "Winner's email copied to clipboard");
+                          });
                     },
                     child: Container(
                       padding: EdgeInsets.all(10),

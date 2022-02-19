@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fenua_contests/generated/locales.g.dart';
+import 'package:fenua_contests/models/links.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -20,6 +21,7 @@ CollectionReference organizersRef =
 CollectionReference contestsRef =
     FirebaseFirestore.instance.collection("contests");
 CollectionReference usersRef = FirebaseFirestore.instance.collection("users");
+CollectionReference linksRef = FirebaseFirestore.instance.collection("links");
 
 void showSnackBar(String message, BuildContext context) {
   ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -150,6 +152,27 @@ Future<SharedUser> getUserFromSharedPrefs() async {
   );
 }
 
+void saveLinks(Links links) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString("game_rules", links.game_rules);
+  prefs.setString("privacy_policy", links.privacy_policy);
+  prefs.setString("terms_conditions", links.terms_conditions);
+  prefs.setString("help", links.help);
+}
+
+Future<Links> getSavedLinks() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return Links(
+      game_rules: prefs.getString("game_rules") ??
+          "http://jeuxconcoursfenua.polydigit.org/r%C3%A8glement",
+      help: prefs.getString("help") ??
+          "http://jeuxconcoursfenua.polydigit.org/help",
+      privacy_policy: prefs.getString("privacy_policy") ??
+          "http://jeuxconcoursfenua.polydigit.org/policy",
+      terms_conditions: prefs.getString("terms_conditions") ??
+          "http://jeuxconcoursfenua.polydigit.org/condiitons");
+}
+
 Future<void> logoutSharedUser() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString("id", "");
@@ -181,6 +204,7 @@ void showOptionsBottomSheet(
         );
       });
 }
+
 String convertTimeToText(String prefix, int timestamp, String suffix) {
   String convTime = "";
 
@@ -217,14 +241,11 @@ String convertTimeToText(String prefix, int timestamp, String suffix) {
 
   return convTime;
 }
+
 void launchUrl(String url) async {
   if (await canLaunch(url)) {
-    launch(
-        url,
-        forceSafariVC: true,
-        enableJavaScript: true,
-        forceWebView: true
-    );
+    launch(url,
+        forceSafariVC: true, enableJavaScript: true, forceWebView: true);
   } else {
     throw 'Could not launch $url';
   }

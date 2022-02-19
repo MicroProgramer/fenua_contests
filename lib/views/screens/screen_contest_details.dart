@@ -139,6 +139,23 @@ class ContestDetailsScreen extends StatelessWidget
                         ],
                       ),
                     ),
+                    Visibility(
+                      visible: GetPlatform.isIOS,
+                      child: ListTile(
+                        tileColor: appPrimaryColor,
+                        leading: Icon(
+                          Icons.info,
+                          color: Colors.white,
+                        ),
+                        title: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Apple n’est pas un sponsor et n’est en aucun cas en partenariat avec notre application ou notre système de concours, loteries ou tirage au sort.",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Text(
@@ -149,7 +166,11 @@ class ContestDetailsScreen extends StatelessWidget
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          launchUrl(Get.find<AdminHomeScreenController>()
+                              .links!
+                              .game_rules);
+                        },
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                         tileColor: appSecondaryColorDark,
@@ -200,54 +221,54 @@ class ContestDetailsScreen extends StatelessWidget
                                               ],
                                               title: Container(
                                                   child: Text(
-                                                    "${controller.participantsMap.length} ${LocaleKeys.Participants.tr}",
-                                                    style: heading3_style,
-                                                  )),
+                                                "${controller.participantsMap.length} ${LocaleKeys.Participants.tr}",
+                                                style: heading3_style,
+                                              )),
                                               // backgroundColor: appPrimaryColor,
                                               elevation: 2,
                                               automaticallyImplyLeading:
-                                              false, // remove back button in appbar.
+                                                  false, // remove back button in appbar.
                                             ),
                                             controller.participantsMap.length >
-                                                0
+                                                    0
                                                 ? Expanded(
-                                              child: ListView.builder(
-                                                  controller:
-                                                  scrollController,
-                                                  itemCount: controller
-                                                      .participantsMap
-                                                      .length,
-                                                  itemBuilder:
-                                                      (_, index) {
-                                                    String uid = controller
-                                                        .participantsMap
-                                                        .keys
-                                                        .elementAt(index)
-                                                        .trim();
-                                                    model.UserInfo user =
-                                                    controller
-                                                        .getUserById(
-                                                        uid);
-                                                    return ParticipantPublicItem(
-                                                      tickets: controller
-                                                          .participantsMap[
-                                                      uid] ==
-                                                          null
-                                                          ? 0
-                                                          : controller
-                                                          .participantsMap[
-                                                      uid]!
-                                                          .length,
-                                                      user: user,
-                                                      winner: user.id ==
-                                                          contest
-                                                              .winner_id,
-                                                    );
-                                                  }),
-                                            )
+                                                    child: ListView.builder(
+                                                        controller:
+                                                            scrollController,
+                                                        itemCount: controller
+                                                            .participantsMap
+                                                            .length,
+                                                        itemBuilder:
+                                                            (_, index) {
+                                                          String uid = controller
+                                                              .participantsMap
+                                                              .keys
+                                                              .elementAt(index)
+                                                              .trim();
+                                                          model.UserInfo user =
+                                                              controller
+                                                                  .getUserById(
+                                                                      uid);
+                                                          return ParticipantPublicItem(
+                                                            tickets: controller
+                                                                            .participantsMap[
+                                                                        uid] ==
+                                                                    null
+                                                                ? 0
+                                                                : controller
+                                                                    .participantsMap[
+                                                                        uid]!
+                                                                    .length,
+                                                            user: user,
+                                                            winner: user.id ==
+                                                                contest
+                                                                    .winner_id,
+                                                          );
+                                                        }),
+                                                  )
                                                 : NotFound(
-                                                color: Colors.white70,
-                                                message: "No Participants")
+                                                    color: Colors.white70,
+                                                    message: "No Participants")
                                           ],
                                         ),
                                       );
@@ -283,7 +304,8 @@ class ContestDetailsScreen extends StatelessWidget
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "You invested ${controller.participantsMap[FirebaseAuth.instance.currentUser!.uid] == null ? "0" : controller.participantsMap[FirebaseAuth.instance.currentUser!.uid]!.length} tickets",
+                        LocaleKeys.Youinvestedtickets.tr.replaceAll("1",
+                            "${controller.participantsMap[FirebaseAuth.instance.currentUser!.uid] == null ? "0" : controller.participantsMap[FirebaseAuth.instance.currentUser!.uid]!.length}"),
                         style: normal_h3Style_bold
                             .merge(TextStyle(color: Colors.black)),
                       ),
@@ -298,8 +320,8 @@ class ContestDetailsScreen extends StatelessWidget
                       ),
                       onPressed: () {
                         if (contestExpired) {
-                          Get.snackbar("Sorry",
-                              LocaleKeys.Expired.tr,
+                          Get.snackbar(LocaleKeys.Sorry.tr,
+                              LocaleKeys.ContestHasBeenExpired.tr,
                               colorText: Colors.white,
                               backgroundColor: Colors.black);
                           return;
@@ -307,12 +329,15 @@ class ContestDetailsScreen extends StatelessWidget
                         if (homeScreenController.myTickets.length > 0) {
                           Get.defaultDialog(
                               title: LocaleKeys.Useaccountticket.tr,
-                              middleText:
-                              LocaleKeys.Youalreadyhaveinyouraccountbalance.tr.toString().replaceAll("1", "${homeScreenController.myTickets.length}"),
+                              middleText: LocaleKeys
+                                  .Youalreadyhaveinyouraccountbalance.tr
+                                  .toString()
+                                  .replaceAll("1",
+                                      "${homeScreenController.myTickets.length}"),
                               onConfirm: () async {
                                 Get.back();
                                 Ticket ticket =
-                                homeScreenController.myTickets.value[0];
+                                    homeScreenController.myTickets.value[0];
                                 await homeScreenController
                                     .deleteTicket(ticket.id);
                                 contestsRef
@@ -321,9 +346,11 @@ class ContestDetailsScreen extends StatelessWidget
                                     .doc("${ticket.id}")
                                     .set(ticket.toMap())
                                     .then(
-                                      (value) => Get.snackbar("Congrats",
-                                      LocaleKeys.Congrats1ticketaddedforyou.tr),
-                                );
+                                      (value) => Get.snackbar(
+                                          "Congrats",
+                                          LocaleKeys
+                                              .Congrats1ticketaddedforyou.tr),
+                                    );
                               },
                               onCancel: () {
                                 Get.back();
@@ -334,7 +361,8 @@ class ContestDetailsScreen extends StatelessWidget
                               textConfirm: LocaleKeys.Useaccountticket.tr,
                               confirmTextColor: Colors.white);
                         } else {
-                          Get.find<AdsController>(tag: contest_id).showRewardAd();
+                          Get.find<AdsController>(tag: contest_id)
+                              .showRewardAd();
                         }
                       },
                     ),
@@ -345,7 +373,7 @@ class ContestDetailsScreen extends StatelessWidget
             Expanded(
               flex: 1,
               child: Container(
-                width: Get.width,
+                  width: Get.width,
                   color: appSecondaryColor,
                   child: adsController.bannerAd!),
             )

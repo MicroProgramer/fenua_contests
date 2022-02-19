@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/models/shared_user.dart';
 import 'package:fenua_contests/models/user_info.dart' as model;
 import 'package:fenua_contests/views/screens/admin/screen_admin_home.dart';
@@ -114,7 +115,7 @@ class RegistrationController extends GetxController
     bool checked2 = switches[2];
 
     if (oldPickedImage == null) {
-      return "Please select your image";
+      return LocaleKeys.Pleaseselectimage.tr;
     } else if (email.isEmpty ||
         password.isEmpty ||
         phone.isEmpty ||
@@ -122,20 +123,20 @@ class RegistrationController extends GetxController
         last_name.isEmpty ||
         age.isEmpty ||
         city.isEmpty) {
-      return "Fill all fields";
+      return LocaleKeys.Fillallfields.tr;
     } else if (!email.isEmail) {
-      return "Invalid Email Address";
+      return LocaleKeys.InvalidEmailAddress.tr;
     } else {
       showLoading.value = true;
       String auth_error = '';
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((auth) async {
-        Get.snackbar("Please wait", "Creating your account");
+        Get.snackbar(LocaleKeys.PleaseWait.tr, LocaleKeys.CreatingYourAccount.tr);
         if (auth != null) {
           String url = await _uploadImage(auth.user!.uid);
           if (url.isEmpty) {
-            Get.snackbar("Error", "Image not uploaded");
+            Get.snackbar(LocaleKeys.Error.tr, LocaleKeys.ImageNotUploaded.tr);
           }
           auth_error = await _setDatabase(model.UserInfo(
               first_name: first_name,
@@ -155,7 +156,7 @@ class RegistrationController extends GetxController
       }).catchError((error) {
         showLoading.value = false;
         auth_error = error.toString();
-        Get.snackbar("Error", error.toString());
+        Get.snackbar(LocaleKeys.Error.tr, error.toString());
       });
 
       return auth_error;
@@ -167,7 +168,7 @@ class RegistrationController extends GetxController
     String password = password_controller.value.text;
 
     if (email.isEmpty || password.isEmpty) {
-      return "Both fields are required";
+      return LocaleKeys.BothFieldsRequired.tr;
     } else if (email.toLowerCase() == _adminEmail ||
         password.toLowerCase() == _adminPass) {
       saveSharedPref(SharedUser(id: "admin", name: "Admin", userType: "admin"));
@@ -192,7 +193,7 @@ class RegistrationController extends GetxController
   }
 
   Future<String> _uploadImage(String uid) async {
-    Get.snackbar("Uploading Image", "Uploading your image to database");
+    // Get.snackbar("Uploading Image", "Uploading your image to database");
     Reference storageReference =
         FirebaseStorage.instance.ref().child("profile_images/${uid}.png");
     final UploadTask uploadTask =

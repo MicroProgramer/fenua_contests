@@ -1,4 +1,5 @@
 import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
+import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/models/contest.dart';
 import 'package:fenua_contests/views/layouts/item_layouts/item_winner.dart';
 import 'package:fenua_contests/widgets/not_found.dart';
@@ -25,7 +26,7 @@ class WinnersLayout extends StatelessWidget {
                 );
               })
           : NotFound(
-              message: "No winners yet",
+              message: LocaleKeys.NoWinnersYet.tr,
               color: Colors.black87,
             ),
     );

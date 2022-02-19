@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>143330305301-g58k5onnhl5oj7sdp1bbvbnunvm22ra6.apps.googleusercontent.com</string>
+	<string>1012490138928-016pbdggj66vi58hj033s6s3t3uftf2v.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.143330305301-g58k5onnhl5oj7sdp1bbvbnunvm22ra6</string>
+	<string>com.googleusercontent.apps.1012490138928-016pbdggj66vi58hj033s6s3t3uftf2v</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDyobJJja0ypjCNiqKzeVvETCN0cDe_IFA</string>
+	<string>AIzaSyCD6nGCDkl4ko8Lds0pyCFqqZIwfK_XzTE</string>
 	<key>GCM_SENDER_ID</key>
-	<string>143330305301</string>
+	<string>1012490138928</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.microprogramers.juex.concours.fenuaContests</string>
 	<key>PROJECT_ID</key>
-	<string>fenua-contests</string>
+	<string>jeux-concours-fenua</string>
 	<key>STORAGE_BUCKET</key>
-	<string>fenua-contests.appspot.com</string>
+	<string>jeux-concours-fenua.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:143330305301:ios:46ca8476a3488cf6ba351c</string>
+	<string>1:1012490138928:ios:e787f09fa299908d7104f5</string>
 </dict>
 </plist>

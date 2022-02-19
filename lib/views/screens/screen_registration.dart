@@ -1,4 +1,5 @@
 import 'package:fenua_contests/controllers/controller_registration.dart';
+import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/views/layouts/registration/layout_login.dart';
 import 'package:fenua_contests/views/layouts/registration/layout_signup.dart';
@@ -49,7 +50,7 @@ class RegistrationScreen extends StatelessWidget {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: CustomTabBarView(
                           tabs_length: 2,
-                          tabs_titles_list: ["Sign In", "Sign Up"],
+                          tabs_titles_list: [LocaleKeys.SignIn.tr, LocaleKeys.SignUp.tr],
                           tabController:
                               Get.find<RegistrationController>().tabController,
                           tab_children_layouts: [LoginLayout(), SignupLayout()],

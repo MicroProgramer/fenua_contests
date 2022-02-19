@@ -5,6 +5,7 @@ import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/views/layouts/item_layouts/item_organizer.dart';
 import 'package:fenua_contests/widgets/custom_button.dart';
 import 'package:fenua_contests/widgets/custom_input_field.dart';
+import 'package:fenua_contests/widgets/not_found.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -29,10 +30,7 @@ class OrganizersLayoutAdmin extends StatelessWidget {
                 })
             : Container(
                 margin: EdgeInsets.only(top: 100),
-                child: Text(
-                  "No Data",
-                  style: TextStyle(fontSize: 30, color: Colors.black),
-                ),
+                child: NotFound(message: "No Data", color: Colors.black87,),
               );
       }),
       floatingActionButton: FloatingActionButton(

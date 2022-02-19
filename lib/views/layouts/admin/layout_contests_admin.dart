@@ -18,6 +18,11 @@ class ContestsAdminLayout extends StatelessWidget {
         backgroundColor: appSecondaryColor,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
+            if (controller.organizersList.length < 1) {
+              Get.snackbar("Alert", "Must Add 1 organizer",
+                  colorText: Colors.white, backgroundColor: Colors.black);
+              return;
+            }
             Get.to(AddNewContestScreen());
           },
           child: Icon(Icons.add),

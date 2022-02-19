@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
 import 'package:fenua_contests/controllers/controller_home_screen.dart';
 import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/helpers/constants.dart';
@@ -106,7 +107,9 @@ class AccountLayout extends StatelessWidget {
                     child: Column(
                       children: [
                         ListTile(
-                          onTap: () {},
+                          onTap: () {
+                            launchUrl(Get.find<AdminHomeScreenController>().links!.help);
+                          },
                           title: Text(
                             LocaleKeys.HELP.tr.toUpperCase(),
                             style: TextStyle(color: appTextColor),
@@ -121,7 +124,9 @@ class AccountLayout extends StatelessWidget {
                           thickness: 1,
                         ),
                         ListTile(
-                          onTap: () {},
+                          onTap: () {
+                            launchUrl(Get.find<AdminHomeScreenController>().links!.privacy_policy);
+                          },
                           title: Text(
                             LocaleKeys.PRIVACYPOLICY.tr.toUpperCase(),
                             style: TextStyle(color: appTextColor),
@@ -136,7 +141,9 @@ class AccountLayout extends StatelessWidget {
                           thickness: 1,
                         ),
                         ListTile(
-                          onTap: () {},
+                          onTap: () {
+                            launchUrl(Get.find<AdminHomeScreenController>().links!.terms_conditions);
+                          },
                           title: Text(
                             LocaleKeys.TERMSANDCONDITIONS.tr.toUpperCase(),
                             style: TextStyle(color: appTextColor),

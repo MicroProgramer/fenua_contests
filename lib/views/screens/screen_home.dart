@@ -1,4 +1,5 @@
 import 'package:fenua_contests/controllers/controller_ads.dart';
+import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/interfaces/ads_listener.dart';
 import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/helpers/styles.dart';
@@ -63,18 +64,18 @@ class HomeScreen extends StatelessWidget {
         initState: (_) {},
         builder: (logic) {
           return BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
+            items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.card_giftcard_outlined),
-                label: 'Contest',
+                label: LocaleKeys.Contest.tr,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.flag_outlined),
-                label: 'Winners',
+                label: LocaleKeys.Winners.tr,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.account_box_rounded),
-                label: 'Account',
+                label: LocaleKeys.Account.tr,
               ),
             ],
             currentIndex: controller.selectedPage.value,

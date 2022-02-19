@@ -33,6 +33,27 @@ class UpdateContestScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: appSecondaryColor,
       appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                Get.defaultDialog(
+                    title: "Delete Contest",
+                    middleText: "Are you sure to delete the contest",
+                    textConfirm: "Delete",
+                    confirmTextColor: Colors.white,
+                    textCancel: "No",
+                    onCancel: () {
+                      Get.back();
+                      Get.back();
+                    },
+                    onConfirm: () async {
+                      Get.back();
+                      await contestsRef.doc(contest.id).delete();
+                      Get.back();
+                    });
+              },
+              icon: Icon(Icons.delete))
+        ],
         backgroundColor: appSecondaryColor,
         title: Text(contest.name),
       ),

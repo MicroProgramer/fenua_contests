@@ -6,6 +6,7 @@ import 'package:fenua_contests/widgets/custom_input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../generated/locales.g.dart';
 import '../../screens/admin/screen_admin_home.dart';
 
 class LoginLayout extends StatelessWidget {
@@ -20,13 +21,13 @@ class LoginLayout extends StatelessWidget {
         child: Column(
           children: [
             CustomInputField(
-              hint: "Email Address",
+              hint: LocaleKeys.EmailAdress.tr,
               isPasswordField: false,
               controller: controller.email_controller.value,
               keyboardType: TextInputType.emailAddress,
             ),
             CustomInputField(
-              hint: "Password",
+              hint: LocaleKeys.Password.tr,
               isPasswordField: true,
               controller: controller.password_controller.value,
               keyboardType: TextInputType.visiblePassword,
@@ -34,7 +35,7 @@ class LoginLayout extends StatelessWidget {
             CustomButton(
               color: appPrimaryColor,
               child: Text(
-                "Login",
+                LocaleKeys.Login.tr,
                 style:
                     TextStyle(color: appTextColor, fontWeight: FontWeight.bold),
               ),
@@ -46,7 +47,7 @@ class LoginLayout extends StatelessWidget {
                 } else if (status == "admin") {
                   Get.off(AdminHomeScreen());
                 } else {
-                  Get.snackbar("Alert", status,
+                  Get.snackbar(LocaleKeys.Alert.tr, status,
                       backgroundColor: Colors.black, colorText: Colors.white);
                 }
               },
@@ -58,12 +59,12 @@ class LoginLayout extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Don't have an account? ",
+                    LocaleKeys.Donthaveanaccount.tr + " ",
                     style: TextStyle(color: appTextColor),
                   ),
                   GestureDetector(
                     child: Text(
-                      "Sign Up",
+                      LocaleKeys.SignUp.tr,
                       style: TextStyle(color: appPrimaryColor),
                     ),
                     onTap: () {

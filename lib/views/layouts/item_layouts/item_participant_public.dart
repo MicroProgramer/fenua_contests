@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/models/user_info.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,7 @@ class ParticipantPublicItem extends StatelessWidget {
               style: TextStyle(color: appPrimaryColor, fontWeight: FontWeight.bold),
             ),
           ),
-          subtitle: Text("Invested $tickets tickets"),
+          subtitle: Text(LocaleKeys.Invested1ticket.tr.replaceAll("1", "$tickets")),
         ),
       ),
     );

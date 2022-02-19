@@ -1,5 +1,6 @@
 import 'package:fenua_contests/controllers/controller_ads.dart';
 import 'package:fenua_contests/controllers/controller_home_screen.dart';
+import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/interfaces/ads_listener.dart';
 import 'package:fenua_contests/helpers/styles.dart';
@@ -68,7 +69,7 @@ class WalletScreen extends StatelessWidget implements RewardListener, Interstiti
               Padding(
                 padding: const EdgeInsets.only(top: 50),
                 child: Text(
-                  "1 ticket = 1 more chance",
+                  LocaleKeys.morechance.tr,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -84,17 +85,17 @@ class WalletScreen extends StatelessWidget implements RewardListener, Interstiti
               TextButton(
                 onPressed: () {
                   Get.defaultDialog(
-                      title: "Win more tickets",
+                      title: LocaleKeys.Winmoretickets.tr,
                       middleText:
-                          "Click the button below to watch video ad and earn more tickets",
+                          LocaleKeys.Clickthebuttonbelowtowatchvideoadandearnmoretickets.tr,
                       confirmTextColor: Colors.white,
-                      textConfirm: "Earn 1 ticket",
+                      textConfirm: LocaleKeys.Earnticket.tr,
                       onConfirm: () {
                         Get.back();
                         adsController.showRewardAd();
                       });
                 },
-                child: Text("Win more tickets",
+                child: Text(LocaleKeys.Winmoretickets.tr,
                     style: Theme.of(context).textTheme.headlineSmall!.merge(
                         TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold))),
@@ -118,7 +119,7 @@ class WalletScreen extends StatelessWidget implements RewardListener, Interstiti
             Ticket(id: timestamp.toString(), timestamp: timestamp, user_id: uid)
                 .toMap())
         .then((value) {
-      Get.snackbar("Congrats", "You earned 1 ticket");
+      Get.snackbar("Congrats", LocaleKeys.Congrats1ticketaddedforyou.tr);
     }).catchError((error) {
       Get.snackbar("Error", error.toString());
     });

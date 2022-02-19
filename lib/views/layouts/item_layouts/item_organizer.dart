@@ -14,6 +14,8 @@ class OrganizerItem extends StatelessWidget {
 
   String newName = "";
 
+  String newWebsite = "";
+
   @override
   Widget build(BuildContext context) {
     AdminHomeScreenController controller =
@@ -87,6 +89,70 @@ class OrganizerItem extends StatelessWidget {
                                                   .then((value) => Get.snackbar(
                                                       "Success",
                                                       "Organizer name updated"))
+                                                  .catchError((error) {
+                                                    Get.snackbar("Error",
+                                                        error.toString());
+                                                  });
+                                            }
+                                          }),
+                                    ),
+                                    Expanded(
+                                      child: CustomButton(
+                                          color: appPrimaryColor,
+                                          child: Text(
+                                            "Cancel",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          ),
+                                          onPressed: () {
+                                            Get.back();
+                                          }),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ));
+                      },
+                    ),
+                    ListTile(
+                      title: Text("Edit Website"),
+                      leading: Icon(Icons.drive_file_rename_outline),
+                      onTap: () {
+                        Get.back();
+                        Get.defaultDialog(
+                            title: "Update Website",
+                            content: Column(
+                              children: [
+                                CustomInputField(
+                                    hint: "Website",
+                                    onChange: (value) {
+                                      newWebsite = value.toString();
+                                    },
+                                    isPasswordField: false,
+                                    text: organizer.website,
+                                    keyboardType: TextInputType.name),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: CustomButton(
+                                          color: appPrimaryColor,
+                                          child: Text(
+                                            "Update",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          ),
+                                          onPressed: () {
+                                            Get.back();
+                                            if (!newWebsite.isEmpty) {
+
+                                              organizersRef
+                                                  .doc(organizer.id)
+                                                  .update({"website": newWebsite})
+                                                  .then((value) => Get.snackbar(
+                                                      "Success",
+                                                      "Organizer website updated"))
                                                   .catchError((error) {
                                                     Get.snackbar("Error",
                                                         error.toString());

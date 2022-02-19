@@ -1,6 +1,7 @@
 import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
 import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/views/layouts/admin/layout_contests_admin.dart';
+import 'package:fenua_contests/views/layouts/admin/layout_links.dart';
 import 'package:fenua_contests/views/layouts/admin/layout_organizers_admin.dart';
 import 'package:fenua_contests/views/layouts/admin/layout_users_admin.dart';
 import 'package:fenua_contests/views/screens/screen_registration.dart';
@@ -26,7 +27,8 @@ class AdminHomeScreen extends StatelessWidget {
     List<Widget> _widgetOptions = <Widget>[
       ContestsAdminLayout(),
       UsersLayoutAdmin(),
-      OrganizersLayoutAdmin()
+      OrganizersLayoutAdmin(),
+      LinksLayout(),
     ];
 
     return Scaffold(
@@ -74,11 +76,16 @@ class AdminHomeScreen extends StatelessWidget {
                 icon: Icon(Icons.supervisor_account),
                 label: 'Organizers',
               ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.link),
+                label: 'Links',
+              ),
             ],
             currentIndex: controller.selectedPage.value,
             selectedItemColor: Colors.black,
             unselectedItemColor: appTextColor,
             backgroundColor: appSecondaryColor,
+              type: BottomNavigationBarType.fixed,
             onTap: (index) {
               controller.changePageIndex(index);
             },

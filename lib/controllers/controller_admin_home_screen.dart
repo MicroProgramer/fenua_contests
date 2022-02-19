@@ -2,14 +2,15 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/models/contest.dart';
+import 'package:fenua_contests/models/links.dart';
 import 'package:fenua_contests/models/organizer.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mailto/mailto.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/ticket.dart';
@@ -22,6 +23,8 @@ class AdminHomeScreenController extends GetxController {
   final usersList = List<UserInfo>.empty(growable: true).obs;
   final ticketsList = List<Ticket>.empty(growable: true).obs;
   final participantsMap = Map<String, List<Ticket>>().obs;
+  Links? links;
+  Links? editLinks;
 
   XFile organizerImage = XFile("");
   ImagePicker _picker = ImagePicker();
@@ -31,12 +34,20 @@ class AdminHomeScreenController extends GetxController {
       TextEditingController().obs;
   Rx<TextEditingController> organizerWeb_controller =
       TextEditingController().obs;
+  Rx<TextEditingController> game_rules_controller = TextEditingController().obs;
+  Rx<TextEditingController> privacy_policy_controller =
+      TextEditingController().obs;
+  Rx<TextEditingController> terms_controller = TextEditingController().obs;
+  Rx<TextEditingController> help_controller = TextEditingController().obs;
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     organizersList.bindStream(organizersStream());
     contestsList.bindStream(contestsStream());
     usersList.bindStream(usersStream());
+    getLinks();
+    links = await getSavedLinks();
+    editLinks = await getSavedLinks();
     super.onInit();
   }
 
@@ -116,8 +127,7 @@ class AdminHomeScreenController extends GetxController {
       Get.snackbar("Alert", "Please enter organizer name",
           colorText: Colors.white, backgroundColor: Colors.black);
       return;
-    }
-    else if (website.isEmpty) {
+    } else if (website.isEmpty) {
       Get.snackbar("Alert", "Please enter organizer website",
           colorText: Colors.white, backgroundColor: Colors.black);
       return;
@@ -130,8 +140,11 @@ class AdminHomeScreenController extends GetxController {
     int id = DateTime.now().millisecondsSinceEpoch;
     showLoading.value = true;
     String logo_url = await _uploadOrganizerLogo(id.toString());
-    Organizer organizer =
-        Organizer(id: id.toString(), name: name, image_url: logo_url, website: organizerWeb_controller.value.text);
+    Organizer organizer = Organizer(
+        id: id.toString(),
+        name: name,
+        image_url: logo_url,
+        website: organizerWeb_controller.value.text);
 
     organizersRef.doc(id.toString()).set(organizer.toMap()).then((value) {
       showLoading.value = false;
@@ -164,7 +177,8 @@ class AdminHomeScreenController extends GetxController {
       }
     }
 
-    return Organizer(id: "id", name: "name", image_url: "image_url", website: "");
+    return Organizer(
+        id: "id", name: "name", image_url: "image_url", website: "");
   }
 
   Contest getContestById(String contest_id) {
@@ -243,28 +257,30 @@ class AdminHomeScreenController extends GetxController {
     Get.defaultDialog(
         title: "Delete Organizer",
         content: RichText(
-            text: TextSpan(
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                ),
-                children: [
-              WidgetSpan(
+          text: TextSpan(
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+              ),
+              children: [
+                WidgetSpan(
+                    child: Center(
+                  child: Text(
+                    "Are you sure to delete organizer ",
+                    textAlign: TextAlign.center,
+                  ),
+                )),
+                WidgetSpan(
                   child: Center(
-                child: Text(
-                  "Are you sure to delete organizer ",
-                  textAlign: TextAlign.center,
+                    child: Text(
+                      "\"$name\"",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ),
-              )),
-              WidgetSpan(
-                  child: Center(
-                child: Text(
-                  "\"$name\"",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              )),
-            ])),
+              ]),
+        ),
         textConfirm: "Delete",
         confirmTextColor: Colors.white,
         onConfirm: () async {
@@ -353,12 +369,8 @@ class AdminHomeScreenController extends GetxController {
 
   void launchUrl(String url) async {
     if (await canLaunch(url)) {
-      launch(
-        url,
-        forceSafariVC: true,
-        enableJavaScript: true,
-        forceWebView: true
-      );
+      launch(url,
+          forceSafariVC: true, enableJavaScript: true, forceWebView: true);
     } else {
       throw 'Could not launch $url';
     }
@@ -378,4 +390,42 @@ class AdminHomeScreenController extends GetxController {
   //   print(response);
   // }
 
+  void getLinks() {
+    linksRef.snapshots().listen((querySnapshot) {
+      querySnapshot.docChanges.forEach((change) {
+        links = Links.fromMap(change.doc.data() as Map<String, dynamic>);
+        saveLinks(links!);
+        update();
+      });
+    });
+  }
+
+  void updateLinks() async {
+    String help = help_controller.value.text;
+    String game_rules = game_rules_controller.value.text;
+    String terms = terms_controller.value.text;
+    String policy = privacy_policy_controller.value.text;
+    if (help.isEmpty || game_rules.isEmpty || terms.isEmpty || policy.isEmpty) {
+      Get.snackbar(LocaleKeys.Error.tr, LocaleKeys.Fillallfields.tr);
+      return;
+    }
+    showLoading.value = true;
+    Links newLinks = Links(
+        game_rules: game_rules,
+        help: help,
+        privacy_policy: policy,
+        terms_conditions: terms);
+    await linksRef
+        .doc("all")
+        .set(newLinks.toMap())
+        .then((value) => () {
+              showLoading.value = false;
+              Get.snackbar("Success", "Links updated for all users");
+            })
+        .catchError((onError) {
+      Get.snackbar(LocaleKeys.Error.tr, onError.toString());
+      showLoading.value = false;
+    });
+    showLoading.value = false;
+  }
 }

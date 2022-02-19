@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:fenua_contests/controllers/controller_registration.dart';
+import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/views/screens/screen_home.dart';
@@ -39,55 +40,55 @@ class SignupLayout extends StatelessWidget {
             },
           ),
           CustomInputField(
-            hint: "First Name",
+            hint: LocaleKeys.FirstName.tr,
             isPasswordField: false,
             keyboardType: TextInputType.name,
             controller: controller.firstName_controller.value,
           ),
           CustomInputField(
-            hint: "Last Name",
+            hint: LocaleKeys.LastName.tr,
             keyboardType: TextInputType.name,
             isPasswordField: false,
             controller: controller.lastName_controller.value,
           ),
           CustomInputField(
-            hint: "Nickname",
+            hint: LocaleKeys.Nickname.tr,
             keyboardType: TextInputType.name,
             isPasswordField: false,
             controller: controller.nickName_controller.value,
           ),
           CustomInputField(
-            hint: "Date of Birth",
+            hint: LocaleKeys.DateofBirth.tr,
             keyboardType: TextInputType.datetime,
             isPasswordField: false,
             controller: controller.age_controller.value,
           ),
           CustomInputField(
-            hint: "City",
+            hint: LocaleKeys.City.tr,
             keyboardType: TextInputType.name,
             isPasswordField: false,
             controller: controller.city_controller.value,
           ),
           CustomInputField(
-            hint: "Phone Number",
+            hint: LocaleKeys.PhoneNumber.tr,
             keyboardType: TextInputType.phone,
             isPasswordField: false,
             controller: controller.phone_controller.value,
           ),
           CustomInputField(
-            hint: "Email",
+            hint: LocaleKeys.Email.tr,
             keyboardType: TextInputType.emailAddress,
             isPasswordField: false,
             controller: controller.email_controller.value,
           ),
           CustomInputField(
-            hint: "Password",
+            hint: LocaleKeys.Password.tr,
             keyboardType: TextInputType.visiblePassword,
             isPasswordField: true,
             controller: controller.password_controller.value,
           ),
           CustomInputField(
-            hint: "Confirm Password",
+            hint: LocaleKeys.ConfirmPassword.tr,
             keyboardType: TextInputType.visiblePassword,
             isPasswordField: true,
             controller: controller.confirm_password_controller.value,
@@ -101,8 +102,7 @@ class SignupLayout extends StatelessWidget {
                   onChanged: (value) {
                     controller.updateSwitch(0, value);
                   },
-                  title: Text(
-                      "I agree to receive commercial offers from FENUA CONTESTS - 100% FREE and its partners"),
+                  title: Text(LocaleKeys.term1.tr),
                 ),
                 SwitchListTile.adaptive(
                   activeColor: appPrimaryColor,
@@ -110,8 +110,7 @@ class SignupLayout extends StatelessWidget {
                   onChanged: (value) {
                     controller.updateSwitch(1, value);
                   },
-                  title: Text(
-                      "I acknowledge having read and accepted the general conditions of use of the application"),
+                  title: Text(LocaleKeys.term2.tr),
                 ),
                 SwitchListTile.adaptive(
                   activeColor: appPrimaryColor,
@@ -119,8 +118,7 @@ class SignupLayout extends StatelessWidget {
                   onChanged: (value) {
                     controller.updateSwitch(2, value);
                   },
-                  title: Text(
-                      "I certify that I am over 18 years of age or a authorization of my legal representative"),
+                  title: Text(LocaleKeys.term3.tr),
                 ),
               ],
             );
@@ -128,7 +126,7 @@ class SignupLayout extends StatelessWidget {
           CustomButton(
               color: appPrimaryColor,
               child: Text(
-                "Sign up",
+                LocaleKeys.SignUp.tr,
                 style:
                     TextStyle(color: appTextColor, fontWeight: FontWeight.bold),
               ),
@@ -137,7 +135,6 @@ class SignupLayout extends StatelessWidget {
                 if (response == "success") {
                   Get.to(HomeScreen());
                 } else {
-
                   showSnackBar(response, context);
                 }
               }),
@@ -148,12 +145,12 @@ class SignupLayout extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Already have an account? ",
+                  LocaleKeys.Alreadyhaveanaccount.tr + " ",
                   style: TextStyle(color: appTextColor),
                 ),
                 GestureDetector(
                   child: Text(
-                    "Sign In",
+                    LocaleKeys.SignIn.tr,
                     style: TextStyle(color: appPrimaryColor),
                   ),
                   onTap: () {
