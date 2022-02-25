@@ -21,7 +21,7 @@ class LoginLayout extends StatelessWidget {
         child: Column(
           children: [
             CustomInputField(
-              hint: LocaleKeys.EmailAdress.tr,
+              hint: LocaleKeys.Email.tr,
               isPasswordField: false,
               controller: controller.email_controller.value,
               keyboardType: TextInputType.emailAddress,

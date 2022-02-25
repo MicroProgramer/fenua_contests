@@ -1,5 +1,6 @@
 import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
 import 'package:fenua_contests/controllers/controller_ads.dart';
+import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/interfaces/ads_listener.dart';
 import 'package:fenua_contests/interfaces/home_listener.dart';
 import 'package:fenua_contests/views/screens/screen_contest_details.dart';
@@ -21,20 +22,20 @@ class ContestsLayout extends StatelessWidget
     Get.put(AdsController(interstitialListener: this, rewardListener: this), tag: "homescreen").loadInterstitialAd();
 
     return Obx(() {
-      return controller.contestsList.length > 0
+      return controller.liveContestsList.length > 0
           ? ListView.builder(
-              itemCount: controller.contestsList.length,
+              itemCount: controller.liveContestsList.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ContestItem(
                     controller: controller,
-                    contest: controller.contestsList[index],
+                    contest: controller.liveContestsList[index],
                     contestItemListener: this,
                   ),
                 );
               })
-          : NotFound(color: Colors.black87, message: "No Contests");
+          : NotFound(color: Colors.black87, message: LocaleKeys.NoContests.tr);
     });
   }
 
@@ -61,7 +62,6 @@ class ContestsLayout extends StatelessWidget
 
   @override
   void onInterstitialFailed() {
-    openDetailsScreen();
   }
 
   @override

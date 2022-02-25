@@ -1,6 +1,7 @@
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:fenua_contests/views/screens/screen_registration.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,8 +24,13 @@ void main() async {
     await Firebase.initializeApp();
   }
   await Admob.initialize();
-
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
+}
+
+
+Future<void> splashInitialization() async {
+  await Future.delayed(Duration(seconds: 3));
 }
 
 class MyApp extends StatelessWidget {
@@ -35,14 +41,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Fenua Contests',
+      title: "JEUX CONCOURS FENUA",
       home: RegistrationScreen(),
       theme: ThemeData(
         fontFamily: 'Metropolis',
         primarySwatch: appPrimaryColor,
       ),
-      locale: Locale('fr', 'FR'),
+      locale: Locale('french', 'FR'),
       translationsKeys: AppTranslation.translations,
     );
   }
+}
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+
+  print("Handling a background message: ${message}");
 }

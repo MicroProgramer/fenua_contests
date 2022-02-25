@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/helpers/constants.dart';
+import 'package:fenua_contests/helpers/fcm.dart';
 import 'package:fenua_contests/models/contest.dart';
 import 'package:fenua_contests/models/links.dart';
 import 'package:fenua_contests/models/organizer.dart';
@@ -20,8 +21,10 @@ class AdminHomeScreenController extends GetxController {
   var selectedPage = 0.obs;
   final organizersList = List<Organizer>.empty(growable: true).obs;
   final contestsList = List<Contest>.empty(growable: true).obs;
+  final liveContestsList = List<Contest>.empty(growable: true).obs;
   final usersList = List<UserInfo>.empty(growable: true).obs;
   final ticketsList = List<Ticket>.empty(growable: true).obs;
+  final tokensList = List<String>.empty(growable: true).obs;
   final participantsMap = Map<String, List<Ticket>>().obs;
   Links? links;
   Links? editLinks;
@@ -45,6 +48,7 @@ class AdminHomeScreenController extends GetxController {
     organizersList.bindStream(organizersStream());
     contestsList.bindStream(contestsStream());
     usersList.bindStream(usersStream());
+    tokensList.bindStream(tokensStream());
     getLinks();
     links = await getSavedLinks();
     editLinks = await getSavedLinks();
@@ -66,9 +70,17 @@ class AdminHomeScreenController extends GetxController {
   Stream<List<Contest>> contestsStream() {
     Stream<QuerySnapshot> stream = contestsRef.snapshots();
     update();
-    return stream.map((querySnapshot) => querySnapshot.docs.map((doc) {
-          return Contest.fromMap(doc.data() as Map<String, dynamic>);
-        }).toList());
+    return stream.map((querySnapshot) {
+      liveContestsList.clear();
+      return querySnapshot.docs.map((doc) {
+        Contest contest = Contest.fromMap(doc.data() as Map<String, dynamic>);
+        if (contest.archived != null && contest.archived! == false) {
+          print(doc.data());
+          liveContestsList.add(contest);
+        }
+        return contest;
+      }).toList();
+    });
   }
 
   Stream<List<UserInfo>> usersStream() {
@@ -77,6 +89,13 @@ class AdminHomeScreenController extends GetxController {
     return stream.map((querySnapshot) => querySnapshot.docs
         .map((doc) => UserInfo.fromMap(doc.data() as Map<String, dynamic>))
         .toList());
+  }
+
+  Stream<List<String>> tokensStream() {
+    Stream<QuerySnapshot> stream = tokensRef.snapshots();
+
+    return stream.map((querySnapshot) =>
+        querySnapshot.docs.map((doc) => doc['token'].toString()).toList());
   }
 
   Stream<List<Ticket>> participantsStream(String contest_id) {
@@ -229,7 +248,7 @@ class AdminHomeScreenController extends GetxController {
               .update({"image_url": image_url}).catchError((error) {
             Get.snackbar("Error", error.toString());
           });
-          Get.snackbar("Success", "Organizer image updated successfully");
+          Get.snackbar("Success".tr, "Organizer image updated successfully");
         },
         onCancel: () {
           Get.back();
@@ -339,7 +358,7 @@ class AdminHomeScreenController extends GetxController {
         .doc(id)
         .update({"winner_id": winner_ticket.user_id}).then((value) {
       UserInfo winner = getUserById(winner_ticket.user_id);
-      return Get.snackbar("Success",
+      return Get.snackbar("Success".tr,
           winner.first_name + " " + winner.last_name + " won the contest");
     });
   }
@@ -420,12 +439,17 @@ class AdminHomeScreenController extends GetxController {
         .set(newLinks.toMap())
         .then((value) => () {
               showLoading.value = false;
-              Get.snackbar("Success", "Links updated for all users");
+              Get.snackbar("Success".tr, "Links updated for all users");
             })
         .catchError((onError) {
       Get.snackbar(LocaleKeys.Error.tr, onError.toString());
       showLoading.value = false;
     });
     showLoading.value = false;
+  }
+
+  Future<void> notifyAllUsers(String title, String body) async {
+    String response = await FCM.sendMessageMulti(title, body, tokensList);
+    print(response);
   }
 }

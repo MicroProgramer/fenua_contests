@@ -56,16 +56,16 @@ dependencies:
   permission_handler: ^8.3.0
   mailto: ^2.0.0
   get_cli: ^1.7.1
+  lottie: ^1.2.2
 
 
 dev_dependencies:
-  flutter_native_splash: ^2.0.1+1
   flutter_test:
     sdk: flutter
 
 flutter_native_splash:
   #  color: "#FFF3E0"
-  background_image: assets/images/splash.png
+  background_image: assets/images/splash_bg.png
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -91,6 +91,7 @@ flutter:
     - assets/fonts/
     - assets/images/
     - assets/locales/
+    - assets/lottie/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -178,6 +178,7 @@ class AccountLayout extends StatelessWidget {
                                   onConfirm: () async {
                                     await FirebaseAuth.instance.signOut();
                                     await logoutSharedUser();
+                                    Get.deleteAll(force: true);
                                     Get.offAll(RegistrationScreen());
                                   });
                             },

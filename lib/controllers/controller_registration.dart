@@ -127,6 +127,14 @@ class RegistrationController extends GetxController
     } else if (!email.isEmail) {
       return LocaleKeys.InvalidEmailAddress.tr;
     } else {
+
+      for (bool enabled in switches) {
+        if (!enabled) {
+          return "Make sure you check all the agreements";
+        }
+      }
+
+
       showLoading.value = true;
       String auth_error = '';
       await FirebaseAuth.instance

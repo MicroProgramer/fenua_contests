@@ -21,6 +21,8 @@ class NewContestController extends GetxController {
 
   var participantsCheck = false.obs;
 
+  String contestTitle = "";
+
   Future<void> pickImage({required int index}) async {
     var pickedImage = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
@@ -96,6 +98,8 @@ class NewContestController extends GetxController {
         winner_id: "",
         organizer_id: organizer_dropdown_value.value,
         show_participants_info: participantsCheck.value);
+
+    contestTitle = title;
 
     String response = "";
     await contestsRef.doc(id).set(contest.toMap()).then((value) {

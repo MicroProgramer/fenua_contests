@@ -47,7 +47,7 @@ Found Occurrences  (393 usages found)
                     204 Get.snackbar("Please Wait", "Updating organizer picture",
                     209 .update({"image_url": image_url}).catchError((error) {
                     210 Get.snackbar("Error", error.toString());
-                    212 Get.snackbar("Success", "Organizer image updated successfully");
+                    212 Get.snackbar("Success".tr, "Organizer image updated successfully");
                     222 FirebaseStorage.instance.ref().child("organizers/${id}.png");
                     228 Get.snackbar("Error", error.toString());
                     238 title: "Delete Organizer",
@@ -66,7 +66,7 @@ Found Occurrences  (393 usages found)
                     303 phone: "phone",
                     304 image_url: "image_url");
                     318 .update({"winner_id": winner_ticket.user_id}).then((value) {
-                    320 return Get.snackbar("Success",
+                    320 return Get.snackbar("Success".tr,
                     321 winner.first_name + " " + winner.last_name + " won the contest");
                 controller_ads.dart  (1 usage found)
                     65 Get.snackbar("Please Wait", "Loading video ad");
@@ -87,7 +87,7 @@ Found Occurrences  (393 usages found)
                     78 Get.snackbar("Please Wait", "Updating your profile picture",
                     83 .update({"image_url": image_url}).catchError((error) {
                     84 Get.snackbar("Error", error.toString());
-                    86 Get.snackbar("Success", "Profile image updated successfully");
+                    86 Get.snackbar("Success".tr, "Profile image updated successfully");
                     111 FirebaseStorage.instance.ref().child("profile_images/${uid}.png");
                     120 Get.snackbar("Error", error.toString());
                     130 title: "Update Name",
@@ -97,7 +97,7 @@ Found Occurrences  (393 usages found)
                     164 "Cancel",
                     185 "first_name": firstName,
                     186 "last_name": lastName,
-                    188 .then((value) => Get.snackbar("Success", "Name updated successfully"))
+                    188 .then((value) => Get.snackbar("Success".tr, "Name updated successfully"))
                     190 Get.snackbar("Error", error.toString());
                     198 .collection("tickets")
                     209 .collection("tickets")
@@ -152,7 +152,7 @@ Found Occurrences  (393 usages found)
                     46 textCancel: "Cancel",
                     55 .update({"images": images}).catchError((error) {
                     56 Get.snackbar("Error", error.toString());
-                    58 Get.snackbar("Success", "Image ${index + 1} updated");
+                    58 Get.snackbar("Success".tr, "Image ${index + 1} updated");
                     99 _showSnack("All fields are required");
                     100 return "";
                     102 _showSnack("Invalid ending date");
@@ -281,7 +281,7 @@ Found Occurrences  (393 usages found)
                     61 hint: "Organizer Name",
                     74 "Update",
                     86 .update({"name": newName})
-                    88 "Success",
+                    88 "Success".tr,
                     89 "Organizer name updated"))
                     91 Get.snackbar("Error",
                     101 "Cancel",

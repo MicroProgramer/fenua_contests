@@ -55,7 +55,7 @@ class UpdateContestController extends GetxController {
                 .update({"images": images}).catchError((error) {
               Get.snackbar("Error", error.toString());
             });
-            Get.snackbar("Success", "Image ${index + 1} updated");
+            Get.snackbar("Success".tr, "Image ${index + 1} updated");
             showLoading.value = false;
           },
           onCancel: () {

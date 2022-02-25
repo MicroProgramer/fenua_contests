@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../helpers/constants.dart';
 import '../../../widgets/not_found.dart';
@@ -50,9 +51,12 @@ class ContestItemAdmin extends StatelessWidget {
                           controller.getUserById(contest.winner_id);
 
                       Get.defaultDialog(
-                          title:
-                              "Copy ${winner.first_name}'s email",
-                          content: Text(winner.email, style: normal_h2Style_bold.merge(TextStyle(color: Colors.black)),),
+                          title: "Copy ${winner.first_name}'s email",
+                          content: Text(
+                            winner.email,
+                            style: normal_h2Style_bold
+                                .merge(TextStyle(color: Colors.black)),
+                          ),
                           textCancel: "Cancel",
                           textConfirm: "Copy Email",
                           confirmTextColor: Colors.white,
@@ -64,7 +68,8 @@ class ContestItemAdmin extends StatelessWidget {
                             ClipboardData data =
                                 ClipboardData(text: winner.email);
                             await Clipboard.setData(data);
-                            Get.snackbar("Email Copied", "Winner's email copied to clipboard");
+                            Get.snackbar("Email Copied",
+                                "Winner's email copied to clipboard");
                           });
                     },
                     child: Container(
@@ -227,9 +232,30 @@ class ContestItemAdmin extends StatelessWidget {
                                                               Get.defaultDialog(
                                                                   title:
                                                                       "Withdraw Contest Prize",
-                                                                  middleText:
-                                                                      "Are you sure to do the contest prize withdraw between"
-                                                                      " ${controller.participantsMap.length} participants",
+                                                                  content:
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.all(20.0),
+                                                                        child: Column(
+                                                                    children: [
+                                                                        Text(
+                                                                            "Are you sure to do the contest prize withdraw between"
+                                                                            " ${controller.participantsMap.length} participants"),
+                                                                        Container(
+                                                                          margin: EdgeInsets.only(top: 20),
+                                                                          child: Stack(
+                                                                            children: [Lottie
+                                                                                .asset(
+                                                                              "assets/lottie/spinner.json",
+                                                                              repeat: false
+                                                                            ),
+                                                                              Align(
+                                                                                  alignment: Alignment.center,
+                                                                                  child: Image.asset("assets/images/logo_transparent.png"))],
+                                                                          ),
+                                                                        ),
+                                                                    ],
+                                                                  ),
+                                                                      ),
                                                                   textCancel:
                                                                       "Cancel",
                                                                   textConfirm:

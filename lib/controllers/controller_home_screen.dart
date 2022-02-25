@@ -1,12 +1,15 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/helpers/constants.dart';
+import 'package:fenua_contests/helpers/fcm.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/models/user_info.dart' as model;
 import 'package:fenua_contests/widgets/custom_button.dart';
 import 'package:fenua_contests/widgets/custom_input_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +47,9 @@ class HomeScreenController extends GetxController {
   @override
   void onInit() {
     myTickets.bindStream(myTicketsStream());
+    initializeFCM();
     listenForDocChange(FirebaseAuth.instance.currentUser!.uid);
+    uploadNotificationToken();
     super.onInit();
   }
 
@@ -83,7 +88,7 @@ class HomeScreenController extends GetxController {
               .update({"image_url": image_url}).catchError((error) {
             Get.snackbar("Error", error.toString());
           });
-          Get.snackbar("Success", "Profile image updated successfully");
+          Get.snackbar("Success".tr, "Profile image updated successfully");
           showDpLoading.value = false;
         },
         onCancel: () {
@@ -126,17 +131,17 @@ class HomeScreenController extends GetxController {
 
   void updateUserName() {
     Get.defaultDialog(
-        title: "Update Name",
+        title: LocaleKeys.UpdateName.tr,
         content: Column(
           children: [
             CustomInputField(
-                hint: "First Name",
+                hint: LocaleKeys.FirstName.tr,
                 isPasswordField: false,
                 controller: firstName_controller.value,
                 text: mUser.value.first_name,
                 keyboardType: TextInputType.name),
             CustomInputField(
-                hint: "Last Name",
+                hint: LocaleKeys.LastName.tr,
                 controller: lastName_controller.value,
                 text: mUser.value.last_name,
                 isPasswordField: false,
@@ -147,7 +152,7 @@ class HomeScreenController extends GetxController {
                   child: CustomButton(
                       color: appPrimaryColor,
                       child: Text(
-                        "Update",
+                        LocaleKeys.Update.tr,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.white),
                       ),
@@ -160,7 +165,7 @@ class HomeScreenController extends GetxController {
                   child: CustomButton(
                       color: appPrimaryColor,
                       child: Text(
-                        "Cancel",
+                        LocaleKeys.Cancel.tr,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.white),
                       ),
@@ -184,7 +189,7 @@ class HomeScreenController extends GetxController {
             "first_name": firstName,
             "last_name": lastName,
           })
-          .then((value) => Get.snackbar("Success", "Name updated successfully"))
+          .then((value) => Get.snackbar("Success".tr, "Name updated successfully"))
           .catchError((error) {
             Get.snackbar("Error", error.toString());
           });
@@ -209,4 +214,29 @@ class HomeScreenController extends GetxController {
         .doc(id)
         .delete();
   }
+
+  void uploadNotificationToken() async {
+    String? token = await FCM.generateToken();
+    tokensRef
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .set({"token": "$token"});
+  }
+
+
+  initializeFCM() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      print('Message clicked!');
+    });
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage event) {
+      Get.snackbar(event.notification!.title.toString(),
+          event.notification!.body.toString(),
+          colorText: Colors.white,
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 10));
+    });
+  }
+
 }

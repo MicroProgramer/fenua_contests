@@ -1,4 +1,4 @@
-class Contest{
+class Contest {
   String id;
   String name;
   List<dynamic> images;
@@ -8,6 +8,7 @@ class Contest{
   String winner_id;
   String organizer_id;
   bool show_participants_info;
+  bool? archived;
 
   Contest({
     required this.id,
@@ -19,6 +20,7 @@ class Contest{
     required this.winner_id,
     required this.organizer_id,
     required this.show_participants_info,
+    this.archived,
   });
 
   Map<String, dynamic> toMap() {
@@ -32,6 +34,7 @@ class Contest{
       'winner_id': this.winner_id,
       'organizer_id': this.organizer_id,
       'show_participants_info': this.show_participants_info,
+      'archived': this.archived ?? false,
     };
   }
 
@@ -46,6 +49,7 @@ class Contest{
       winner_id: map['winner_id'] as String,
       organizer_id: map['organizer_id'] as String,
       show_participants_info: map['show_participants_info'] as bool,
+      archived: (map['archived'] ?? false) as bool,
     );
   }
 }

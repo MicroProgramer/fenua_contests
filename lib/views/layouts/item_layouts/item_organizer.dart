@@ -87,7 +87,7 @@ class OrganizerItem extends StatelessWidget {
                                                   .doc(organizer.id)
                                                   .update({"name": newName})
                                                   .then((value) => Get.snackbar(
-                                                      "Success",
+                                                      "Success".tr,
                                                       "Organizer name updated"))
                                                   .catchError((error) {
                                                     Get.snackbar("Error",
@@ -151,7 +151,7 @@ class OrganizerItem extends StatelessWidget {
                                                   .doc(organizer.id)
                                                   .update({"website": newWebsite})
                                                   .then((value) => Get.snackbar(
-                                                      "Success",
+                                                      "Success".tr,
                                                       "Organizer website updated"))
                                                   .catchError((error) {
                                                     Get.snackbar("Error",

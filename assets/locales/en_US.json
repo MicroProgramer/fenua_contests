@@ -73,5 +73,12 @@
   "Sorry": "Sorry",
   "ContestHasBeenExpired": "Contest Has Been Expired",
   "Invested1ticket": "Invested 1 Ticket",
-  "NoWinnersYet": "No Winners Yet"
+  "NoWinnersYet": "No Winners Yet",
+  "NewContestAdded": "New Contest Added",
+  "Update": "Update",
+  "UpdateName": "Update Name",
+  "Cancel": "Cancel",
+  "Success": "Success",
+  "NameUpdatedSuccessfully": "Name updated successfully",
+  "NoContests": "No Contests"
 }

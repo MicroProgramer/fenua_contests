@@ -5,6 +5,8 @@
         <!-- Show a splash screen on the activity. Automatically removed when
              Flutter draws its first frame -->
         <item name="android:windowBackground">@drawable/launch_background</item>
+        <item name="android:forceDarkAllowed">false</item>
+        <item name="android:windowFullscreen">false</item>
     </style>
     <!-- Theme applied to the Android Window as soon as the process has started.
          This theme determines the color of the Android Window while your
@@ -16,10 +18,6 @@
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
 </resources>
-
-
-
-
 <!--    Contests App-->
 <!--    Expired-->
 <!--    Open-->
@@ -81,6 +79,3 @@
 <!--    You already have "1" in your account balance. You can either use them or watch more ads to earn more tickets-->
 <!--    Watch Ad anyway-->
 <!--    Use account ticket-->
-
-
-

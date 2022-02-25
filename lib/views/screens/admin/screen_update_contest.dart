@@ -48,7 +48,9 @@ class UpdateContestScreen extends StatelessWidget {
                     },
                     onConfirm: () async {
                       Get.back();
-                      await contestsRef.doc(contest.id).delete();
+                      await contestsRef
+                          .doc(contest.id)
+                          .update({"archived": true});
                       Get.back();
                     });
               },
