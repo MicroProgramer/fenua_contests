@@ -213,4 +213,13 @@ class AccountLayout extends StatelessWidget {
       );
     });
   }
+
+  // String getOrganizerWebsite(String id) {
+  //   for (var organizer in controller.organizersList) {
+  //     if (organizer.id == id) {
+  //       return organizer.website;
+  //     }
+  //   }
+  //   return "";
+  // }
 }

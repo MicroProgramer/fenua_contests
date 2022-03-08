@@ -9,6 +9,7 @@ class Contest {
   String organizer_id;
   bool show_participants_info;
   bool? archived;
+  int minimum_tickets;
 
   Contest({
     required this.id,
@@ -21,6 +22,7 @@ class Contest {
     required this.organizer_id,
     required this.show_participants_info,
     this.archived,
+    required this.minimum_tickets,
   });
 
   Map<String, dynamic> toMap() {
@@ -34,7 +36,8 @@ class Contest {
       'winner_id': this.winner_id,
       'organizer_id': this.organizer_id,
       'show_participants_info': this.show_participants_info,
-      'archived': this.archived ?? false,
+      'archived': this.archived,
+      'minimum_tickets': this.minimum_tickets,
     };
   }
 
@@ -49,7 +52,8 @@ class Contest {
       winner_id: map['winner_id'] as String,
       organizer_id: map['organizer_id'] as String,
       show_participants_info: map['show_participants_info'] as bool,
-      archived: (map['archived'] ?? false) as bool,
+      archived: map['archived'] as bool,
+      minimum_tickets: map['minimum_tickets'] as int,
     );
   }
 }

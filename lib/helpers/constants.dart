@@ -20,9 +20,12 @@ CollectionReference organizersRef =
     FirebaseFirestore.instance.collection("organizers");
 CollectionReference contestsRef =
     FirebaseFirestore.instance.collection("contests");
-CollectionReference usersRef = FirebaseFirestore.instance.collection("users");
-CollectionReference linksRef = FirebaseFirestore.instance.collection("links");
-CollectionReference tokensRef = FirebaseFirestore.instance.collection("tokens");
+CollectionReference usersRef =
+    FirebaseFirestore.instance.collection("users");
+CollectionReference linksRef =
+    FirebaseFirestore.instance.collection("links");
+CollectionReference tokensRef =
+    FirebaseFirestore.instance.collection("tokens");
 
 void showSnackBar(String message, BuildContext context) {
   ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -42,20 +45,23 @@ bool isEmailValid(String email) {
 }
 
 void openScreen(BuildContext context, Widget screen) {
-  Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => screen));
 }
 
 void closeAllScreens(BuildContext context) {
   Navigator.popUntil(context, (route) => false);
 }
 
-bool isPhoneValid(String phone, BuildContext context, String country_code) {
+bool isPhoneValid(
+    String phone, BuildContext context, String country_code) {
   if (country_code.isEmpty) {
     showSnackBar("Re-select your phone country", context);
     return false;
   }
   if (phone.startsWith("0")) {
-    showSnackBar("Do not include first 0 with in phone number", context);
+    showSnackBar(
+        "Do not include first 0 with in phone number", context);
     return false;
   } else if (phone.length != 10 || !phone.startsWith("3")) {
     showSnackBar("Enter valid phone number", context);
@@ -71,7 +77,8 @@ void showModalBottomSheetMenu(
     double? height,
     Color? backgroundColor}) {
   ShapeBorder shape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)));
+      borderRadius:
+          BorderRadius.vertical(top: Radius.circular(25.0)));
 
   showModalBottomSheet(
       isScrollControlled: true,
@@ -94,7 +101,8 @@ void showModalBottomSheetMenu(
               ),
               backgroundColor: backgroundColor ?? Colors.white,
               elevation: 0,
-              automaticallyImplyLeading: false, // remove back button in appbar.
+              automaticallyImplyLeading:
+                  false, // remove back button in appbar.
             ),
             Container(child: content),
             // Container(
@@ -123,8 +131,8 @@ Size screenSize(BuildContext context) {
   return MediaQuery.of(context).size;
 }
 
-Future<DateTime> selectDate(
-    BuildContext context, int startTimestamp, int? selectedTimestamp) async {
+Future<DateTime> selectDate(BuildContext context, int startTimestamp,
+    int? selectedTimestamp) async {
   DateTime selectedDate = DateTime.now();
   final DateTime? picked = await showDatePicker(
       context: context,
@@ -206,11 +214,13 @@ void showOptionsBottomSheet(
       });
 }
 
-String convertTimeToText(String prefix, int timestamp, String suffix) {
+String convertTimeToText(
+    String prefix, int timestamp, String suffix) {
   String convTime = "";
 
   try {
-    DateTime dateTime1 = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    DateTime dateTime1 =
+        DateTime.fromMillisecondsSinceEpoch(timestamp);
     DateTime dateTime2 = DateTime.fromMillisecondsSinceEpoch(
         DateTime.now().millisecondsSinceEpoch);
 
@@ -244,9 +254,12 @@ String convertTimeToText(String prefix, int timestamp, String suffix) {
 }
 
 void launchUrl(String url) async {
+  url = !url.startsWith("http") ? ("http://" + url) : url;
   if (await canLaunch(url)) {
     launch(url,
-        forceSafariVC: true, enableJavaScript: true, forceWebView: true);
+        forceSafariVC: true,
+        enableJavaScript: true,
+        forceWebView: true);
   } else {
     throw 'Could not launch $url';
   }

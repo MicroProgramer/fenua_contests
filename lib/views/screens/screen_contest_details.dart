@@ -26,7 +26,8 @@ class ContestDetailsScreen extends StatelessWidget
   Widget build(BuildContext context) {
     AdminHomeScreenController controller =
         Get.put(AdminHomeScreenController(), tag: contest_id);
-    controller.getParticipants(contest_id);
+    Contest contest1 = controller.getContestById(contest_id);
+    controller.getParticipants(contest_id, contest1.minimum_tickets);
     HomeScreenController homeScreenController =
         Get.find<HomeScreenController>();
 
@@ -104,15 +105,26 @@ class ContestDetailsScreen extends StatelessWidget
                       ),
                     ),
                     ListTile(
-                      leading: Container(
-                        height: Get.height * .05,
-                        width: Get.width * .12,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: CachedNetworkImageProvider(
-                                  organizer.image_url,
-                                ))),
+                      leading: GestureDetector(
+                        onTap: (){
+                          String url = "";
+                          for (var organizer in controller.organizersList) {
+                            if (organizer.id == contest.organizer_id) {
+                              url = organizer.website;
+                            }
+                          }
+                          launchUrl(url);
+                        },
+                        child: Container(
+                          height: Get.height * .05,
+                          width: Get.width * .12,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: CachedNetworkImageProvider(
+                                    organizer.image_url,
+                                  ))),
+                        ),
                       ),
                       title: Text(
                         LocaleKeys.Organizedby.tr,
@@ -260,6 +272,7 @@ class ContestDetailsScreen extends StatelessWidget
                                                                         uid]!
                                                                     .length,
                                                             user: user,
+                                                            minTickets: contest.minimum_tickets,
                                                             winner: user.id ==
                                                                 contest
                                                                     .winner_id,
@@ -301,11 +314,35 @@ class ContestDetailsScreen extends StatelessWidget
                         ),
                       ),
                     ),
+                    ClipRRect(
+                        borderRadius: BorderRadius.circular(12), // have border decoration
+                        child: Stack(
+                          // you may need to wrap with sizedBOx
+                          children: [
+                            SizedBox(
+                              height: Get.height * .05, //stack size, or use fit
+                              width: Get.width * .8,
+                              child: LinearProgressIndicator(
+                                value: int.parse(_calculateInvestedTickets(controller))/contest.minimum_tickets,
+                                valueColor: AlwaysStoppedAnimation<Color>(_getProgressColor(int.parse(_calculateInvestedTickets(controller))/contest.minimum_tickets)),
+                              ),
+                            )
+                            //place your widget
+                          ],
+                        )),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        (contest.minimum_tickets - int.parse(_calculateInvestedTickets(controller)) >= 1) ? ("${contest.minimum_tickets - int.parse(_calculateInvestedTickets(controller))} " + LocaleKeys.TicketsRequired.tr) : LocaleKeys.YouAreAPartOfContest.tr,
+                        style: normal_h3Style.copyWith(color: hintColor)
+                            .merge(TextStyle(color: Colors.black)),
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         LocaleKeys.Youinvestedtickets.tr.replaceAll("1",
-                            "${controller.participantsMap[FirebaseAuth.instance.currentUser!.uid] == null ? "0" : controller.participantsMap[FirebaseAuth.instance.currentUser!.uid]!.length}"),
+                            "${_calculateInvestedTickets(controller)}"),
                         style: normal_h3Style_bold
                             .merge(TextStyle(color: Colors.black)),
                       ),
@@ -411,5 +448,21 @@ class ContestDetailsScreen extends StatelessWidget
   @override
   void onInterstitialFailed() {
     // TODO: implement onInterstitialFailed
+  }
+
+  String _calculateInvestedTickets(var controller){
+    return "${controller.participantsMap[FirebaseAuth.instance.currentUser!.uid] == null ? "0" : controller.participantsMap[FirebaseAuth.instance.currentUser!.uid]!.length}";
+  }
+
+  Color _getProgressColor(var progress){
+    if (progress <= .5){
+      return Colors.red;
+    } else if (progress <= .8){
+      return appPrimaryColor;
+    } else if (progress <= .93){
+      return Colors.greenAccent;
+    } else {
+      return Colors.green;
+    }
   }
 }

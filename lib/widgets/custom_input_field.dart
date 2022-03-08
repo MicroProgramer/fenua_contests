@@ -43,9 +43,10 @@ class _CustomInputFieldState extends State<CustomInputField> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.controller != null) {
-      widget.controller!.text = widget.text ?? "";
+    if (widget.controller != null && widget.text != null) {
+      widget.controller!.text = widget.text!;
     }
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(

@@ -34,8 +34,8 @@ class RegistrationController extends GetxController
       confirm_password_controller = TextEditingController().obs,
       phone_controller = TextEditingController().obs;
 
-  var _adminEmail = "admin";
-  var _adminPass = "admin";
+  var _adminEmail = "adminpolydigit974";
+  var _adminPass = "@jeuxfiverrpolydigit974";
 
   @override
   Future<void> onInit() async {

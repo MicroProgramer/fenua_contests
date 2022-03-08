@@ -25,7 +25,7 @@ class ContestItemAdmin extends StatelessWidget {
   Widget build(BuildContext context) {
     AdminHomeScreenController controller =
         Get.put(AdminHomeScreenController(), tag: contest.id);
-    controller.getParticipants(contest.id);
+    controller.getParticipants(contest.id, contest.minimum_tickets);
 
     return Obx(() {
       return Container(
@@ -36,7 +36,9 @@ class ContestItemAdmin extends StatelessWidget {
                 fit: BoxFit.cover,
                 image: CachedNetworkImageProvider(contest.images[0])),
             borderRadius: BorderRadius.circular(10),
-            boxShadow: [BoxShadow(blurRadius: 5, color: Colors.white)]),
+            boxShadow: [
+              BoxShadow(blurRadius: 5, color: Colors.white)
+            ]),
         margin: EdgeInsets.all(10),
         child: Stack(
           children: [
@@ -54,8 +56,8 @@ class ContestItemAdmin extends StatelessWidget {
                           title: "Copy ${winner.first_name}'s email",
                           content: Text(
                             winner.email,
-                            style: normal_h2Style_bold
-                                .merge(TextStyle(color: Colors.black)),
+                            style: normal_h2Style_bold.merge(
+                                TextStyle(color: Colors.black)),
                           ),
                           textCancel: "Cancel",
                           textConfirm: "Copy Email",
@@ -93,11 +95,13 @@ class ContestItemAdmin extends StatelessWidget {
                             child: Text(
                               contest.winner_id.isNotEmpty
                                   ? controller
-                                          .getUserById(contest.winner_id)
+                                          .getUserById(
+                                              contest.winner_id)
                                           .first_name +
                                       " " +
                                       controller
-                                          .getUserById(contest.winner_id)
+                                          .getUserById(
+                                              contest.winner_id)
                                           .last_name
                                   : "",
                               overflow: TextOverflow.ellipsis,
@@ -128,14 +132,16 @@ class ContestItemAdmin extends StatelessWidget {
                       ),
                       Text(
                         (contest.end_timestamp >
-                                    DateTime.now().millisecondsSinceEpoch &&
+                                    DateTime.now()
+                                        .millisecondsSinceEpoch &&
                                 contest.winner_id.isEmpty)
                             ? (contest.start_timestamp >
-                                    DateTime.now().millisecondsSinceEpoch
-                                ? convertTimeToText(
-                                    "Starting in", contest.start_timestamp, "")
-                                : convertTimeToText(
-                                    "", contest.end_timestamp, "left"))
+                                    DateTime.now()
+                                        .millisecondsSinceEpoch
+                                ? convertTimeToText("Starting in",
+                                    contest.start_timestamp, "")
+                                : convertTimeToText("",
+                                    contest.end_timestamp, "left"))
                             : LocaleKeys.Expired.tr.toString(),
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
@@ -196,21 +202,27 @@ class ContestItemAdmin extends StatelessWidget {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 onPressed: () {
-                                  ShapeBorder shape = RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(10.0)));
+                                  ShapeBorder shape =
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.vertical(
+                                                  top:
+                                                      Radius.circular(
+                                                          10.0)));
 
                                   showModalBottomSheet<dynamic>(
                                       isScrollControlled: true,
                                       context: context,
                                       shape: shape,
                                       enableDrag: true,
-                                      backgroundColor: appPrimaryColor,
+                                      backgroundColor:
+                                          appPrimaryColor,
                                       builder: (context) {
                                         return DraggableScrollableSheet(
                                           maxChildSize: 0.8,
                                           expand: false,
-                                          builder: (BuildContext context,
+                                          builder: (BuildContext
+                                                  context,
                                               ScrollController
                                                   scrollController) {
                                             return Container(
@@ -222,79 +234,85 @@ class ContestItemAdmin extends StatelessWidget {
                                                     actions: [
                                                       Visibility(
                                                         visible: controller
-                                                                    .participantsMap
-                                                                    .length >
+                                                                    .acceptedParticipants >
                                                                 0 &&
-                                                            contest.winner_id
+                                                            contest
+                                                                .winner_id
                                                                 .isEmpty,
                                                         child: IconButton(
                                                             onPressed: () {
                                                               Get.defaultDialog(
-                                                                  title:
-                                                                      "Withdraw Contest Prize",
-                                                                  content:
-                                                                      Padding(
-                                                                        padding: const EdgeInsets.all(20.0),
-                                                                        child: Column(
-                                                                    children: [
-                                                                        Text(
-                                                                            "Are you sure to do the contest prize withdraw between"
+                                                                  title: "Withdraw Contest Prize",
+                                                                  content: Padding(
+                                                                    padding: const EdgeInsets.all(20.0),
+                                                                    child: Column(
+                                                                      children: [
+                                                                        Text("Are you sure to do the contest prize withdraw between"
                                                                             " ${controller.participantsMap.length} participants"),
                                                                         Container(
                                                                           margin: EdgeInsets.only(top: 20),
                                                                           child: Stack(
-                                                                            children: [Lottie
-                                                                                .asset(
-                                                                              "assets/lottie/spinner.json",
-                                                                              repeat: false
-                                                                            ),
-                                                                              Align(
-                                                                                  alignment: Alignment.center,
-                                                                                  child: Image.asset("assets/images/logo_transparent.png"))],
+                                                                            children: [
+                                                                              Lottie.asset("assets/lottie/spinner.json", repeat: false),
+                                                                              Align(alignment: Alignment.center, child: Image.asset("assets/images/logo_transparent.png"))
+                                                                            ],
                                                                           ),
                                                                         ),
-                                                                    ],
+                                                                      ],
+                                                                    ),
                                                                   ),
-                                                                      ),
-                                                                  textCancel:
-                                                                      "Cancel",
-                                                                  textConfirm:
-                                                                      "Withdraw",
-                                                                  confirmTextColor:
-                                                                      Colors
-                                                                          .white,
+                                                                  textCancel: "Cancel",
+                                                                  textConfirm: "Withdraw",
+                                                                  confirmTextColor: Colors.white,
                                                                   onCancel: () {
                                                                     Get.back();
                                                                   },
-                                                                  onConfirm:
-                                                                      () {
+                                                                  onConfirm: () {
                                                                     Get.back();
-                                                                    controller.withdraw(
-                                                                        contest
-                                                                            .id);
+                                                                    controller.withdraw(contest.id, contest.minimum_tickets);
                                                                   });
                                                             },
                                                             tooltip: "Withdraw",
-                                                            icon: Icon(Icons
-                                                                .volunteer_activism)),
+                                                            icon: Icon(Icons.volunteer_activism)),
                                                       ),
-                                                      IconButton(
-                                                          onPressed: () {
-                                                            Get.back();
-                                                          },
-                                                          icon: Icon(
-                                                              Icons.close)),
                                                     ],
                                                     title: Container(
-                                                        child: /*Icon(
+                                                      child: /*Icon(
                                               Icons.horizontal_rule_rounded,
                                               color: Colors.white54,
                                               size: 100,
                                             ),*/
-                                                            Text(
-                                                      "${controller.participantsMap.length} participants",
-                                                      style: heading3_style,
-                                                    )),
+                                                          Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            "(${controller.participantsMap.length})",
+                                                            style:
+                                                                heading3_style,
+                                                          ),
+                                                          Text(
+                                                            "${controller.acceptedParticipants} Tickets",
+                                                            style:
+                                                                heading3_style,
+                                                          ),
+                                                          Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            children: [
+                                                              Icon(Icons
+                                                                  .local_movies_rounded),
+                                                              SizedBox(width: 5,),
+                                                              Text(contest
+                                                                  .minimum_tickets
+                                                                  .toString()),
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
                                                     // backgroundColor: appPrimaryColor,
                                                     elevation: 2,
                                                     automaticallyImplyLeading:
@@ -305,35 +323,23 @@ class ContestItemAdmin extends StatelessWidget {
                                                                   .participantsMap
                                                                   .length >
                                                               0
-                                                          ? ListView.builder(
-                                                              controller:
-                                                                  scrollController,
-                                                              itemCount: controller
-                                                                  .participantsMap
-                                                                  .length,
-                                                              itemBuilder:
-                                                                  (_, index) {
-                                                                String uid = controller
-                                                                    .participantsMap
-                                                                    .keys
-                                                                    .elementAt(
-                                                                        index);
-                                                                UserInfo user =
-                                                                    controller
-                                                                        .getUserById(
-                                                                            uid);
-                                                                return ParticipantPublicItem(
-                                                                  tickets: controller
-                                                                      .participantsMap[
-                                                                          uid]!
-                                                                      .length,
-                                                                  user: user,
-                                                                  winner: user
-                                                                          .id ==
-                                                                      contest
-                                                                          .winner_id,
-                                                                );
-                                                              })
+                                                          ? ListView
+                                                              .builder(
+                                                                  controller:
+                                                                      scrollController,
+                                                                  itemCount: controller
+                                                                      .participantsMap.length,
+                                                                  itemBuilder: (_,
+                                                                      index) {
+                                                                    String uid = controller.participantsMap.keys.elementAt(index);
+                                                                    UserInfo user = controller.getUserById(uid);
+                                                                    return ParticipantPublicItem(
+                                                                      tickets: controller.participantsMap[uid]!.length,
+                                                                      user: user,
+                                                                      minTickets: contest.minimum_tickets,
+                                                                      winner: user.id == contest.winner_id,
+                                                                    );
+                                                                  })
                                                           : NotFound(
                                                               color: Colors
                                                                   .white70,
@@ -347,17 +353,19 @@ class ContestItemAdmin extends StatelessWidget {
                                       });
                                 }),
                             Padding(
-                              padding: const EdgeInsets.only(right: 15),
+                              padding:
+                                  const EdgeInsets.only(right: 15),
                               child: ElevatedButton(
                                 onPressed: () {
-                                  Get.to(() =>
-                                      UpdateContestScreen(contest: contest));
+                                  Get.to(() => UpdateContestScreen(
+                                      contest: contest));
                                 },
                                 style: ElevatedButton.styleFrom(
                                     primary: appPrimaryColor,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(10))),
+                                            BorderRadius.circular(
+                                                10))),
                                 child: Text("Edit"),
                               ),
                             ),
@@ -376,7 +384,8 @@ class ContestItemAdmin extends StatelessWidget {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                               image: CachedNetworkImageProvider(
-                                  getOrganizerImage(contest.organizer_id)))),
+                                  getOrganizerImage(
+                                      contest.organizer_id)))),
                       height: containerHeight * .3,
                       width: containerHeight * .3,
                     ));

@@ -79,5 +79,7 @@
   "Cancel": "Annuler",
   "Success": "Succès",
   "NameUpdatedSuccessfully": "Nom mis à jour avec succès",
-  "NoContests": "Pas de concours"
+  "NoContests": "Pas de concours",
+  "TicketsRequired": "tickets nécessaires pour participer",
+  "YouAreAPartOfContest": "Vous faites partie de ce concours"
 }

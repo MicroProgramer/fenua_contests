@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
 import 'package:fenua_contests/controllers/controller_new_contest.dart';
-import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/widgets/custom_button.dart';
@@ -19,7 +18,8 @@ class AddNewContestScreen extends StatelessWidget {
 
     AdminHomeScreenController home_controller =
         Get.find<AdminHomeScreenController>();
-    NewContestController controller = Get.find<NewContestController>();
+    NewContestController controller =
+        Get.find<NewContestController>();
 
     return Scaffold(
       backgroundColor: appSecondaryColor,
@@ -38,7 +38,8 @@ class AddNewContestScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Contest Images",
-                    style: heading3_style.merge(TextStyle(color: Colors.black)),
+                    style: heading3_style
+                        .merge(TextStyle(color: Colors.black)),
                   ),
                 ),
                 Row(
@@ -56,13 +57,15 @@ class AddNewContestScreen extends StatelessWidget {
                               color: Colors.white,
                               image: controller.images[0].path != ""
                                   ? DecorationImage(
-                                      image: FileImage(
-                                          File(controller.images[0].path)),
+                                      image: FileImage(File(
+                                          controller.images[0].path)),
                                       fit: BoxFit.cover,
                                     )
                                   : null,
                               boxShadow: [
-                                BoxShadow(blurRadius: 2, offset: Offset(0, 1))
+                                BoxShadow(
+                                    blurRadius: 2,
+                                    offset: Offset(0, 1))
                               ]),
                         ),
                         onTap: () {
@@ -83,13 +86,15 @@ class AddNewContestScreen extends StatelessWidget {
                               color: Colors.white,
                               image: controller.images[1].path != ""
                                   ? DecorationImage(
-                                      image: FileImage(
-                                          File(controller.images[1].path)),
+                                      image: FileImage(File(
+                                          controller.images[1].path)),
                                       fit: BoxFit.cover,
                                     )
                                   : null,
                               boxShadow: [
-                                BoxShadow(blurRadius: 2, offset: Offset(0, 1))
+                                BoxShadow(
+                                    blurRadius: 2,
+                                    offset: Offset(0, 1))
                               ]),
                         ),
                         onTap: () {
@@ -110,13 +115,15 @@ class AddNewContestScreen extends StatelessWidget {
                               color: Colors.white,
                               image: controller.images[2].path != ""
                                   ? DecorationImage(
-                                      image: FileImage(
-                                          File(controller.images[2].path)),
+                                      image: FileImage(File(
+                                          controller.images[2].path)),
                                       fit: BoxFit.cover,
                                     )
                                   : null,
                               boxShadow: [
-                                BoxShadow(blurRadius: 2, offset: Offset(0, 1))
+                                BoxShadow(
+                                    blurRadius: 2,
+                                    offset: Offset(0, 1))
                               ]),
                         ),
                         onTap: () {
@@ -144,7 +151,8 @@ class AddNewContestScreen extends StatelessWidget {
                     isPasswordField: false,
                     fillColor: Colors.white,
                     maxLines: 3,
-                    controller: controller.description_controller.value,
+                    controller:
+                        controller.description_controller.value,
                     keyboardType: TextInputType.multiline),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -161,7 +169,8 @@ class AddNewContestScreen extends StatelessWidget {
                           child: Container(
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment:
+                                  MainAxisAlignment.end,
                               children: [
                                 Image.network(
                                   organizer.image_url,
@@ -208,8 +217,8 @@ class AddNewContestScreen extends StatelessWidget {
                                   text: timestampToDateFormat(
                                       controller.startTimestamp.value,
                                       "dd MMM, yyyy"),
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold)),
                             ])),
                         leading: Icon(Icons.access_time),
                       ),
@@ -222,11 +231,13 @@ class AddNewContestScreen extends StatelessWidget {
                         ),
                         tileColor: Colors.white,
                         onTap: () async {
-                          DateTime start = DateTime.fromMillisecondsSinceEpoch(
-                              controller.startTimestamp.value);
+                          DateTime start =
+                              DateTime.fromMillisecondsSinceEpoch(
+                                  controller.startTimestamp.value);
                           DateTime selectedDate = await selectDate(
                               context,
-                              DateTime(start.year, start.month, start.day + 1)
+                              DateTime(start.year, start.month,
+                                      start.day + 1)
                                   .millisecondsSinceEpoch,
                               null);
                           controller.updateEndDate(selectedDate);
@@ -243,8 +254,8 @@ class AddNewContestScreen extends StatelessWidget {
                                   text: timestampToDateFormat(
                                       controller.endTimestamp.value,
                                       "dd MMM, yyyy"),
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold)),
                             ])),
                         leading: Icon(Icons.access_time),
                       ),
@@ -258,6 +269,13 @@ class AddNewContestScreen extends StatelessWidget {
                         onChanged: (newVal) {
                           controller.updateParticipantsCheck(newVal);
                         }),
+                    CustomInputField(
+                        hint: "Minimum tickets to participate",
+                        isPasswordField: false,
+                        fillColor: Colors.white,
+                        controller:
+                            controller.min_tickets_controller.value,
+                        keyboardType: TextInputType.number),
                     Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: CustomButton(
@@ -269,13 +287,16 @@ class AddNewContestScreen extends StatelessWidget {
                                 color: Colors.white),
                           ),
                           onPressed: () async {
-                            String response = await controller.addContest();
+                            String response =
+                                await controller.addContest();
                             if (response.isEmpty) {
                               _showSnack("Something went wrong");
                             } else if (response == "success") {
                               showSnackBar("Contest Added", context);
-                              await Get.find<AdminHomeScreenController>()
-                                  .notifyAllUsers("Nouveau concours ajouté",
+                              await Get.find<
+                                      AdminHomeScreenController>()
+                                  .notifyAllUsers(
+                                      "Nouveau concours ajouté",
                                       controller.contestTitle);
                               Get.back(closeOverlays: true);
                             } else {

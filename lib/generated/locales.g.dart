@@ -95,6 +95,8 @@ class LocaleKeys {
   static const Success = 'Success';
   static const NameUpdatedSuccessfully = 'NameUpdatedSuccessfully';
   static const NoContests = 'NoContests';
+  static const TicketsRequired = 'TicketsRequired';
+  static const YouAreAPartOfContest = 'YouAreAPartOfContest';
 }
 
 class Locales {
@@ -134,7 +136,7 @@ class Locales {
     'term2':
         'I acknowledge having read and accepted the general conditions of use of the application',
     'term3':
-        'I certify taht i am over 18 years of age or a authorization of my legal representative',
+        'I certify that i am over 18 years of age or a authorization of my legal representative',
     'SignUp': 'Sign Up',
     'Alreadyhaveanaccount': 'Already have an account ? Sign in',
     'Edit': 'Edit',
@@ -274,5 +276,7 @@ class Locales {
     'Success': 'Succès',
     'NameUpdatedSuccessfully': 'Nom mis à jour avec succès',
     'NoContests': 'Pas de concours',
+    'TicketsRequired': 'tickets nécessaires pour participer',
+    'YouAreAPartOfContest': 'Vous faites partie de ce concours',
   };
 }

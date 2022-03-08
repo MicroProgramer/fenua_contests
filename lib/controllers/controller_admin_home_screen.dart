@@ -26,6 +26,8 @@ class AdminHomeScreenController extends GetxController {
   final ticketsList = List<Ticket>.empty(growable: true).obs;
   final tokensList = List<String>.empty(growable: true).obs;
   final participantsMap = Map<String, List<Ticket>>().obs;
+  final acceptedParticipants = 0.obs;
+
   Links? links;
   Links? editLinks;
 
@@ -37,11 +39,14 @@ class AdminHomeScreenController extends GetxController {
       TextEditingController().obs;
   Rx<TextEditingController> organizerWeb_controller =
       TextEditingController().obs;
-  Rx<TextEditingController> game_rules_controller = TextEditingController().obs;
+  Rx<TextEditingController> game_rules_controller =
+      TextEditingController().obs;
   Rx<TextEditingController> privacy_policy_controller =
       TextEditingController().obs;
-  Rx<TextEditingController> terms_controller = TextEditingController().obs;
-  Rx<TextEditingController> help_controller = TextEditingController().obs;
+  Rx<TextEditingController> terms_controller =
+      TextEditingController().obs;
+  Rx<TextEditingController> help_controller =
+      TextEditingController().obs;
 
   @override
   Future<void> onInit() async {
@@ -63,7 +68,8 @@ class AdminHomeScreenController extends GetxController {
     Stream<QuerySnapshot> stream = organizersRef.snapshots();
     update();
     return stream.map((querySnapshot) => querySnapshot.docs
-        .map((doc) => Organizer.fromMap(doc.data() as Map<String, dynamic>))
+        .map((doc) =>
+            Organizer.fromMap(doc.data() as Map<String, dynamic>))
         .toList());
   }
 
@@ -73,7 +79,8 @@ class AdminHomeScreenController extends GetxController {
     return stream.map((querySnapshot) {
       liveContestsList.clear();
       return querySnapshot.docs.map((doc) {
-        Contest contest = Contest.fromMap(doc.data() as Map<String, dynamic>);
+        Contest contest =
+            Contest.fromMap(doc.data() as Map<String, dynamic>);
         if (contest.archived != null && contest.archived! == false) {
           print(doc.data());
           liveContestsList.add(contest);
@@ -87,26 +94,31 @@ class AdminHomeScreenController extends GetxController {
     Stream<QuerySnapshot> stream = usersRef.snapshots();
 
     return stream.map((querySnapshot) => querySnapshot.docs
-        .map((doc) => UserInfo.fromMap(doc.data() as Map<String, dynamic>))
+        .map((doc) =>
+            UserInfo.fromMap(doc.data() as Map<String, dynamic>))
         .toList());
   }
 
   Stream<List<String>> tokensStream() {
     Stream<QuerySnapshot> stream = tokensRef.snapshots();
 
-    return stream.map((querySnapshot) =>
-        querySnapshot.docs.map((doc) => doc['token'].toString()).toList());
+    return stream.map((querySnapshot) => querySnapshot.docs
+        .map((doc) => doc['token'].toString())
+        .toList());
   }
 
-  Stream<List<Ticket>> participantsStream(String contest_id) {
+  Stream<List<Ticket>> participantsStream(
+      String contest_id, int minTickets) {
     Stream<QuerySnapshot> stream =
         contestsRef.doc(contest_id).collection("tickets").snapshots();
 
     return stream.map((querySnapshot) {
       participantsMap.value.clear();
+      acceptedParticipants.value = 0;
 
       return querySnapshot.docs.map((doc) {
-        Ticket ticket = Ticket.fromMap(doc.data() as Map<String, dynamic>);
+        Ticket ticket =
+            Ticket.fromMap(doc.data() as Map<String, dynamic>);
 
         if (!participantsMap.containsKey(ticket.user_id)) {
           participantsMap.addAll({ticket.user_id: []});
@@ -115,6 +127,10 @@ class AdminHomeScreenController extends GetxController {
           value.add(ticket);
           return value;
         });
+
+        if (participantsMap[ticket.user_id]!.length >= minTickets) {
+          acceptedParticipants.value++;
+        }
 
         return ticket;
       }).toList();
@@ -132,7 +148,8 @@ class AdminHomeScreenController extends GetxController {
   }
 
   Future<void> pickOrganizerImage() async {
-    var pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+    var pickedImage =
+        await _picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       organizerImage = pickedImage;
     }
@@ -165,15 +182,20 @@ class AdminHomeScreenController extends GetxController {
         image_url: logo_url,
         website: organizerWeb_controller.value.text);
 
-    organizersRef.doc(id.toString()).set(organizer.toMap()).then((value) {
+    organizersRef
+        .doc(id.toString())
+        .set(organizer.toMap())
+        .then((value) {
       showLoading.value = false;
     });
   }
 
   Future<String> _uploadOrganizerLogo(String organizer_id) async {
-    Get.snackbar("Uploading Image", "Uploading organizer image to database");
-    Reference storageReference =
-        FirebaseStorage.instance.ref().child("organizers/${organizer_id}.png");
+    Get.snackbar(
+        "Uploading Image", "Uploading organizer image to database");
+    Reference storageReference = FirebaseStorage.instance
+        .ref()
+        .child("organizers/${organizer_id}.png");
     final UploadTask uploadTask =
         storageReference.putFile(File(organizerImage.path));
 
@@ -210,6 +232,7 @@ class AdminHomeScreenController extends GetxController {
         id: contest_id,
         name: "Contest",
         images: [],
+        minimum_tickets: 1,
         description: "description",
         start_timestamp: 0,
         end_timestamp: 0,
@@ -219,7 +242,8 @@ class AdminHomeScreenController extends GetxController {
   }
 
   Future<void> updateOrganizerImage(String id) async {
-    XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+    XFile? pickedImage =
+        await _picker.pickImage(source: ImageSource.gallery);
     oldPickedImage = pickedImage;
     Get.defaultDialog(
         title: "Are you sure to upload this image",
@@ -248,7 +272,8 @@ class AdminHomeScreenController extends GetxController {
               .update({"image_url": image_url}).catchError((error) {
             Get.snackbar("Error", error.toString());
           });
-          Get.snackbar("Success".tr, "Organizer image updated successfully");
+          Get.snackbar(
+              "Success".tr, "Organizer image updated successfully");
         },
         onCancel: () {
           Get.back();
@@ -345,22 +370,44 @@ class AdminHomeScreenController extends GetxController {
         image_url: "image_url");
   }
 
-  void getParticipants(String contest_id) {
-    ticketsList.bindStream(participantsStream(contest_id));
+  void getParticipants(String contest_id, int minTickets) {
+    ticketsList
+        .bindStream(participantsStream(contest_id, minTickets));
   }
 
-  Future<void> withdraw(String id) async {
+  Future<void> withdraw(String id, int minTickets) async {
     var rng = new Random();
-    int winner_index = rng.nextInt(ticketsList.length);
-    Ticket winner_ticket = ticketsList[winner_index];
+    List<Ticket> filteredList = excludeLowerParticipants(minTickets);
+    int winner_index = rng.nextInt(filteredList.length);
+    Ticket winner_ticket = filteredList[winner_index];
 
     contestsRef
         .doc(id)
         .update({"winner_id": winner_ticket.user_id}).then((value) {
       UserInfo winner = getUserById(winner_ticket.user_id);
-      return Get.snackbar("Success".tr,
-          winner.first_name + " " + winner.last_name + " won the contest");
+      return Get.snackbar(
+          "Success".tr,
+          winner.first_name +
+              " " +
+              winner.last_name +
+              " won the contest");
     });
+  }
+
+  List<Ticket> excludeLowerParticipants(int minTickets) {
+    return ticketsList.where((t) {
+      return (getTicketsByUser(t.user_id) >= minTickets);
+    }).toList();
+  }
+
+  int getTicketsByUser(String uid) {
+    int tickets = 0;
+    ticketsList.forEach((element) {
+      if (element.user_id == uid) {
+        tickets++;
+      }
+    });
+    return tickets;
   }
 
   void emailWinner(UserInfo winner, String contestName) async {
@@ -389,7 +436,9 @@ class AdminHomeScreenController extends GetxController {
   void launchUrl(String url) async {
     if (await canLaunch(url)) {
       launch(url,
-          forceSafariVC: true, enableJavaScript: true, forceWebView: true);
+          forceSafariVC: true,
+          enableJavaScript: true,
+          forceWebView: true);
     } else {
       throw 'Could not launch $url';
     }
@@ -412,7 +461,8 @@ class AdminHomeScreenController extends GetxController {
   void getLinks() {
     linksRef.snapshots().listen((querySnapshot) {
       querySnapshot.docChanges.forEach((change) {
-        links = Links.fromMap(change.doc.data() as Map<String, dynamic>);
+        links =
+            Links.fromMap(change.doc.data() as Map<String, dynamic>);
         saveLinks(links!);
         update();
       });
@@ -424,7 +474,10 @@ class AdminHomeScreenController extends GetxController {
     String game_rules = game_rules_controller.value.text;
     String terms = terms_controller.value.text;
     String policy = privacy_policy_controller.value.text;
-    if (help.isEmpty || game_rules.isEmpty || terms.isEmpty || policy.isEmpty) {
+    if (help.isEmpty ||
+        game_rules.isEmpty ||
+        terms.isEmpty ||
+        policy.isEmpty) {
       Get.snackbar(LocaleKeys.Error.tr, LocaleKeys.Fillallfields.tr);
       return;
     }
@@ -439,7 +492,8 @@ class AdminHomeScreenController extends GetxController {
         .set(newLinks.toMap())
         .then((value) => () {
               showLoading.value = false;
-              Get.snackbar("Success".tr, "Links updated for all users");
+              Get.snackbar(
+                  "Success".tr, "Links updated for all users");
             })
         .catchError((onError) {
       Get.snackbar(LocaleKeys.Error.tr, onError.toString());
@@ -449,7 +503,8 @@ class AdminHomeScreenController extends GetxController {
   }
 
   Future<void> notifyAllUsers(String title, String body) async {
-    String response = await FCM.sendMessageMulti(title, body, tokensList);
+    String response =
+        await FCM.sendMessageMulti(title, body, tokensList);
     print(response);
   }
 }

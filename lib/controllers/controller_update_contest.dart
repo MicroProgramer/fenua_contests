@@ -16,7 +16,9 @@ class UpdateContestController extends GetxController {
   late Rx<int> endTimestamp;
   Rx<DateTime> _currentDate = DateTime.now().obs;
   Rx<TextEditingController> title_controller = TextEditingController().obs,
-      description_controller = TextEditingController().obs;
+      description_controller = TextEditingController().obs,
+      min_tickets_controller = TextEditingController().obs;
+
   var showLoading = false.obs;
   var winner_id = "".obs;
   var participantsCheck = false.obs;
@@ -95,7 +97,8 @@ class UpdateContestController extends GetxController {
   Future<String> updateContest(String id) async {
     String title = title_controller.value.text;
     String description = description_controller.value.text;
-    if (title.isEmpty || description.isEmpty) {
+    String minTickets = min_tickets_controller.value.text;
+    if (title.isEmpty || description.isEmpty || minTickets.isEmpty) {
       _showSnack("All fields are required");
       return "";
     } else if (startTimestamp.value > endTimestamp.value) {
@@ -106,12 +109,14 @@ class UpdateContestController extends GetxController {
     String response = "";
     await contestsRef.doc(id).update({
       "title": title,
+      "name": title,
       "description": description,
       "start_timestamp": startTimestamp.value,
       "end_timestamp": endTimestamp.value,
       "winner_id": winner_id.value,
       "organizer_id": organizer_dropdown_value.value,
-      "show_participants_info": participantsCheck.value
+      "show_participants_info": participantsCheck.value,
+      "minimum_tickets": int.parse(minTickets),
     }).then((value) {
       response = "success";
     }).catchError((error) {

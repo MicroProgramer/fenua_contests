@@ -16,7 +16,8 @@ class NewContestController extends GetxController {
   late Rx<int> endTimestamp;
   Rx<DateTime> _currentDate = DateTime.now().obs;
   Rx<TextEditingController> title_controller = TextEditingController().obs,
-      description_controller =  TextEditingController().obs;
+      description_controller =  TextEditingController().obs,
+      min_tickets_controller =  TextEditingController().obs;
   var showLoading = false.obs;
 
   var participantsCheck = false.obs;
@@ -75,7 +76,9 @@ class NewContestController extends GetxController {
     }
     String title = title_controller.value.text;
     String description = description_controller.value.text;
-    if (title.isEmpty || description.isEmpty) {
+    String minTickets = min_tickets_controller.value.text;
+
+    if (title.isEmpty || description.isEmpty || minTickets.isEmpty) {
       _showSnack("All fields are required");
       return "";
     } else if (startTimestamp.value > endTimestamp.value) {
@@ -95,7 +98,9 @@ class NewContestController extends GetxController {
         description: description,
         start_timestamp: startTimestamp.value,
         end_timestamp: endTimestamp.value,
+        minimum_tickets: int.parse(minTickets),
         winner_id: "",
+        archived: false,
         organizer_id: organizer_dropdown_value.value,
         show_participants_info: participantsCheck.value);
 

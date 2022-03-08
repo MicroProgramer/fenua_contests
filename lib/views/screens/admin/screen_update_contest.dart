@@ -172,7 +172,7 @@ class UpdateContestScreen extends StatelessWidget {
                     ),
                   ),
                   DropdownButton<String>(
-                    value: contest.organizer_id,
+                    value: controller.organizer_dropdown_value.value,
                     items: home_controller.organizersList
                         .map((organizer) => DropdownMenuItem<String>(
                             value: organizer.id,
@@ -277,6 +277,14 @@ class UpdateContestScreen extends StatelessWidget {
                           onChanged: (newVal) {
                             controller.updateParticipantsCheck(newVal);
                           }),
+                      CustomInputField(
+                          hint: "Minimum tickets to participate",
+                          isPasswordField: false,
+                          fillColor: Colors.white,
+                          controller:
+                          controller.min_tickets_controller.value,
+                          text: contest.minimum_tickets.toString(),
+                          keyboardType: TextInputType.number),
                       Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: CustomButton(

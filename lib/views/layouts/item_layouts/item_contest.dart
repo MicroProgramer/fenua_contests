@@ -166,7 +166,9 @@ class ContestItem extends StatelessWidget {
                   return Positioned(
                     child: GestureDetector(
                       onTap: () {
-                        launchUrl(getOrganizerWebsite(contest.organizer_id));
+                        try {
+                          launchUrl(getOrganizerWebsite(contest.organizer_id));
+                        } catch(e){}
                       },
                       child: Container(
                         margin: EdgeInsets.all(10),

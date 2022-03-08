@@ -9,6 +9,8 @@ class ParticipantPublicItem extends StatelessWidget {
   UserInfo user;
   int tickets;
   bool winner;
+  int minTickets;
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class ParticipantPublicItem extends StatelessWidget {
             child: Text(
               user.first_name + " " + user.last_name,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: appPrimaryColor, fontWeight: FontWeight.bold),
+              style: TextStyle(color: (tickets >= minTickets ? appPrimaryColor : Colors.red[200]), fontWeight: FontWeight.bold),
             ),
           ),
           subtitle: Text(LocaleKeys.Invested1ticket.tr.replaceAll("1", "$tickets")),
@@ -57,5 +59,6 @@ class ParticipantPublicItem extends StatelessWidget {
     required this.user,
     required this.tickets,
     required this.winner,
+    required this.minTickets,
   });
 }
