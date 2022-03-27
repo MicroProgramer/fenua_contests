@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1012490138928:android:2e9df3c4d73a3c647104f5",
+        "mobilesdk_app_id": "1:1012490138928:android:afad9afb81d6f2e47104f5",
         "android_client_info": {
-          "package_name": "com.microprogramers.juex.concours.fenua_contests"
+          "package_name": "com.microprogramers.jeux.concours.fenua"
         }
       },
       "oauth_client": [
@@ -29,6 +29,13 @@
             {
               "client_id": "1012490138928-ius1erpqbmfkfiao4v66j0tqg8io7mko.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1012490138928-016pbdggj66vi58hj033s6s3t3uftf2v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.microprogramers.juex.concours.fenuaContests"
+              }
             }
           ]
         }

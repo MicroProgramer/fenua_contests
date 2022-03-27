@@ -25,24 +25,27 @@ class HomeScreenController extends GetxController {
 
   final myTickets = List<Ticket>.empty(growable: true).obs;
 
-  var mUser = model.UserInfo(
-          first_name: "User",
-          last_name: "Name",
-          nickname: "nickname",
-          age: "age",
-          city: "city",
-          checked_0: false,
-          checked_1: false,
-          checked_2: false,
-          id: "id",
-          email: "email",
-          password: "password",
-          phone: "phone",
-          image_url: "image_url")
+  var mUser = model
+      .UserInfo(
+      first_name: "User",
+      last_name: "Name",
+      nickname: "nickname",
+      age: "age",
+      city: "city",
+      checked_0: false,
+      checked_1: false,
+      checked_2: false,
+      id: "id",
+      email: "email",
+      password: "password",
+      phone: "phone",
+      image_url: "image_url")
       .obs;
   var showDpLoading = false.obs;
-  Rx<TextEditingController> firstName_controller = TextEditingController().obs;
-  Rx<TextEditingController> lastName_controller = TextEditingController().obs;
+  Rx<TextEditingController> firstName_controller =
+      TextEditingController().obs;
+  Rx<TextEditingController> lastName_controller =
+      TextEditingController().obs;
 
   @override
   void onInit() {
@@ -58,7 +61,8 @@ class HomeScreenController extends GetxController {
   }
 
   void getImage() async {
-    XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+    XFile? pickedImage =
+    await _picker.pickImage(source: ImageSource.gallery);
     oldPickedImage = pickedImage;
     Get.defaultDialog(
         title: "Are you sure to upload this image",
@@ -66,12 +70,13 @@ class HomeScreenController extends GetxController {
           margin: EdgeInsets.all(10),
           height: Get.height * 0.2,
           decoration: BoxDecoration(
-              boxShadow: [BoxShadow(blurRadius: 10)],
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: FileImage(File(oldPickedImage!.path)),
-              )),
+            boxShadow: [BoxShadow(blurRadius: 10)],
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: FileImage(File(oldPickedImage!.path)),
+            ),
+          ),
         ),
         textConfirm: "Yes",
         confirmTextColor: Colors.white,
@@ -88,7 +93,8 @@ class HomeScreenController extends GetxController {
               .update({"image_url": image_url}).catchError((error) {
             Get.snackbar("Error", error.toString());
           });
-          Get.snackbar("Success".tr, "Profile image updated successfully");
+          Get.snackbar(
+              "Success".tr, "Profile image updated successfully");
           showDpLoading.value = false;
         },
         onCancel: () {
@@ -111,10 +117,11 @@ class HomeScreenController extends GetxController {
   }
 
   Future<String> _uploadImage(String uid) async {
-    Reference storageReference =
-        FirebaseStorage.instance.ref().child("profile_images/${uid}.png");
+    Reference storageReference = FirebaseStorage.instance
+        .ref()
+        .child("profile_images/${uid}.png");
     final UploadTask uploadTask =
-        storageReference.putFile(File(oldPickedImage!.path));
+    storageReference.putFile(File(oldPickedImage!.path));
 
     uploadTask.snapshotEvents.listen((event) {
       showDpLoading.value = true;
@@ -154,11 +161,13 @@ class HomeScreenController extends GetxController {
                       child: Text(
                         LocaleKeys.Update.tr,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.white),
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
                       onPressed: () {
                         Get.back();
-                        _updateNameInDb(FirebaseAuth.instance.currentUser!.uid);
+                        _updateNameInDb(
+                            FirebaseAuth.instance.currentUser!.uid);
                       }),
                 ),
                 Expanded(
@@ -167,7 +176,8 @@ class HomeScreenController extends GetxController {
                       child: Text(
                         LocaleKeys.Cancel.tr,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.white),
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
                       onPressed: () {
                         Get.back();
@@ -186,13 +196,14 @@ class HomeScreenController extends GetxController {
       usersRef
           .doc(uid)
           .update({
-            "first_name": firstName,
-            "last_name": lastName,
-          })
-          .then((value) => Get.snackbar("Success".tr, "Name updated successfully"))
+        "first_name": firstName,
+        "last_name": lastName,
+      })
+          .then((value) =>
+          Get.snackbar("Success".tr, "Name updated successfully"))
           .catchError((error) {
-            Get.snackbar("Error", error.toString());
-          });
+        Get.snackbar("Error", error.toString());
+      });
     }
   }
 
@@ -202,17 +213,41 @@ class HomeScreenController extends GetxController {
         .collection("tickets")
         .snapshots();
 
-    return stream.map((querySnapshot) => querySnapshot.docs
-        .map((doc) => Ticket.fromMap(doc.data() as Map<String, dynamic>))
-        .toList());
+    return stream.map((querySnapshot) =>
+        querySnapshot.docs
+            .map((doc) =>
+            Ticket.fromMap(doc.data() as Map<String, dynamic>))
+            .toList());
   }
 
-  Future<void> deleteTicket(String id) async {
-    await usersRef
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection("tickets")
-        .doc(id)
-        .delete();
+  Future<void> deleteTicketsAndInvest(String contest_id,
+      int num) async {
+
+    if (num > myTickets.length){
+      Get.snackbar(LocaleKeys.Alert, LocaleKeys.InvalidValue);
+      return;
+    }
+
+    List<Ticket> tickets = myTickets.value.sublist(0, num);
+
+    for (var ticket in tickets) {
+      await usersRef
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection("tickets")
+          .doc(ticket.id)
+          .delete();
+
+      contestsRef
+          .doc(contest_id)
+          .collection("tickets")
+          .doc("${ticket.id}")
+          .set(ticket.toMap())
+          .then(
+            (value) {
+          print("deleted ${ticket.id}");
+        },
+      );
+    }
   }
 
   void uploadNotificationToken() async {
@@ -221,7 +256,6 @@ class HomeScreenController extends GetxController {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .set({"token": "$token"});
   }
-
 
   initializeFCM() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -239,4 +273,21 @@ class HomeScreenController extends GetxController {
     });
   }
 
+
+  void addTicketsToMyAccount(int num) async {
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    for (int i = 0; i < num; i++) {
+      int id = DateTime
+          .now()
+          .millisecondsSinceEpoch;
+
+      await usersRef
+          .doc(uid)
+          .collection("tickets")
+          .doc(id.toString())
+          .set(Ticket(id: id.toString(), timestamp: id, user_id: uid).toMap()).then((value) {
+            print(i);
+          }).catchError((onError){print(onError);});
+    }
+  }
 }

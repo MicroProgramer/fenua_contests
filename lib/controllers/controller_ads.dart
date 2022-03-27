@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 class AdsController extends GetxController {
   late AdmobReward rewardAd;
-  RewardListener rewardListener;
+  RewardListener? rewardListener;
   InterstitialListener interstitialListener;
   late AdmobInterstitial interstitialAd;
   var bannerLoaded = false.obs;
@@ -89,7 +89,7 @@ class AdsController extends GetxController {
         break;
       case AdmobAdEvent.rewarded:
         print("reward");
-        rewardListener.onRewarded();
+        rewardListener!.onRewarded();
 
         break;
       case AdmobAdEvent.failedToLoad:

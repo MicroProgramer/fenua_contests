@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1012490138928-016pbdggj66vi58hj033s6s3t3uftf2v.apps.googleusercontent.com</string>
+	<string>1012490138928-r5mvpn8th0uu7f8gopvq5goe3ch99u6b.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1012490138928-016pbdggj66vi58hj033s6s3t3uftf2v</string>
+	<string>com.googleusercontent.apps.1012490138928-r5mvpn8th0uu7f8gopvq5goe3ch99u6b</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCD6nGCDkl4ko8Lds0pyCFqqZIwfK_XzTE</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.microprogramers.juex.concours.fenuaContests</string>
+	<string>com.microprogramers.JeuxConcoursFenua</string>
 	<key>PROJECT_ID</key>
 	<string>jeux-concours-fenua</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1012490138928:ios:e787f09fa299908d7104f5</string>
+	<string>1:1012490138928:ios:91fa4b7046bd30d47104f5</string>
 </dict>
 </plist>

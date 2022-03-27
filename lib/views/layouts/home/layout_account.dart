@@ -16,7 +16,8 @@ class AccountLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HomeScreenController controller = Get.find<HomeScreenController>();
+    HomeScreenController controller =
+        Get.find<HomeScreenController>();
 
     return Obx(() {
       return Container(
@@ -35,12 +36,21 @@ class AccountLayout extends StatelessWidget {
                       height: Get.height * 0.15,
                       width: Get.height * 0.15,
                       decoration: BoxDecoration(
-                          border: Border.all(color: appTextColor, width: 7),
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: CachedNetworkImageProvider(
-                                  controller.mUser.value.image_url))),
+                        border:
+                            Border.all(color: appTextColor, width: 7),
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: (controller.mUser.value.image_url
+                                  .trim()
+                                  .isEmpty)
+                              ? (AssetImage(
+                                      "assets/images/placeholder.jpg")
+                                  as ImageProvider)
+                              : CachedNetworkImageProvider(
+                                  controller.mUser.value.image_url),
+                        ),
+                      ),
                     ),
                     Positioned(
                       right: 5,
@@ -53,7 +63,8 @@ class AccountLayout extends StatelessWidget {
                           height: Get.height * 0.04,
                           width: Get.height * 0.04,
                           decoration: BoxDecoration(
-                              color: appTextColor, shape: BoxShape.circle),
+                              color: appTextColor,
+                              shape: BoxShape.circle),
                           child: Icon(Icons.edit),
                         ),
                       ),
@@ -86,9 +97,11 @@ class AccountLayout extends StatelessWidget {
                         overflow: TextOverflow.visible,
                       ),
                     ),
-                    IconButton(onPressed: (){
-                      controller.updateUserName();
-                    }, icon: Icon(Icons.edit)),
+                    IconButton(
+                        onPressed: () {
+                          controller.updateUserName();
+                        },
+                        icon: Icon(Icons.edit)),
                   ],
                 ),
               ),
@@ -108,7 +121,10 @@ class AccountLayout extends StatelessWidget {
                       children: [
                         ListTile(
                           onTap: () {
-                            launchUrl(Get.find<AdminHomeScreenController>().links!.help);
+                            launchUrl(
+                                Get.find<AdminHomeScreenController>()
+                                    .links!
+                                    .help);
                           },
                           title: Text(
                             LocaleKeys.HELP.tr.toUpperCase(),
@@ -125,7 +141,10 @@ class AccountLayout extends StatelessWidget {
                         ),
                         ListTile(
                           onTap: () {
-                            launchUrl(Get.find<AdminHomeScreenController>().links!.privacy_policy);
+                            launchUrl(
+                                Get.find<AdminHomeScreenController>()
+                                    .links!
+                                    .privacy_policy);
                           },
                           title: Text(
                             LocaleKeys.PRIVACYPOLICY.tr.toUpperCase(),
@@ -142,10 +161,14 @@ class AccountLayout extends StatelessWidget {
                         ),
                         ListTile(
                           onTap: () {
-                            launchUrl(Get.find<AdminHomeScreenController>().links!.terms_conditions);
+                            launchUrl(
+                                Get.find<AdminHomeScreenController>()
+                                    .links!
+                                    .terms_conditions);
                           },
                           title: Text(
-                            LocaleKeys.TERMSANDCONDITIONS.tr.toUpperCase(),
+                            LocaleKeys.TERMSANDCONDITIONS.tr
+                                .toUpperCase(),
                             style: TextStyle(color: appTextColor),
                           ),
                           trailing: Icon(
@@ -171,12 +194,14 @@ class AccountLayout extends StatelessWidget {
                             onPressed: () {
                               Get.defaultDialog(
                                   title: LocaleKeys.Logout.tr,
-                                  middleText: LocaleKeys.Areyousuretologout.tr,
+                                  middleText: LocaleKeys
+                                      .Areyousuretologout.tr,
                                   confirmTextColor: Colors.white,
                                   textCancel: "No".tr,
                                   textConfirm: "Yes".tr,
                                   onConfirm: () async {
-                                    await FirebaseAuth.instance.signOut();
+                                    await FirebaseAuth.instance
+                                        .signOut();
                                     await logoutSharedUser();
                                     Get.deleteAll(force: true);
                                     Get.offAll(RegistrationScreen());
@@ -214,12 +239,12 @@ class AccountLayout extends StatelessWidget {
     });
   }
 
-  // String getOrganizerWebsite(String id) {
-  //   for (var organizer in controller.organizersList) {
-  //     if (organizer.id == id) {
-  //       return organizer.website;
-  //     }
-  //   }
-  //   return "";
-  // }
+// String getOrganizerWebsite(String id) {
+//   for (var organizer in controller.organizersList) {
+//     if (organizer.id == id) {
+//       return organizer.website;
+//     }
+//   }
+//   return "";
+// }
 }

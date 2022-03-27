@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
-set(BINARY_NAME "fenua_contests")
-set(APPLICATION_ID "com.microprogramers.juex.concours.fenua_contests")
+set(BINARY_NAME "JEUX CONCOURS FENUA")
+set(APPLICATION_ID "com.microprogramers.jeux.concours.fenua")
 
 cmake_policy(SET CMP0063 NEW)
 

@@ -19,7 +19,9 @@ class ContestsLayout extends StatelessWidget
     AdminHomeScreenController controller =
         Get.find<AdminHomeScreenController>();
 
-    Get.put(AdsController(interstitialListener: this, rewardListener: this), tag: "homescreen").loadInterstitialAd();
+    if (!Get.isRegistered<AdsController>(tag: "homescreen")){
+      Get.put(AdsController(interstitialListener: this, rewardListener: null), tag: "homescreen").loadInterstitialAd();
+    }
 
     return Obx(() {
       return controller.liveContestsList.length > 0

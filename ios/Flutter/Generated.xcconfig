@@ -2,14 +2,13 @@
 FLUTTER_ROOT=/Users/mubasharhussain/Documents/SDK/Flutter/flutter
 FLUTTER_APPLICATION_PATH=/Users/mubasharhussain/Documents/Flutter Projects/fenua_contests
 COCOAPODS_PARALLEL_CODE_SIGN=true
-FLUTTER_TARGET=/Users/mubasharhussain/Documents/Flutter Projects/fenua_contests/lib/main.dart
+FLUTTER_TARGET=lib/main.dart
 FLUTTER_BUILD_DIR=build
 FLUTTER_BUILD_NAME=1.0.0
 FLUTTER_BUILD_NUMBER=1
 EXCLUDED_ARCHS[sdk=iphonesimulator*]=i386
-DART_DEFINES=Zmx1dHRlci5pbnNwZWN0b3Iuc3RydWN0dXJlZEVycm9ycz10cnVl,RkxVVFRFUl9XRUJfQVVUT19ERVRFQ1Q9dHJ1ZQ==
 DART_OBFUSCATION=false
 EXTRA_FRONT_END_OPTIONS=--no-sound-null-safety
-TRACK_WIDGET_CREATION=true
-TREE_SHAKE_ICONS=false
+TRACK_WIDGET_CREATION=false
+TREE_SHAKE_ICONS=true
 PACKAGE_CONFIG=/Users/mubasharhussain/Documents/Flutter Projects/fenua_contests/.dart_tool/package_config.json

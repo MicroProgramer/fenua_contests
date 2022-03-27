@@ -23,8 +23,8 @@
   "LastName": "Nom de famille",
   "Nickname": "Pseudo",
   "DateofBirth": "Date de naissance",
-  "City": "Ville",
-  "PhoneNumber": "Numéro de téléphone",
+  "City": "Ville (facultatif)",
+  "PhoneNumber": "Numéro de téléphone (facultatif)",
   "Email": "E-mail",
   "Password": "Mot de passe",
   "ConfirmPassword": "Confirmez le mot de passe",
@@ -81,5 +81,8 @@
   "NameUpdatedSuccessfully": "Nom mis à jour avec succès",
   "NoContests": "Pas de concours",
   "TicketsRequired": "tickets nécessaires pour participer",
-  "YouAreAPartOfContest": "Vous faites partie de ce concours"
+  "YouAreAPartOfContest": "Vous faites partie de ce concours",
+  "InvestMultipleTickets": "Investir plusieurs tickets",
+  "Invest": "Investir",
+  "InvalidValue": "Valeur invalide"
 }

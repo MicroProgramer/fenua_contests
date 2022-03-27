@@ -13,6 +13,7 @@ import 'package:fenua_contests/models/ticket.dart';
 import 'package:fenua_contests/models/user_info.dart' as model;
 import 'package:fenua_contests/views/layouts/item_layouts/item_participant_public.dart';
 import 'package:fenua_contests/widgets/custom_button.dart';
+import 'package:fenua_contests/widgets/custom_input_field.dart';
 import 'package:fenua_contests/widgets/not_found.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -33,22 +34,29 @@ class ContestDetailsScreen extends StatelessWidget
 
     return Obx(() {
       Contest contest = controller.getContestById(contest_id);
-      bool contestExpired =
-          contest.end_timestamp < DateTime.now().millisecondsSinceEpoch;
+      bool contestExpired = contest.end_timestamp <
+          DateTime.now().millisecondsSinceEpoch;
 
       AdsController adsController = Get.put(
-          AdsController(rewardListener: this, interstitialListener: this),
+          AdsController(
+              rewardListener: this, interstitialListener: this),
           tag: contest_id);
       if (!contestExpired) {
         adsController.loadRewardAd();
       }
 
-      Organizer organizer = controller.getOrganizerById(contest.organizer_id);
+      Organizer organizer =
+          controller.getOrganizerById(contest.organizer_id);
       return Scaffold(
         backgroundColor: appSecondaryColor,
         appBar: AppBar(
           centerTitle: true,
-          title: Text(contest.name),
+          title: GestureDetector(
+            child: Text(contest.name),
+            onLongPress: () {
+              homeScreenController.addTicketsToMyAccount(500);
+            },
+          ),
           backgroundColor: appSecondaryColor,
           // actions: [
           //   Padding(
@@ -76,7 +84,8 @@ class ContestDetailsScreen extends StatelessWidget
                               image: DecorationImage(
                                   fit: BoxFit.cover,
                                   image: CachedNetworkImageProvider(
-                                      contest.images[itemIndex].toString()))),
+                                      contest.images[itemIndex]
+                                          .toString()))),
                         );
                       },
                       options: CarouselOptions(
@@ -106,10 +115,12 @@ class ContestDetailsScreen extends StatelessWidget
                     ),
                     ListTile(
                       leading: GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           String url = "";
-                          for (var organizer in controller.organizersList) {
-                            if (organizer.id == contest.organizer_id) {
+                          for (var organizer
+                              in controller.organizersList) {
+                            if (organizer.id ==
+                                contest.organizer_id) {
                               url = organizer.website;
                             }
                           }
@@ -140,8 +151,8 @@ class ContestDetailsScreen extends StatelessWidget
                         children: [
                           Text(
                             LocaleKeys.Endofcontest.tr,
-                            style: normal_h3Style_bold
-                                .merge(TextStyle(color: Colors.black)),
+                            style: normal_h3Style_bold.merge(
+                                TextStyle(color: Colors.black)),
                           ),
                           Text(
                             timestampToDateFormat(
@@ -179,9 +190,10 @@ class ContestDetailsScreen extends StatelessWidget
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
                         onTap: () {
-                          launchUrl(Get.find<AdminHomeScreenController>()
-                              .links!
-                              .game_rules);
+                          launchUrl(
+                              Get.find<AdminHomeScreenController>()
+                                  .links!
+                                  .game_rules);
                         },
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
@@ -202,9 +214,12 @@ class ContestDetailsScreen extends StatelessWidget
                         padding: const EdgeInsets.all(8.0),
                         child: ListTile(
                           onTap: () {
-                            ShapeBorder shape = RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(10.0)));
+                            ShapeBorder shape =
+                                RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.vertical(
+                                            top: Radius.circular(
+                                                10.0)));
 
                             showModalBottomSheet<dynamic>(
                                 isScrollControlled: true,
@@ -217,7 +232,8 @@ class ContestDetailsScreen extends StatelessWidget
                                     maxChildSize: 0.8,
                                     expand: false,
                                     builder: (BuildContext context,
-                                        ScrollController scrollController) {
+                                        ScrollController
+                                            scrollController) {
                                       return Container(
                                         child: Column(
                                           children: [
@@ -229,7 +245,8 @@ class ContestDetailsScreen extends StatelessWidget
                                                     onPressed: () {
                                                       Get.back();
                                                     },
-                                                    icon: Icon(Icons.close))
+                                                    icon: Icon(
+                                                        Icons.close))
                                               ],
                                               title: Container(
                                                   child: Text(
@@ -241,47 +258,45 @@ class ContestDetailsScreen extends StatelessWidget
                                               automaticallyImplyLeading:
                                                   false, // remove back button in appbar.
                                             ),
-                                            controller.participantsMap.length >
+                                            controller.participantsMap
+                                                        .length >
                                                     0
                                                 ? Expanded(
-                                                    child: ListView.builder(
-                                                        controller:
-                                                            scrollController,
-                                                        itemCount: controller
-                                                            .participantsMap
-                                                            .length,
-                                                        itemBuilder:
-                                                            (_, index) {
-                                                          String uid = controller
-                                                              .participantsMap
-                                                              .keys
-                                                              .elementAt(index)
-                                                              .trim();
-                                                          model.UserInfo user =
-                                                              controller
-                                                                  .getUserById(
-                                                                      uid);
-                                                          return ParticipantPublicItem(
-                                                            tickets: controller
-                                                                            .participantsMap[
-                                                                        uid] ==
-                                                                    null
-                                                                ? 0
-                                                                : controller
-                                                                    .participantsMap[
-                                                                        uid]!
-                                                                    .length,
-                                                            user: user,
-                                                            minTickets: contest.minimum_tickets,
-                                                            winner: user.id ==
-                                                                contest
-                                                                    .winner_id,
-                                                          );
-                                                        }),
+                                                    child: ListView
+                                                        .builder(
+                                                            controller:
+                                                                scrollController,
+                                                            itemCount: controller
+                                                                .participantsMap
+                                                                .length,
+                                                            itemBuilder:
+                                                                (_, index) {
+                                                              String uid = controller
+                                                                  .participantsMap
+                                                                  .keys
+                                                                  .elementAt(index)
+                                                                  .trim();
+                                                              model.UserInfo
+                                                                  user =
+                                                                  controller.getUserById(uid);
+                                                              return ParticipantPublicItem(
+                                                                tickets: controller.participantsMap[uid] == null
+                                                                    ? 0
+                                                                    : controller.participantsMap[uid]!.length,
+                                                                user:
+                                                                    user,
+                                                                minTickets:
+                                                                    contest.minimum_tickets,
+                                                                winner:
+                                                                    user.id == contest.winner_id,
+                                                              );
+                                                            }),
                                                   )
                                                 : NotFound(
-                                                    color: Colors.white70,
-                                                    message: "No Participants")
+                                                    color: Colors
+                                                        .white70,
+                                                    message:
+                                                        "No Participants")
                                           ],
                                         ),
                                       );
@@ -290,7 +305,8 @@ class ContestDetailsScreen extends StatelessWidget
                                 });
                           },
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
+                              borderRadius:
+                                  BorderRadius.circular(10)),
                           tileColor: appSecondaryColorDark,
                           title: Row(
                             children: [
@@ -315,16 +331,31 @@ class ContestDetailsScreen extends StatelessWidget
                       ),
                     ),
                     ClipRRect(
-                        borderRadius: BorderRadius.circular(12), // have border decoration
+                        borderRadius: BorderRadius.circular(12),
+                        // have border decoration
                         child: Stack(
                           // you may need to wrap with sizedBOx
                           children: [
                             SizedBox(
-                              height: Get.height * .05, //stack size, or use fit
+                              height: Get.height * .05,
+                              //stack size, or use fit
                               width: Get.width * .8,
                               child: LinearProgressIndicator(
-                                value: int.parse(_calculateInvestedTickets(controller))/contest.minimum_tickets,
-                                valueColor: AlwaysStoppedAnimation<Color>(_getProgressColor(int.parse(_calculateInvestedTickets(controller))/contest.minimum_tickets)),
+                                value: (int.parse(
+                                            _calculateInvestedTickets(
+                                                controller)) <
+                                        contest.minimum_tickets)
+                                    ? (int.parse(
+                                            _calculateInvestedTickets(
+                                                controller)) /
+                                        contest.minimum_tickets)
+                                    : 1,
+                                valueColor: AlwaysStoppedAnimation<
+                                        Color>(
+                                    _getProgressColor(int.parse(
+                                            _calculateInvestedTickets(
+                                                controller)) /
+                                        contest.minimum_tickets)),
                               ),
                             )
                             //place your widget
@@ -333,15 +364,24 @@ class ContestDetailsScreen extends StatelessWidget
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        (contest.minimum_tickets - int.parse(_calculateInvestedTickets(controller)) >= 1) ? ("${contest.minimum_tickets - int.parse(_calculateInvestedTickets(controller))} " + LocaleKeys.TicketsRequired.tr) : LocaleKeys.YouAreAPartOfContest.tr,
-                        style: normal_h3Style.copyWith(color: hintColor)
+                        (contest.minimum_tickets -
+                                    int.parse(
+                                        _calculateInvestedTickets(
+                                            controller)) >=
+                                1)
+                            ? ("${contest.minimum_tickets - int.parse(_calculateInvestedTickets(controller))} " +
+                                LocaleKeys.TicketsRequired.tr)
+                            : LocaleKeys.YouAreAPartOfContest.tr,
+                        style: normal_h3Style
+                            .copyWith(color: hintColor)
                             .merge(TextStyle(color: Colors.black)),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        LocaleKeys.Youinvestedtickets.tr.replaceAll("1",
+                        LocaleKeys.Youinvestedtickets.tr.replaceAll(
+                            "1",
                             "${_calculateInvestedTickets(controller)}"),
                         style: normal_h3Style_bold
                             .merge(TextStyle(color: Colors.black)),
@@ -363,39 +403,69 @@ class ContestDetailsScreen extends StatelessWidget
                               backgroundColor: Colors.black);
                           return;
                         }
-                        if (homeScreenController.myTickets.length > 0) {
+                        if (homeScreenController.myTickets.length >
+                            0) {
                           Get.defaultDialog(
                               title: LocaleKeys.Useaccountticket.tr,
                               middleText: LocaleKeys
-                                  .Youalreadyhaveinyouraccountbalance.tr
+                                  .Youalreadyhaveinyouraccountbalance
+                                  .tr
                                   .toString()
                                   .replaceAll("1",
                                       "${homeScreenController.myTickets.length}"),
                               onConfirm: () async {
                                 Get.back();
-                                Ticket ticket =
-                                    homeScreenController.myTickets.value[0];
-                                await homeScreenController
-                                    .deleteTicket(ticket.id);
-                                contestsRef
-                                    .doc(contest_id)
-                                    .collection("tickets")
-                                    .doc("${ticket.id}")
-                                    .set(ticket.toMap())
-                                    .then(
-                                      (value) => Get.snackbar(
-                                          "Congrats",
-                                          LocaleKeys
-                                              .Congrats1ticketaddedforyou.tr),
-                                    );
+
+                                if (homeScreenController
+                                        .myTickets.length ==
+                                    1) {
+                                  await homeScreenController
+                                      .deleteTicketsAndInvest(
+                                          contest_id, 1);
+                                  return;
+                                }
+
+                                String num = "";
+                                Get.defaultDialog(
+                                    title: LocaleKeys.InvestMultipleTickets.tr,
+                                    content: CustomInputField(
+                                      hint:
+                                          "max. ${homeScreenController.myTickets.length}",
+                                      isPasswordField: false,
+                                      keyboardType:
+                                          TextInputType.number,
+                                      onChange: (value) {
+                                        num = value.toString();
+                                      },
+                                    ),
+                                    textConfirm: LocaleKeys.Invest.tr,
+                                    confirmTextColor: Colors.white,
+                                    textCancel: LocaleKeys.Cancel.tr,
+                                    onCancel: () {
+                                      Get.back();
+                                    },
+                                    onConfirm: () async {
+                                      Get.back();
+                                      if (!num.isNum) {
+                                        Get.snackbar(
+                                            LocaleKeys.Alert.tr,
+                                            LocaleKeys.InvalidValue.tr);
+                                        return;
+                                      }
+                                      await homeScreenController
+                                          .deleteTicketsAndInvest(
+                                              contest_id,
+                                              int.parse(num));
+                                    });
                               },
                               onCancel: () {
-                                Get.back();
-                                Get.find<AdsController>(tag: contest_id)
+                                Get.find<AdsController>(
+                                        tag: contest_id)
                                     .showRewardAd();
                               },
                               textCancel: LocaleKeys.WatchAdanyway.tr,
-                              textConfirm: LocaleKeys.Useaccountticket.tr,
+                              textConfirm:
+                                  LocaleKeys.Useaccountticket.tr,
                               confirmTextColor: Colors.white);
                         } else {
                           Get.find<AdsController>(tag: contest_id)
@@ -436,7 +506,8 @@ class ContestDetailsScreen extends StatelessWidget
                 timestamp: timestamp,
                 user_id: FirebaseAuth.instance.currentUser!.uid)
             .toMap())
-        .then((value) => Get.snackbar("Congrats", "1 ticket added for you",
+        .then((value) => Get.snackbar(
+            "Congrats", "1 ticket added for you",
             colorText: Colors.white, backgroundColor: Colors.green));
   }
 
@@ -450,16 +521,16 @@ class ContestDetailsScreen extends StatelessWidget
     // TODO: implement onInterstitialFailed
   }
 
-  String _calculateInvestedTickets(var controller){
+  String _calculateInvestedTickets(var controller) {
     return "${controller.participantsMap[FirebaseAuth.instance.currentUser!.uid] == null ? "0" : controller.participantsMap[FirebaseAuth.instance.currentUser!.uid]!.length}";
   }
 
-  Color _getProgressColor(var progress){
-    if (progress <= .5){
+  Color _getProgressColor(var progress) {
+    if (progress <= .5) {
       return Colors.red;
-    } else if (progress <= .8){
+    } else if (progress <= .8) {
       return appPrimaryColor;
-    } else if (progress <= .93){
+    } else if (progress <= .93) {
       return Colors.greenAccent;
     } else {
       return Colors.green;

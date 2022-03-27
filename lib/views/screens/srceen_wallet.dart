@@ -83,6 +83,7 @@ class WalletScreen extends StatelessWidget implements RewardListener, Interstiti
                 endIndent: 20,
               ),
               TextButton(
+
                 onPressed: () {
                   Get.defaultDialog(
                       title: LocaleKeys.Winmoretickets.tr,
@@ -95,6 +96,15 @@ class WalletScreen extends StatelessWidget implements RewardListener, Interstiti
                         adsController.showRewardAd();
                       });
                 },
+                style: ElevatedButton.styleFrom(
+                  shadowColor: Colors.black,
+                  primary: appPrimaryColor,
+                  elevation: 10,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: EdgeInsets.all(10),
+                ),
                 child: Text(LocaleKeys.Winmoretickets.tr,
                     style: Theme.of(context).textTheme.headlineSmall!.merge(
                         TextStyle(

@@ -97,6 +97,9 @@ class LocaleKeys {
   static const NoContests = 'NoContests';
   static const TicketsRequired = 'TicketsRequired';
   static const YouAreAPartOfContest = 'YouAreAPartOfContest';
+  static const InvestMultipleTickets = 'InvestMultipleTickets';
+  static const Invest = 'Invest';
+  static const InvalidValue = 'InvalidValue';
 }
 
 class Locales {
@@ -214,8 +217,8 @@ class Locales {
     'LastName': 'Nom de famille',
     'Nickname': 'Pseudo',
     'DateofBirth': 'Date de naissance',
-    'City': 'Ville',
-    'PhoneNumber': 'Numéro de téléphone',
+    'City': 'Ville (facultatif)',
+    'PhoneNumber': 'Numéro de téléphone (facultatif)',
     'Email': 'E-mail',
     'Password': 'Mot de passe',
     'ConfirmPassword': 'Confirmez le mot de passe',
@@ -278,5 +281,8 @@ class Locales {
     'NoContests': 'Pas de concours',
     'TicketsRequired': 'tickets nécessaires pour participer',
     'YouAreAPartOfContest': 'Vous faites partie de ce concours',
+    'InvestMultipleTickets': 'Investir plusieurs tickets',
+    'Invest': 'Investir',
+    'InvalidValue': 'Valeur invalide',
   };
 }

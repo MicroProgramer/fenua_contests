@@ -114,15 +114,11 @@ class RegistrationController extends GetxController
     bool checked1 = switches[1];
     bool checked2 = switches[2];
 
-    if (oldPickedImage == null) {
-      return LocaleKeys.Pleaseselectimage.tr;
-    } else if (email.isEmpty ||
+    if (email.isEmpty ||
         password.isEmpty ||
-        phone.isEmpty ||
         first_name.isEmpty ||
         last_name.isEmpty ||
-        age.isEmpty ||
-        city.isEmpty) {
+        age.isEmpty) {
       return LocaleKeys.Fillallfields.tr;
     } else if (!email.isEmail) {
       return LocaleKeys.InvalidEmailAddress.tr;
@@ -142,10 +138,10 @@ class RegistrationController extends GetxController
           .then((auth) async {
         Get.snackbar(LocaleKeys.PleaseWait.tr, LocaleKeys.CreatingYourAccount.tr);
         if (auth != null) {
-          String url = await _uploadImage(auth.user!.uid);
-          if (url.isEmpty) {
-            Get.snackbar(LocaleKeys.Error.tr, LocaleKeys.ImageNotUploaded.tr);
-          }
+          String url = /*await _uploadImage(auth.user!.uid)*/ "";
+          // if (url.isEmpty) {
+          //   Get.snackbar(LocaleKeys.Error.tr, LocaleKeys.ImageNotUploaded.tr);
+          // }
           auth_error = await _setDatabase(model.UserInfo(
               first_name: first_name,
               last_name: last_name,

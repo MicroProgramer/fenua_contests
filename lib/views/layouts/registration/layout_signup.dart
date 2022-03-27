@@ -21,24 +21,6 @@ class SignupLayout extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          GetBuilder<RegistrationController>(
-            init: controller,
-            builder: (logic) {
-              print(logic.stateName);
-              return GestureDetector(
-                child: CircleAvatar(
-                  radius: height * 0.08,
-                  backgroundImage: controller.oldPickedImage == null
-                      ? AssetImage("assets/images/placeholder.jpg")
-                      : FileImage(File(controller.oldPickedImage!.path))
-                          as ImageProvider,
-                ),
-                onTap: () async {
-                  controller.getImage();
-                },
-              );
-            },
-          ),
           CustomInputField(
             hint: LocaleKeys.FirstName.tr,
             isPasswordField: false,
