@@ -100,6 +100,16 @@ class LocaleKeys {
   static const InvestMultipleTickets = 'InvestMultipleTickets';
   static const Invest = 'Invest';
   static const InvalidValue = 'InvalidValue';
+  static const Tickets = 'Tickets';
+  static const YouHave = 'YouHave';
+  static const WinMoreTickets = 'WinMoreTickets';
+  static const InviteFriends = 'InviteFriends';
+  static const GetTicketsForInvite = 'GetTicketsForInvite';
+  static const YouReferCode = 'YouReferCode';
+  static const ReferCodeCopied = 'ReferCodeCopied';
+  static const InviteNow = 'InviteNow';
+  static const WatchVideoAds = 'WatchVideoAds';
+  static const GetTicket = 'GetTicket';
 }
 
 class Locales {
@@ -284,5 +294,15 @@ class Locales {
     'InvestMultipleTickets': 'Investir plusieurs tickets',
     'Invest': 'Investir',
     'InvalidValue': 'Valeur invalide',
+    'Tickets': 'Des tickets',
+    'YouHave': 'Vous avez',
+    'WinMoreTickets': 'Gagnez plus de tickets',
+    'InviteFriends': 'Inviter des amis',
+    'GetTicketsForInvite': 'Obtenez 10 tickets pour chaque invitation',
+    'YouReferCode': 'Vous référez le code',
+    'ReferCodeCopied': 'Référez-vous au code copié dans le presse-papiers',
+    'InviteNow': 'Inviter maintenant',
+    'WatchVideoAds': 'Regarder la vidéo publicitaire',
+    'GetTicket': 'Obtenez 1 ticket',
   };
 }

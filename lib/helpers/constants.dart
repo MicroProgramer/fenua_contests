@@ -11,7 +11,7 @@ import '../models/shared_user.dart';
 
 bool userSignedIn = false;
 late String userMail;
-String appName = LocaleKeys.appName.tr;
+String appName = "JEUX CONCOURS FENUA";
 String googleAPIKey = "AIzaSyCp2I8VzxRNn4ls-1bPs1eGJDYDqxcimEM";
 String test_image =
     "https://static.wikia.nocookie.net/mrbean/images/4/4b/Mr_beans_holiday_ver2.jpg/revision/latest?cb=20181130033425";

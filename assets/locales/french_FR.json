@@ -84,5 +84,15 @@
   "YouAreAPartOfContest": "Vous faites partie de ce concours",
   "InvestMultipleTickets": "Investir plusieurs tickets",
   "Invest": "Investir",
-  "InvalidValue": "Valeur invalide"
+  "InvalidValue": "Valeur invalide",
+  "Tickets": "Des tickets",
+  "YouHave": "Vous avez",
+  "WinMoreTickets": "Gagnez plus de tickets",
+  "InviteFriends": "Inviter des amis",
+  "GetTicketsForInvite": "Obtenez 10 tickets pour chaque invitation",
+  "YouReferCode": "Vous référez le code",
+  "ReferCodeCopied": "Référez-vous au code copié dans le presse-papiers",
+  "InviteNow": "Inviter maintenant",
+  "WatchVideoAds": "Regarder la vidéo publicitaire",
+  "GetTicket": "Obtenez 1 ticket"
 }

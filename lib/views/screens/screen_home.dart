@@ -1,11 +1,8 @@
-import 'package:fenua_contests/controllers/controller_ads.dart';
 import 'package:fenua_contests/generated/locales.g.dart';
-import 'package:fenua_contests/interfaces/ads_listener.dart';
 import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/views/layouts/home/layout_account.dart';
 import 'package:fenua_contests/views/layouts/home/layout_contests.dart';
-import 'package:fenua_contests/views/screens/screen_contest_details.dart';
 import 'package:fenua_contests/views/screens/srceen_wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,11 +16,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _widgetOptions = <Widget>[
-      ContestsLayout(),
-      WinnersLayout(),
-      AccountLayout()
-    ];
+    List<Widget> _widgetOptions = <Widget>[ContestsLayout(), WinnersLayout(), AccountLayout()];
 
     Get.put(AdminHomeScreenController(), permanent: true);
     Get.put(HomeScreenController(), permanent: true);
@@ -41,14 +34,16 @@ class HomeScreen extends StatelessWidget {
               },
               child: Row(
                 children: [
-                  Icon(Icons.wallet_giftcard),
-                  SizedBox(
-                    width: 5,
-                  ),
                   Hero(
                     tag: "wallet",
                     child: Obx(() {
-                      return Text(controller.myTickets.length.toString());
+                      return Container(
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
+                          padding: EdgeInsets.all(5),
+                          child: Text(
+                            controller.myTickets.length.toString(),
+                            style: TextStyle(color: Colors.black),
+                          ));
                     }),
                   ),
                 ],
@@ -109,5 +104,4 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
 }

@@ -2,12 +2,14 @@ import 'package:fenua_contests/controllers/controller_ads.dart';
 import 'package:fenua_contests/controllers/controller_home_screen.dart';
 import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/helpers/constants.dart';
-import 'package:fenua_contests/interfaces/ads_listener.dart';
 import 'package:fenua_contests/helpers/styles.dart';
+import 'package:fenua_contests/interfaces/ads_listener.dart';
 import 'package:fenua_contests/models/ticket.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 
 class WalletScreen extends StatelessWidget implements RewardListener, InterstitialListener {
   const WalletScreen({Key? key}) : super(key: key);
@@ -15,17 +17,15 @@ class WalletScreen extends StatelessWidget implements RewardListener, Interstiti
   @override
   Widget build(BuildContext context) {
     HomeScreenController controller = Get.find<HomeScreenController>();
-    AdsController adsController = Get.put(AdsController(rewardListener: this,
-      interstitialListener: this
-    ));
+    AdsController adsController = Get.put(AdsController(rewardListener: this, interstitialListener: this));
     adsController.loadRewardAd();
-
+    String uid = FirebaseAuth.instance.currentUser!.uid;
 
     return Scaffold(
       backgroundColor: appSecondaryColor,
       appBar: AppBar(
         backgroundColor: appSecondaryColor,
-        title: Text("Wallet"),
+        title: Text(LocaleKeys.Tickets.tr),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -34,12 +34,12 @@ class WalletScreen extends StatelessWidget implements RewardListener, Interstiti
               SizedBox(
                 height: 10,
               ),
-              Image.asset(
-                "assets/images/wallet.png",
-                height: Get.height * 0.2,
+              Text(
+                LocaleKeys.YouHave.tr,
+                style: heading1_style.copyWith(color: Colors.white),
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -57,14 +57,18 @@ class WalletScreen extends StatelessWidget implements RewardListener, Interstiti
                     child: Obx(() {
                       return Text(
                         controller.myTickets.length.toString(),
-                        style: TextStyle(
-                            fontSize: Get.height * 0.1,
-                            color: Colors.white,
-                            fontFamily: "JustBubble"),
+                        style: TextStyle(fontSize: Get.height * 0.1, color: Colors.white, fontFamily: "JustBubble"),
                       );
                     }),
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                LocaleKeys.Tickets.tr,
+                style: heading1_style.copyWith(color: Colors.white),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 50),
@@ -82,33 +86,147 @@ class WalletScreen extends StatelessWidget implements RewardListener, Interstiti
                 indent: 20,
                 endIndent: 20,
               ),
-              TextButton(
-
-                onPressed: () {
-                  Get.defaultDialog(
-                      title: LocaleKeys.Winmoretickets.tr,
-                      middleText:
-                          LocaleKeys.Clickthebuttonbelowtowatchvideoadandearnmoretickets.tr,
-                      confirmTextColor: Colors.white,
-                      textConfirm: LocaleKeys.Earnticket.tr,
-                      onConfirm: () {
-                        Get.back();
-                        adsController.showRewardAd();
-                      });
-                },
-                style: ElevatedButton.styleFrom(
-                  shadowColor: Colors.black,
-                  primary: appPrimaryColor,
-                  elevation: 10,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+              Text(
+                LocaleKeys.WinMoreTickets.tr,
+                style: normal_h1Style_bold.copyWith(color: Colors.white),
+              ),
+              Stack(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    margin: EdgeInsets.all(20),
+                    foregroundDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(color: Colors.white),
+                      color: Colors.white.withOpacity(.6),
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          LocaleKeys.InviteFriends.tr,
+                          style: normal_h1Style_bold.copyWith(color: Colors.white),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset("assets/images/invite.png"),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            LocaleKeys.GetTicketsForInvite.tr,
+                            style: normal_h1Style_bold.copyWith(color: Colors.white),
+                          ),
+                        ),
+                        ListTile(
+                          dense: true,
+                          title: Text(
+                            uid,
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            LocaleKeys.YouReferCode.tr,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          trailing: IconButton(
+                            onPressed: () async {
+                              // await Clipboard.setData(ClipboardData(text: uid));
+                              // Get.snackbar(LocaleKeys.Success, LocaleKeys.ReferCodeCopied.tr);
+                            },
+                            icon: Icon(
+                              Icons.copy,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            // String url =
+                            //     GetPlatform.isAndroid ? "https://play.google.com/store/apps/details?id=com.microprogramers.jeux.concours.fenua" : "";
+                            // Share.share('$appName \n$url', subject: appName);
+                          },
+                          child: Text(
+                            LocaleKeys.InviteNow.tr,
+                            style: normal_h2Style_bold.copyWith(color: Colors.white),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            shadowColor: Colors.black,
+                            primary: appPrimaryColor,
+                            elevation: 3,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: EdgeInsets.all(10),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  padding: EdgeInsets.all(10),
+                  Positioned(
+                    child: Container(
+                      padding: EdgeInsets.all(15),
+                      margin: EdgeInsets.all(30),
+                      decoration: BoxDecoration(
+                          color: appPrimaryColor, borderRadius: BorderRadius.circular(15), border: Border.all(width: 3, color: Colors.white)),
+                      child: Text(
+                        "Coming Soon",
+                        style: normal_h2Style_bold.copyWith(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                padding: EdgeInsets.all(10),
+                margin: EdgeInsets.all(20),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), border: Border.all(color: Colors.white)),
+                child: Column(
+                  children: [
+                    Text(
+                      LocaleKeys.WatchVideoAds.tr,
+                      style: normal_h1Style_bold.copyWith(color: Colors.white),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset("assets/images/watch_ads.png"),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        LocaleKeys.GetTicket.tr,
+                        style: normal_h1Style_bold.copyWith(color: Colors.white),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        LocaleKeys.Clickthebuttonbelowtowatchvideoadandearnmoretickets.tr,
+                        style: normal_h3Style.copyWith(color: Colors.white),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        adsController.showRewardAd();
+                      },
+                      child: Text(
+                        LocaleKeys.WatchVideoAds.tr,
+                        style: normal_h2Style_bold.copyWith(color: Colors.white),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        shadowColor: Colors.black,
+                        primary: appPrimaryColor,
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: EdgeInsets.all(10),
+                      ),
+                    ),
+                  ],
                 ),
-                child: Text(LocaleKeys.Winmoretickets.tr,
-                    style: Theme.of(context).textTheme.headlineSmall!.merge(
-                        TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold))),
+              ),
+              SizedBox(
+                height: 30,
               )
             ],
           ),
@@ -125,9 +243,7 @@ class WalletScreen extends StatelessWidget implements RewardListener, Interstiti
         .doc(uid)
         .collection("tickets")
         .doc(timestamp.toString())
-        .set(
-            Ticket(id: timestamp.toString(), timestamp: timestamp, user_id: uid)
-                .toMap())
+        .set(Ticket(id: timestamp.toString(), timestamp: timestamp, user_id: uid).toMap())
         .then((value) {
       Get.snackbar("Congrats", LocaleKeys.Congrats1ticketaddedforyou.tr);
     }).catchError((error) {
