@@ -95,10 +95,9 @@ class WalletScreen extends StatelessWidget implements RewardListener, Interstiti
                   Container(
                     padding: EdgeInsets.all(10),
                     margin: EdgeInsets.all(20),
-                    foregroundDecoration: BoxDecoration(
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       border: Border.all(color: Colors.white),
-                      color: Colors.white.withOpacity(.6),
                     ),
                     child: Column(
                       children: [
@@ -142,7 +141,7 @@ class WalletScreen extends StatelessWidget implements RewardListener, Interstiti
                         TextButton(
                           onPressed: () {
                             // String url =
-                            //     GetPlatform.isAndroid ? "https://play.google.com/store/apps/details?id=com.microprogramers.jeux.concours.fenua" : "";
+                            //     GetPlatform.isAndroid ? "https://play.google.com/store/apps/details?id=com.microprogramers.jeux.concours.fenua" : "https://apps.apple.com/us/app/jeux-concours-fenua/id1613685423";
                             // Share.share('$appName \n$url', subject: appName);
                           },
                           child: Text(
@@ -162,18 +161,18 @@ class WalletScreen extends StatelessWidget implements RewardListener, Interstiti
                       ],
                     ),
                   ),
-                  Positioned(
-                    child: Container(
-                      padding: EdgeInsets.all(15),
-                      margin: EdgeInsets.all(30),
-                      decoration: BoxDecoration(
-                          color: appPrimaryColor, borderRadius: BorderRadius.circular(15), border: Border.all(width: 3, color: Colors.white)),
-                      child: Text(
-                        "Coming Soon",
-                        style: normal_h2Style_bold.copyWith(color: Colors.white),
-                      ),
-                    ),
-                  ),
+                  // Positioned(
+                  //   child: Container(
+                  //     padding: EdgeInsets.all(15),
+                  //     margin: EdgeInsets.all(30),
+                  //     decoration: BoxDecoration(
+                  //         color: appPrimaryColor, borderRadius: BorderRadius.circular(15), border: Border.all(width: 3, color: Colors.white)),
+                  //     child: Text(
+                  //       "Coming Soon",
+                  //       style: normal_h2Style_bold.copyWith(color: Colors.white),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
               Container(
