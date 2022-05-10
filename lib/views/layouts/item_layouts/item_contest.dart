@@ -11,7 +11,7 @@ import '../../../helpers/constants.dart';
 import '../../../models/contest.dart';
 
 class ContestItem extends StatelessWidget {
-  double containerHeight = Get.height /** (GetPlatform.isWeb ? 2 : 1)*/ * 0.3;
+  double containerHeight = Get.height /** (GetPlatform.isWeb ? 2 : 1)*/ * 0.35;
   Contest contest;
   AdminHomeScreenController controller;
   ContestItemListener contestItemListener;
@@ -27,7 +27,7 @@ class ContestItem extends StatelessWidget {
       height: containerHeight,
       decoration: BoxDecoration(
           image: DecorationImage(
-              fit: BoxFit.cover,
+              fit: BoxFit.fitHeight,
               image: CachedNetworkImageProvider(contest.images[0])),
           borderRadius: BorderRadius.circular(10),
           boxShadow: [BoxShadow(blurRadius: 5, color: Colors.white)]),

@@ -82,7 +82,7 @@ class ContestDetailsScreen extends StatelessWidget
                               color: appPrimaryColor,
                               borderRadius: BorderRadius.circular(10),
                               image: DecorationImage(
-                                  fit: BoxFit.fitWidth,
+                                  fit: BoxFit.fitHeight,
                                   image: CachedNetworkImageProvider(
                                       contest.images[itemIndex]
                                           .toString()))),
