@@ -82,7 +82,7 @@ class ContestDetailsScreen extends StatelessWidget
                               color: appPrimaryColor,
                               borderRadius: BorderRadius.circular(10),
                               image: DecorationImage(
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.fitWidth,
                                   image: CachedNetworkImageProvider(
                                       contest.images[itemIndex]
                                           .toString()))),
@@ -131,7 +131,7 @@ class ContestDetailsScreen extends StatelessWidget
                           width: Get.width * .12,
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  fit: BoxFit.fill,
+                                  fit: BoxFit.fitWidth,
                                   image: CachedNetworkImageProvider(
                                     organizer.image_url,
                                   ))),
