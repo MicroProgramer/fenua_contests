@@ -11,7 +11,7 @@ import '../../../helpers/constants.dart';
 import '../../../models/contest.dart';
 
 class ContestItem extends StatelessWidget {
-  double containerHeight = Get.height * 0.3;
+  double containerHeight = Get.height /** (GetPlatform.isWeb ? 2 : 1)*/ * 0.3;
   Contest contest;
   AdminHomeScreenController controller;
   ContestItemListener contestItemListener;
