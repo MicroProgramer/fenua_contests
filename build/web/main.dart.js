@@ -51951,7 +51951,7 @@ a1=A.a8(A.dz(e,"1",a1),a0,a0,a0,a0,$.aLh().bm(0,A.ao(a0,a0,B.m,a0,a0,a0,a0,a0,a0
 e=o.gc4()
 o=o.x
 o=e.bA(0,o==null?A.aJ():o)
-a1=A.b([A.d5(A.kW(A.bV(A.b([new A.BY(new A.a8E(n.b*0.25,2,!1,!0,!0,!0),new A.a9V(a4),new A.a8D(new A.aH(new A.a4(m,t.wC),t.Fe)),p,a0),l,i,a3,new A.aX(B.tc,j,a0),new A.aX(B.C,k,a0),g,d,new A.aX(B.C,f,a0),new A.aX(B.C,a1,a0),new A.eH(B.V,A.a8(A.d(a6?A.as("Expired"):A.as("EXTRACHANCES")).toUpperCase(),a0,a0,a0,a0,$.vj(),a0,a0),o.a*0.7,a0,new A.a9W(a2,a6,r),a0)],a5),B.r,B.v,B.x),a0,B.B,a0,a0,B.a2),8)],a5)
+a1=A.b([A.d5(A.kW(A.bV(A.b([new A.BY(new A.a8E(n.b*0.5,2,!1,!0,!0,!0),new A.a9V(a4),new A.a8D(new A.aH(new A.a4(m,t.wC),t.Fe)),p,a0),l,i,a3,new A.aX(B.tc,j,a0),new A.aX(B.C,k,a0),g,d,new A.aX(B.C,f,a0),new A.aX(B.C,a1,a0),new A.eH(B.V,A.a8(A.d(a6?A.as("Expired"):A.as("EXTRACHANCES")).toUpperCase(),a0,a0,a0,a0,$.vj(),a0,a0),o.a*0.7,a0,new A.a9W(a2,a6,r),a0)],a5),B.r,B.v,B.x),a0,B.B,a0,a0,B.a2),8)],a5)
 return A.nQ(q,B.aV,A.bV(a1,B.r,B.v,B.x),a0,a0)},
 $S:493}
 A.a9R.prototype={
