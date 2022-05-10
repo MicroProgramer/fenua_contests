@@ -26,7 +26,7 @@ class ContestDetailsScreen extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     AdminHomeScreenController controller =
-        Get.put(AdminHomeScreenController(), tag: contest_id);
+        Get.find<AdminHomeScreenController>();
     Contest contest1 = controller.getContestById(contest_id);
     controller.getParticipants(contest_id, contest1.minimum_tickets);
     HomeScreenController homeScreenController =
