@@ -94,7 +94,7 @@ class ContestDetailsScreen extends StatelessWidget
                           autoPlay: true,
                           aspectRatio: 2.0,
                           enlargeCenterPage: true,
-                          height: Get.height * 0.25),
+                          height: Get.height * (GetPlatform.isWeb ? 0.5 :0.25)),
                     ),
                     Container(
                       width: Get.width,
