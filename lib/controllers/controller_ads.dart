@@ -18,60 +18,69 @@ class AdsController extends GetxController {
 
   @override
   void onInit() {
-    rewardAd = AdmobReward(
-      adUnitId: getRewardBasedVideoAdUnitId(),
-      listener: (AdmobAdEvent event, Map<String, dynamic>? args) {
-        if (event == AdmobAdEvent.closed) rewardAd.load();
-        handleEvent(event, args, 'Reward');
-      },
-    );
-    interstitialAd = AdmobInterstitial(
-      adUnitId: getInterstitialAdUnitId(),
-      listener: (AdmobAdEvent event, Map<String, dynamic>? args) {
-        if (event == AdmobAdEvent.closed) {
-          interstitialListener.onInterstitialClose();
-        } else if (event == AdmobAdEvent.failedToLoad) {
-          interstitialListener.onInterstitialFailed();
-        }
-      },
-    );
-    _bannerSize = AdmobBannerSize.BANNER;
+    if (!GetPlatform.isWeb){
 
-    bannerAd = AdmobBanner(
-      adUnitId: getBannerAdUnitId(),
-      adSize: _bannerSize!,
-      listener: (AdmobAdEvent event, Map<String, dynamic>? args) {
-        handleEvent(event, args, 'Banner');
-      },
-      onBannerCreated: (AdmobBannerController controller) {
-        // Dispose is called automatically for you when Flutter removes the banner from the widget tree.
-        // Normally you don't need to worry about disposing this yourself, it's handled.
-        // If you need direct access to dispose, this is your guy!
-        // controller.dispose();
-      },
-    );
+      rewardAd = AdmobReward(
+        adUnitId: getRewardBasedVideoAdUnitId(),
+        listener: (AdmobAdEvent event, Map<String, dynamic>? args) {
+          if (event == AdmobAdEvent.closed) rewardAd.load();
+          handleEvent(event, args, 'Reward');
+        },
+      );
+      interstitialAd = AdmobInterstitial(
+        adUnitId: getInterstitialAdUnitId(),
+        listener: (AdmobAdEvent event, Map<String, dynamic>? args) {
+          if (event == AdmobAdEvent.closed) {
+            interstitialListener.onInterstitialClose();
+          } else if (event == AdmobAdEvent.failedToLoad) {
+            interstitialListener.onInterstitialFailed();
+          }
+        },
+      );
+      _bannerSize = AdmobBannerSize.BANNER;
+
+      bannerAd = AdmobBanner(
+        adUnitId: getBannerAdUnitId(),
+        adSize: _bannerSize!,
+        listener: (AdmobAdEvent event, Map<String, dynamic>? args) {
+          handleEvent(event, args, 'Banner');
+        },
+        onBannerCreated: (AdmobBannerController controller) {
+          // Dispose is called automatically for you when Flutter removes the banner from the widget tree.
+          // Normally you don't need to worry about disposing this yourself, it's handled.
+          // If you need direct access to dispose, this is your guy!
+          // controller.dispose();
+        },
+      );
+    }
 
     super.onInit();
   }
 
   Future<void> loadRewardAd() async {
-    await Admob.requestTrackingAuthorization();
-    rewardAd.load();
+    if (!GetPlatform.isWeb){
+      await Admob.requestTrackingAuthorization();
+      rewardAd.load();
+    }
   }
 
   Future<void> loadInterstitialAd() async {
-    await Admob.requestTrackingAuthorization();
-    interstitialAd.load();
+    if (!GetPlatform.isWeb){
+      await Admob.requestTrackingAuthorization();
+      interstitialAd.load();
+    }
   }
 
   AdmobBanner? getAdmobBanner() {
-    return bannerAd;
+    return GetPlatform.isWeb ? null : bannerAd;
   }
 
   @override
   void onClose() {
-    rewardAd.dispose();
-    interstitialAd.dispose();
+    if (!GetPlatform.isWeb){
+      rewardAd.dispose();
+      interstitialAd.dispose();
+    }
     super.onClose();
   }
 
@@ -103,19 +112,23 @@ class AdsController extends GetxController {
 
 
   Future<void> showRewardAd() async {
-    if (await rewardAd.isLoaded) {
-      rewardAd.show();
-    } else {
-      rewardAd.load();
-      Get.snackbar("Loading video ad", "Try again after 5 seconds");
+    if (!GetPlatform.isWeb){
+      if (await rewardAd.isLoaded) {
+        rewardAd.show();
+      } else {
+        rewardAd.load();
+        Get.snackbar("Loading video ad", "Try again after 5 seconds");
+      }
     }
   }
 
   Future<String> showInterstitialAd() async {
-    final isLoaded = await interstitialAd.isLoaded;
-    if (isLoaded ?? false) {
-      interstitialAd.show();
-      return "success";
+    if (!GetPlatform.isWeb){
+      final isLoaded = await interstitialAd.isLoaded;
+      if (isLoaded ?? false) {
+        interstitialAd.show();
+        return "success";
+      }
     }
     return "failed";
   }

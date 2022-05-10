@@ -477,7 +477,8 @@ class ContestDetailsScreen extends StatelessWidget
                 ),
               ),
             ),
-            Expanded(
+            if (!GetPlatform.isWeb)
+             Expanded(
               flex: 1,
               child: Container(
                   width: Get.width,
