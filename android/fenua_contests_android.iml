@@ -37,5 +37,10 @@
     <orderEntry type="library" name="Gradle: androidx.core:core:1.7.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-runtime:2.3.1@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.arch.core:core-runtime:2.1.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: io.flutter:flutter_embedding_debug:1.0.0-776efd2034d50af73e2876d703213601df384e88" level="project" />
+    <orderEntry type="library" name="Gradle: io.flutter:armeabi_v7a_debug:1.0.0-776efd2034d50af73e2876d703213601df384e88" level="project" />
+    <orderEntry type="library" name="Gradle: io.flutter:arm64_v8a_debug:1.0.0-776efd2034d50af73e2876d703213601df384e88" level="project" />
+    <orderEntry type="library" name="Gradle: io.flutter:x86_64_debug:1.0.0-776efd2034d50af73e2876d703213601df384e88" level="project" />
+    <orderEntry type="library" name="Gradle: io.flutter:x86_debug:1.0.0-776efd2034d50af73e2876d703213601df384e88" level="project" />
   </component>
 </module>

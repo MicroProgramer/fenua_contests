@@ -5,20 +5,21 @@ import 'package:fenua_contests/helpers/constants.dart';
 import 'package:fenua_contests/helpers/styles.dart';
 import 'package:fenua_contests/interfaces/ads_listener.dart';
 import 'package:fenua_contests/models/ticket.dart';
+import 'package:fenua_contests/views/ads/ad_video_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 
-class WalletScreen extends StatelessWidget implements RewardListener, InterstitialListener {
+class WalletScreen extends StatelessWidget implements RewardListener{
   const WalletScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     HomeScreenController controller = Get.find<HomeScreenController>();
-    AdsController adsController = Get.put(AdsController(rewardListener: this, interstitialListener: this));
-    adsController.loadRewardAd();
+    // AdsController adsController = Get.put(AdsController(rewardListener: this, interstitialListener: this));
+    // adsController.loadRewardAd();
     String uid = FirebaseAuth.instance.currentUser!.uid;
 
     return Scaffold(
@@ -204,8 +205,8 @@ class WalletScreen extends StatelessWidget implements RewardListener, Interstiti
                       ),
                     ),
                     TextButton(
-                      onPressed: () {
-                        adsController.showRewardAd();
+                      onPressed: () async {
+                        await Get.to(AdVideoScreen(listener: this));
                       },
                       child: Text(
                         LocaleKeys.WatchVideoAds.tr,

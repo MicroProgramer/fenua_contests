@@ -58,8 +58,9 @@ dependencies:
   get_cli: ^1.7.1
   lottie: ^1.2.2
   rename: ^2.0.1
+  circular_countdown: ^2.1.0
   share_plus: ^4.0.3
-
+  appinio_video_player: ^1.0.2
 
 dev_dependencies:
   flutter_test:

@@ -102,20 +102,6 @@ class HomeScreenController extends GetxController {
         });
     update();
   }
-
-  void listenForDocChange(String uid) {
-    usersRef.snapshots().listen((querySnapshot) {
-      querySnapshot.docChanges.forEach((changedDoc) {
-        model.UserInfo user = model.UserInfo.fromMap(
-            changedDoc.doc.data() as Map<String, dynamic>);
-        if (user.id == uid) {
-          mUser.value = user;
-          update();
-        }
-      });
-    });
-  }
-
   Future<String> _uploadImage(String uid) async {
     Reference storageReference = FirebaseStorage.instance
         .ref()
@@ -135,6 +121,20 @@ class HomeScreenController extends GetxController {
     final String url = await downloadUrl.ref.getDownloadURL();
     return url;
   }
+
+  void listenForDocChange(String uid) {
+    usersRef.snapshots().listen((querySnapshot) {
+      querySnapshot.docChanges.forEach((changedDoc) {
+        model.UserInfo user = model.UserInfo.fromMap(
+            changedDoc.doc.data() as Map<String, dynamic>);
+        if (user.id == uid) {
+          mUser.value = user;
+          update();
+        }
+      });
+    });
+  }
+
 
   void updateUserName() {
     Get.defaultDialog(
