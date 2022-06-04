@@ -29,7 +29,9 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
     Contest contest1 = controller.getContestById(contest_id);
     controller.getParticipants(contest_id, contest1.minimum_tickets);
     HomeScreenController homeScreenController = Get.find<HomeScreenController>();
-
+    var adsController = Get.put(ControllerCustomAds(rewardListener: this));
+    adsController.loadAd(context);
+    
     return Obx(() {
       Contest contest = controller.getContestById(contest_id);
       bool contestExpired = contest.end_timestamp < DateTime.now().millisecondsSinceEpoch;
@@ -366,15 +368,21 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
                                     });
                               },
                               onCancel: () async {
-                                var result = await Get.to(AdVideoScreen(listener: this));
-                                print(result);
+                                if (adsController.videoInitialized){
+                                  adsController.showRewardAd(context);
+                                } else {
+                                  Get.snackbar("Alert", "Video not loaded yet, try again later");
+                                }
                               },
                               textCancel: LocaleKeys.WatchAdanyway.tr,
                               textConfirm: LocaleKeys.Useaccountticket.tr,
                               confirmTextColor: Colors.white);
                         } else {
-                          var result = await Get.to(AdVideoScreen(listener: this));
-                          print(result);
+                          if (adsController.videoInitialized){
+                            adsController.showRewardAd(context);
+                          } else {
+                            Get.snackbar("Alert", "Video not loaded yet, try again later");
+                          }
                         }
                       },
                     ),

@@ -12,6 +12,8 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../controllers/controller_custom_ads.dart';
+
 class WalletScreen extends StatelessWidget implements RewardListener{
   const WalletScreen({Key? key}) : super(key: key);
 
@@ -21,6 +23,8 @@ class WalletScreen extends StatelessWidget implements RewardListener{
     // AdsController adsController = Get.put(AdsController(rewardListener: this, interstitialListener: this));
     // adsController.loadRewardAd();
     String uid = FirebaseAuth.instance.currentUser!.uid;
+    var adsController = Get.put(ControllerCustomAds(rewardListener: this));
+    adsController.loadAd(context);
 
     return Scaffold(
       backgroundColor: appSecondaryColor,
@@ -206,7 +210,11 @@ class WalletScreen extends StatelessWidget implements RewardListener{
                     ),
                     TextButton(
                       onPressed: () async {
-                        await Get.to(AdVideoScreen(listener: this));
+                        if (adsController.videoInitialized){
+                          adsController.showRewardAd(context);
+                        } else {
+                          Get.snackbar("Alert", "Video not loaded yet, try again later");
+                        }
                       },
                       child: Text(
                         LocaleKeys.WatchVideoAds.tr,

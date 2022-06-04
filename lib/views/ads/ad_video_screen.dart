@@ -9,6 +9,7 @@ import '../../widgets/custom_animated_widget.dart';
 
 class AdVideoScreen extends StatefulWidget {
   RewardListener listener;
+  VideoPlayerController videoPlayerController;
 
 
   @override
@@ -16,37 +17,33 @@ class AdVideoScreen extends StatefulWidget {
 
   AdVideoScreen({
     required this.listener,
+    required this.videoPlayerController,
   });
 }
 
 class _AdVideoScreenState extends State<AdVideoScreen> {
-  late VideoPlayerController videoPlayerController;
-  late CustomVideoPlayerController customVideoPlayerController;
 
-  String videoUrl = "https://firebasestorage.googleapis.com/v0/b/jeux-concours-fenua.appspot.com/o/Ads%2Fy2mate.com%20-%20A%20Great%20Example%20For%20A%2030%20Seconds%20B2B%20Explainer%20Video_1080p.mp4?alt=media&token=b43b965d-d006-4194-9a42-b94eb6322793";
   var loading = true;
   var showSkip = false;
 
   @override
   void initState() {
-    videoPlayerController = VideoPlayerController.network(videoUrl)
-      ..initialize().then((value) {
-        videoPlayerController.play();
-        loading = false;
-        setState(() {});
-      });
-    customVideoPlayerController = CustomVideoPlayerController(
-      context: context,
-      videoPlayerController: videoPlayerController,
-    );
+    widget.videoPlayerController.play();
+    widget.videoPlayerController.addListener(() {
+      if (loading){
+        if (widget.videoPlayerController.value.isPlaying){
+          setState(() {
+            loading = false;
+          });
+        }}
 
+    });
     super.initState();
   }
 
   @override
   void dispose() {
-    videoPlayerController.dispose();
-    customVideoPlayerController.dispose();
+    widget.videoPlayerController.seekTo(Duration(seconds: 0));
     super.dispose();
   }
 
@@ -61,7 +58,7 @@ class _AdVideoScreenState extends State<AdVideoScreen> {
               child: CustomVideoPlayer(
                 customVideoPlayerController: CustomVideoPlayerController(
                   context: context,
-                  videoPlayerController: videoPlayerController,
+                  videoPlayerController: widget.videoPlayerController,
                   customVideoPlayerSettings: CustomVideoPlayerSettings(
                     customVideoPlayerProgressBarSettings: CustomVideoPlayerProgressBarSettings(
                       allowScrubbing: false,
@@ -85,7 +82,8 @@ class _AdVideoScreenState extends State<AdVideoScreen> {
                     ),
                     child: TimeCircularCountdown(
                       unit: CountdownUnit.second,
-                      countdownTotal: videoPlayerController.value.duration.inSeconds,
+                      isClockwise: false,
+                      countdownTotal: (widget.videoPlayerController.value.duration.inSeconds + 3),
                       countdownCurrentColor: appPrimaryColor,
                       countdownRemainingColor: appSecondaryColor,
                       countdownTotalColor: Colors.red,
