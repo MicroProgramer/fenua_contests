@@ -58,6 +58,7 @@ class _AdVideoScreenState extends State<AdVideoScreen> {
           children: [
             Container(
               height: Get.height,
+              width: Get.width,
               child: CustomVideoPlayer(
                 customVideoPlayerController: CustomVideoPlayerController(
                   context: context,
