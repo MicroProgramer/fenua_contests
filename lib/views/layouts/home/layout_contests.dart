@@ -1,5 +1,5 @@
 import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
-import 'package:fenua_contests/controllers/controller_ads.dart';
+import 'package:fenua_contests/controllers/controller_custom_ads.dart';
 import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/interfaces/ads_listener.dart';
 import 'package:fenua_contests/interfaces/home_listener.dart';
@@ -11,19 +11,18 @@ import 'package:get/get.dart';
 
 import '../item_layouts/item_contest.dart';
 
-class ContestsLayout extends StatelessWidget
-    implements ContestItemListener{
+class ContestsLayout extends StatelessWidget implements ContestItemListener, RewardListener {
   late String contestId;
+  ControllerCustomAds? adsController;
 
   @override
   Widget build(BuildContext context) {
-    AdminHomeScreenController controller =
-        Get.find<AdminHomeScreenController>();
+    AdminHomeScreenController controller = Get.find<AdminHomeScreenController>();
 
     // if (!Get.isRegistered<AdsController>(tag: "homescreen")){
     //   Get.put(AdsController(interstitialListener: this, rewardListener: null), tag: "homescreen").loadInterstitialAd();
     // }
-
+    adsController = Get.put(ControllerCustomAds(rewardListener: this));
     return Obx(() {
       return controller.liveContestsList.length > 0
           ? ListView.builder(
@@ -48,11 +47,21 @@ class ContestsLayout extends StatelessWidget
     contestId = contest_id;
     // String status = await Get.find<AdsController>(tag: "homescreen").showInterstitialAd();
     // print(status);
-    bool adStatus = await Get.to(AdFullScreen(seconds: 5,));
+    if (adsController != null && adsController!.imageAds.isNotEmpty){
+      bool adStatus = await Get.to(AdFullScreen(
+        seconds: 5,
+        ad: (adsController!.imageAds..shuffle()).first,
+      ));
+    }
     openDetailsScreen();
   }
 
   void openDetailsScreen() {
     Get.to(ContestDetailsScreen(contest_id: contestId));
+  }
+
+  @override
+  void onRewarded() {
+    // TODO: implement onRewarded
   }
 }

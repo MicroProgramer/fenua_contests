@@ -1,5 +1,6 @@
 import 'package:fenua_contests/controllers/controller_admin_home_screen.dart';
 import 'package:fenua_contests/helpers/constants.dart';
+import 'package:fenua_contests/views/layouts/admin/layout_admin_ads.dart';
 import 'package:fenua_contests/views/layouts/admin/layout_contests_admin.dart';
 import 'package:fenua_contests/views/layouts/admin/layout_links.dart';
 import 'package:fenua_contests/views/layouts/admin/layout_organizers_admin.dart';
@@ -29,6 +30,7 @@ class AdminHomeScreen extends StatelessWidget {
       UsersLayoutAdmin(),
       OrganizersLayoutAdmin(),
       LinksLayout(),
+      LayoutAdminAds()
     ];
 
 
@@ -81,6 +83,10 @@ class AdminHomeScreen extends StatelessWidget {
               BottomNavigationBarItem(
                 icon: Icon(Icons.link),
                 label: 'Links',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.pages),
+                label: 'Ads',
               ),
             ],
             currentIndex: controller.selectedPage.value,

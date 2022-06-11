@@ -8,9 +8,9 @@ const RESOURCES = {
 "splash/img/dark-background.png": "2e3e6d5197959563082e5fb30bc227d7",
 "splash/splash.js": "c6a271349a0cd249bdb6d3c4d12f5dcf",
 "splash/style.css": "8327a119a599f3bd070470049ad2e7e5",
-"index.html": "dd06aa6f3a1883dc37c8b4fc6e1459d9",
-"/": "dd06aa6f3a1883dc37c8b4fc6e1459d9",
-"main.dart.js": "07552022554ffd15b878b79fe69f76a2",
+"index.html": "da4e69794276f39b5e700ff711e46084",
+"/": "da4e69794276f39b5e700ff711e46084",
+"main.dart.js": "0b52aa4f7c779aafc8da1de6149db7b8",
 "favicon.png": "be701b5d509fbf8171fc67e98de174d6",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
@@ -18,7 +18,7 @@ const RESOURCES = {
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "manifest.json": "2b2e6e4fb548be253e9b1fa1bd0ef456",
 "assets/AssetManifest.json": "20abcbf0eb6f1212398299fd97a36d0e",
-"assets/NOTICES": "5e22581be75ca0f8493ea68d87ede270",
+"assets/NOTICES": "b3c42254f3faa381e259a417b43ff208",
 "assets/FontManifest.json": "805123b2ae43c36a24a79dc42f3cc613",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "6d342eb68f170c97609e9da345464e5e",
 "assets/fonts/MaterialIcons-Regular.otf": "4e6447691c9509f7acdbf8a931a85ca1",
@@ -50,11 +50,7 @@ const RESOURCES = {
 "assets/assets/fonts/Metropolis-SemiBold.ttf": "eba48789633b3549743b1faedef33140",
 "assets/assets/fonts/Metropolis-MediumItalic.ttf": "aba01a90d380937566a81243ab7a1d37",
 "assets/assets/fonts/Metropolis-BoldItalic.ttf": "99494c46ad4f66990c8a5c9daaa9d676",
-"assets/assets/fonts/Metropolis-Medium.ttf": "6e1f782a0038d26f15614f5c0a669865",
-"canvaskit/canvaskit.js": "62b9906717d7215a6ff4cc24efbd1b5c",
-"canvaskit/profiling/canvaskit.js": "3783918f48ef691e230156c251169480",
-"canvaskit/profiling/canvaskit.wasm": "6d1b0fc1ec88c3110db88caa3393c580",
-"canvaskit/canvaskit.wasm": "b179ba02b7a9f61ebc108f82c5a1ecdb"
+"assets/assets/fonts/Metropolis-Medium.ttf": "6e1f782a0038d26f15614f5c0a669865"
 };
 
 // The application shell files that are downloaded before a service worker can

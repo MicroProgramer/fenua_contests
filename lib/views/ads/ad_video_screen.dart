@@ -1,6 +1,7 @@
 import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:circular_countdown/circular_countdown.dart';
 import 'package:fenua_contests/interfaces/ads_listener.dart';
+import 'package:fenua_contests/models/ad.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,6 +11,7 @@ import '../../widgets/custom_animated_widget.dart';
 class AdVideoScreen extends StatefulWidget {
   RewardListener listener;
   VideoPlayerController videoPlayerController;
+  Ad ad;
 
 
   @override
@@ -18,6 +20,7 @@ class AdVideoScreen extends StatefulWidget {
   AdVideoScreen({
     required this.listener,
     required this.videoPlayerController,
+    required this.ad,
   });
 }
 
@@ -123,14 +126,14 @@ class _AdVideoScreenState extends State<AdVideoScreen> {
                   child: Column(
                     children: [
                       Text(
-                        "Title will be here",
+                        widget.ad.title,
                         style: heading2_style.copyWith(color: Colors.white),
                       ),
                       SizedBox(
                         height: 10,
                       ),
                       Text(
-                        "Description will be here...",
+                        widget.ad.description,
                         style: normal_h3Style.copyWith(color: Colors.white),
                       ),
                     ],

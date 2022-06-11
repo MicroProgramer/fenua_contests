@@ -30,7 +30,10 @@ class ContestDetailsScreen extends StatelessWidget implements RewardListener {
     controller.getParticipants(contest_id, contest1.minimum_tickets);
     HomeScreenController homeScreenController = Get.find<HomeScreenController>();
     var adsController = Get.put(ControllerCustomAds(rewardListener: this));
-    adsController.loadAd(context);
+
+    Future.delayed(Duration(seconds: 3), (){
+      adsController.loadAd(context);
+    });
     
     return Obx(() {
       Contest contest = controller.getContestById(contest_id);

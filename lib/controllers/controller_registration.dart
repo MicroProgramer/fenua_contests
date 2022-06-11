@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fenua_contests/generated/locales.g.dart';
 import 'package:fenua_contests/models/shared_user.dart';
 import 'package:fenua_contests/models/user_info.dart' as model;
@@ -14,8 +13,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../helpers/constants.dart';
 
-class RegistrationController extends GetxController
-    with GetTickerProviderStateMixin {
+class RegistrationController extends GetxController with GetTickerProviderStateMixin {
   List<String> animationStates = ['success', 'fail', 'test', 'idle'];
   var stateName = "idle".obs;
   late TabController tabController;
@@ -44,7 +42,7 @@ class RegistrationController extends GetxController
       selectedPage.value = tabController.index;
     });
 
-    if (!GetPlatform.isWeb){
+    if (!GetPlatform.isWeb) {
       SharedUser sharedUser = await getUserFromSharedPrefs();
       if (!sharedUser.userType.isEmpty) {
         if (sharedUser.userType == "admin") {
@@ -114,28 +112,20 @@ class RegistrationController extends GetxController
     bool checked1 = switches[1];
     bool checked2 = switches[2];
 
-    if (email.isEmpty ||
-        password.isEmpty ||
-        first_name.isEmpty ||
-        last_name.isEmpty ||
-        age.isEmpty) {
+    if (email.isEmpty || password.isEmpty || first_name.isEmpty || last_name.isEmpty || age.isEmpty) {
       return LocaleKeys.Fillallfields.tr;
     } else if (!email.isEmail) {
       return LocaleKeys.InvalidEmailAddress.tr;
     } else {
-
       for (bool enabled in switches) {
         if (!enabled) {
           return "Make sure you check all the agreements";
         }
       }
 
-
       showLoading.value = true;
       String auth_error = '';
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((auth) async {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password).then((auth) async {
         Get.snackbar(LocaleKeys.PleaseWait.tr, LocaleKeys.CreatingYourAccount.tr);
         if (auth != null) {
           String url = /*await _uploadImage(auth.user!.uid)*/ "";
@@ -173,22 +163,18 @@ class RegistrationController extends GetxController
 
     if (email.isEmpty || password.isEmpty) {
       return LocaleKeys.BothFieldsRequired.tr;
-    } else if (email.toLowerCase() == _adminEmail ||
-        password.toLowerCase() == _adminPass) {
+    } else if (email.toLowerCase() == _adminEmail || password.toLowerCase() == _adminPass) {
       saveSharedPref(SharedUser(id: "admin", name: "Admin", userType: "admin"));
       return "admin";
     } else {
       String auth_error = "";
       showLoading.value = true;
-      var auth = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password)
-          .catchError((error) {
+      var auth = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).catchError((error) {
         auth_error = error.toString();
       });
       showLoading.value = false;
       if (auth != null) {
-        saveSharedPref(
-            SharedUser(id: auth.user!.uid, name: "User", userType: "user"));
+        saveSharedPref(SharedUser(id: auth.user!.uid, name: "User", userType: "user"));
         return "success";
       } else {
         return auth_error;
@@ -198,10 +184,8 @@ class RegistrationController extends GetxController
 
   Future<String> _uploadImage(String uid) async {
     // Get.snackbar("Uploading Image", "Uploading your image to database");
-    Reference storageReference =
-        FirebaseStorage.instance.ref().child("profile_images/${uid}.png");
-    final UploadTask uploadTask =
-        storageReference.putFile(File(oldPickedImage!.path));
+    Reference storageReference = FirebaseStorage.instance.ref().child("profile_images/${uid}.png");
+    final UploadTask uploadTask = storageReference.putFile(File(oldPickedImage!.path));
 
     uploadTask.snapshotEvents.listen((event) {
       showLoading.value = true;
@@ -218,10 +202,7 @@ class RegistrationController extends GetxController
   Future<String> _setDatabase(model.UserInfo info) async {
     String response = "";
     showLoading.value = true;
-    usersRef
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .set(info.toMap())
-        .then((value) {
+    usersRef.doc(FirebaseAuth.instance.currentUser!.uid).set(info.toMap()).then((value) {
       response = "success";
       Get.off(HomeScreen());
     }).catchError((error) {

@@ -18,6 +18,12 @@
 @import cloud_firestore;
 #endif
 
+#if __has_include(<file_picker/FilePickerPlugin.h>)
+#import <file_picker/FilePickerPlugin.h>
+#else
+@import file_picker;
+#endif
+
 #if __has_include(<firebase_auth/FLTFirebaseAuthPlugin.h>)
 #import <firebase_auth/FLTFirebaseAuthPlugin.h>
 #else
@@ -46,6 +52,12 @@
 #import <flutter_native_splash/FlutterNativeSplashPlugin.h>
 #else
 @import flutter_native_splash;
+#endif
+
+#if __has_include(<flutter_video_info/FlutterVideoInfoPlugin.h>)
+#import <flutter_video_info/FlutterVideoInfoPlugin.h>
+#else
+@import flutter_video_info;
 #endif
 
 #if __has_include(<image_picker/FLTImagePickerPlugin.h>)
@@ -96,6 +108,12 @@
 @import url_launcher_ios;
 #endif
 
+#if __has_include(<video_compress/VideoCompressPlugin.h>)
+#import <video_compress/VideoCompressPlugin.h>
+#else
+@import video_compress;
+#endif
+
 #if __has_include(<video_player_avfoundation/FLTVideoPlayerPlugin.h>)
 #import <video_player_avfoundation/FLTVideoPlayerPlugin.h>
 #else
@@ -107,11 +125,13 @@
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [AdmobFlutterPlugin registerWithRegistrar:[registry registrarForPlugin:@"AdmobFlutterPlugin"]];
   [FLTFirebaseFirestorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseFirestorePlugin"]];
+  [FilePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FilePickerPlugin"]];
   [FLTFirebaseAuthPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseAuthPlugin"]];
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
   [FLTFirebaseMessagingPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseMessagingPlugin"]];
   [FLTFirebaseStoragePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseStoragePlugin"]];
   [FlutterNativeSplashPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterNativeSplashPlugin"]];
+  [FlutterVideoInfoPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterVideoInfoPlugin"]];
   [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
   [OpenFilePlugin registerWithRegistrar:[registry registrarForPlugin:@"OpenFilePlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
@@ -120,6 +140,7 @@
   [FLTSharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharedPreferencesPlugin"]];
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
   [FLTURLLauncherPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTURLLauncherPlugin"]];
+  [VideoCompressPlugin registerWithRegistrar:[registry registrarForPlugin:@"VideoCompressPlugin"]];
   [FLTVideoPlayerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTVideoPlayerPlugin"]];
 }
 

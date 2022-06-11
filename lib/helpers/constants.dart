@@ -26,6 +26,8 @@ CollectionReference linksRef =
     FirebaseFirestore.instance.collection("links");
 CollectionReference tokensRef =
     FirebaseFirestore.instance.collection("tokens");
+CollectionReference adsRef =
+    FirebaseFirestore.instance.collection("ads");
 
 void showSnackBar(String message, BuildContext context) {
   ScaffoldMessenger.of(context).removeCurrentSnackBar();
