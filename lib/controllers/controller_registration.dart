@@ -38,7 +38,7 @@ class RegistrationController extends GetxController with GetTickerProviderStateM
   @override
   Future<void> onInit() async {
     tabController = TabController(length: 2, vsync: this);
-    tabController.addListener(() {
+    tabController.addListener(()  {
       selectedPage.value = tabController.index;
     });
 
