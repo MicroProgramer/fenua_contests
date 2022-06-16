@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:circular_countdown/circular_countdown.dart';
 import 'package:fenua_contests/helpers/styles.dart';
+import 'package:fenua_contests/interfaces/ads_listener.dart';
 import 'package:fenua_contests/models/ad.dart';
 import 'package:fenua_contests/widgets/custom_animated_widget.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,9 @@ class AdFullScreen extends StatefulWidget {
 
 class _AdFullScreenState extends State<AdFullScreen> {
   bool showSkip = false;
-  var controller = Get.find<ControllerCustomAds>();
+  var controller = Get.put(ControllerCustomAds(
+    rewardListener: RewardListener()
+  ));
 
   @override
   void initState() {
@@ -94,33 +97,33 @@ class _AdFullScreenState extends State<AdFullScreen> {
                       duration: Duration(seconds: 1),
                       crossFadeState: showSkip ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                     )),
-                Positioned(
-                  bottom: Get.height * 0.1,
-                  left: 0,
-                  right: 0,
-                  child: CustomAnimatedWidget(
-                    delayMilliseconds: 1500,
-                    child: Container(
-                      color: appPrimaryColor.withOpacity(0.7),
-                      padding: EdgeInsets.symmetric(vertical: 20),
-                      child: Column(
-                        children: [
-                          Text(
-                            widget.ad!.title,
-                            style: heading2_style.copyWith(color: Colors.white),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            widget.ad!.description,
-                            style: normal_h3Style.copyWith(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
+                // Positioned(
+                //   bottom: Get.height * 0.1,
+                //   left: 0,
+                //   right: 0,
+                //   child: CustomAnimatedWidget(
+                //     delayMilliseconds: 1500,
+                //     child: Container(
+                //       color: appPrimaryColor.withOpacity(0.7),
+                //       padding: EdgeInsets.symmetric(vertical: 20),
+                //       child: Column(
+                //         children: [
+                //           Text(
+                //             widget.ad!.title,
+                //             style: heading2_style.copyWith(color: Colors.white),
+                //           ),
+                //           SizedBox(
+                //             height: 10,
+                //           ),
+                //           Text(
+                //             widget.ad!.description,
+                //             style: normal_h3Style.copyWith(color: Colors.white),
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // )
               ],
             );
           },

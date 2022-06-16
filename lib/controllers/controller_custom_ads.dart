@@ -9,8 +9,8 @@ import 'package:get/get.dart';
 import '../interfaces/ads_listener.dart';
 
 class ControllerCustomAds extends GetxController {
-  late VideoPlayerController videoPlayerController;
-  late CustomVideoPlayerController customVideoPlayerController;
+  VideoPlayerController? videoPlayerController;
+  CustomVideoPlayerController? customVideoPlayerController;
   bool videoInitialized = false;
   final imageAds = List<Ad>.empty(growable: true).obs;
   final videoAds = List<Ad>.empty(growable: true).obs;
@@ -26,6 +26,7 @@ class ControllerCustomAds extends GetxController {
   void loadAd(BuildContext context) async {
     // String videoUrl =
     //     "https://firebasestorage.googleapis.com/v0/b/jeux-concours-fenua.appspot.com/o/Ads%2Fy2mate.com%20-%20A%20Great%20Example%20For%20A%2030%20Seconds%20B2B%20Explainer%20Video_1080p.mp4?alt=media&token=b43b965d-d006-4194-9a42-b94eb6322793";
+    print(videoAds);
     randomAd = (videoAds..shuffle()).first;
     String videoUrl = randomAd!.mediaUrl;
     videoPlayerController = VideoPlayerController.network(videoUrl)
@@ -34,7 +35,7 @@ class ControllerCustomAds extends GetxController {
       });
     customVideoPlayerController = CustomVideoPlayerController(
       context: context,
-      videoPlayerController: videoPlayerController,
+      videoPlayerController: videoPlayerController!,
     );
   }
 
@@ -43,14 +44,14 @@ class ControllerCustomAds extends GetxController {
       var result = await Get.to(AdVideoScreen(
         listener: rewardListener,
         ad: randomAd!,
-        videoPlayerController: this.videoPlayerController,
+        videoPlayerController: this.videoPlayerController!,
       ));
     } else {
       Get.snackbar("Alert", "Ad not loaded yet, please wait...");
     }
     videoInitialized = false;
-    videoPlayerController.dispose();
-    customVideoPlayerController.dispose();
+    videoPlayerController!.dispose();
+    customVideoPlayerController!.dispose();
     loadAd(context);
   }
 
@@ -65,8 +66,10 @@ class ControllerCustomAds extends GetxController {
   void onClose() {
     // if (videoPlayerController != null && customVideoPlayerController != null){
     //
-      videoPlayerController.dispose();
-      customVideoPlayerController.dispose();
+      if (videoPlayerController != null){
+        videoPlayerController!.dispose();
+        customVideoPlayerController!.dispose();
+      }
     // }
     super.onClose();
   }

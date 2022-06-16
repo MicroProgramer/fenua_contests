@@ -115,33 +115,33 @@ class _AdVideoScreenState extends State<AdVideoScreen> {
                   duration: Duration(seconds: 1),
                   crossFadeState: showSkip ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                 )),
-            Positioned(
-              bottom: Get.height * 0.1,
-              left: 0,
-              right: 0,
-              child: CustomAnimatedWidget(
-                delayMilliseconds: 1500,
-                child: Container(
-                  color: appPrimaryColor.withOpacity(0.7),
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  child: Column(
-                    children: [
-                      Text(
-                        widget.ad.title,
-                        style: heading2_style.copyWith(color: Colors.white),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        widget.ad.description,
-                        style: normal_h3Style.copyWith(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            )
+            // Positioned(
+            //   bottom: Get.height * 0.1,
+            //   left: 0,
+            //   right: 0,
+            //   child: CustomAnimatedWidget(
+            //     delayMilliseconds: 1500,
+            //     child: Container(
+            //       color: appPrimaryColor.withOpacity(0.7),
+            //       padding: EdgeInsets.symmetric(vertical: 20),
+            //       child: Column(
+            //         children: [
+            //           Text(
+            //             widget.ad.title,
+            //             style: heading2_style.copyWith(color: Colors.white),
+            //           ),
+            //           SizedBox(
+            //             height: 10,
+            //           ),
+            //           Text(
+            //             widget.ad.description,
+            //             style: normal_h3Style.copyWith(color: Colors.white),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),
