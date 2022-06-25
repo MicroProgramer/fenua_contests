@@ -29,7 +29,7 @@ class ControllerCustomAds extends GetxController {
     print(videoAds);
     randomAd = (videoAds..shuffle()).first;
     String videoUrl = randomAd!.mediaUrl;
-    videoPlayerController = VideoPlayerController.network(videoUrl)
+    videoPlayerController = await VideoPlayerController.network(videoUrl)
       ..initialize().then((value) {
         videoInitialized = true;
       });
@@ -97,4 +97,6 @@ class ControllerCustomAds extends GetxController {
             Ad.fromMap(doc.data() as Map<String, dynamic>))
             .toList());
   }
+
+
 }

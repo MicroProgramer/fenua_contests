@@ -282,7 +282,6 @@ class _LayoutAdminAdsState extends State<LayoutAdminAds> {
         endTimestamp: 0,
         mediaUrl: url,
         adType: selectedType,
-        impressions: 0,
         clickUrl: "clickUrl");
     await adsRef.doc(id).set(ad.toMap()).then((value) {
       response = "success";

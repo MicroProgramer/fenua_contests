@@ -24,7 +24,9 @@ class WalletScreen extends StatelessWidget implements RewardListener{
     // adsController.loadRewardAd();
     String uid = FirebaseAuth.instance.currentUser!.uid;
     var adsController = Get.put(ControllerCustomAds(rewardListener: this));
-    adsController.loadAd(context);
+    Future.delayed(Duration(seconds: 1), (){
+      adsController.loadAd(context);
+    });
 
     return Scaffold(
       backgroundColor: appSecondaryColor,

@@ -4,7 +4,6 @@ class Ad {
   int endTimestamp;
   String mediaUrl;
   String adType;
-  int impressions;
   String clickUrl;
 
 //<editor-fold desc="Data Methods">
@@ -17,7 +16,6 @@ class Ad {
     required this.endTimestamp,
     required this.mediaUrl,
     required this.adType,
-    required this.impressions,
     required this.clickUrl,
   });
 
@@ -33,7 +31,6 @@ class Ad {
           endTimestamp == other.endTimestamp &&
           mediaUrl == other.mediaUrl &&
           adType == other.adType &&
-          impressions == other.impressions &&
           clickUrl == other.clickUrl);
 
   @override
@@ -45,7 +42,6 @@ class Ad {
       endTimestamp.hashCode ^
       mediaUrl.hashCode ^
       adType.hashCode ^
-      impressions.hashCode ^
       clickUrl.hashCode;
 
   @override
@@ -58,7 +54,6 @@ class Ad {
         ' endTimestamp: $endTimestamp,' +
         ' mediaUrl: $mediaUrl,' +
         ' adType: $adType,' +
-        ' impressions: $impressions,' +
         ' clickUrl: $clickUrl,' +
         '}';
   }
@@ -71,7 +66,6 @@ class Ad {
     int? endTimestamp,
     String? mediaUrl,
     String? adType,
-    int? impressions,
     String? clickUrl,
   }) {
     return Ad(
@@ -82,7 +76,6 @@ class Ad {
       endTimestamp: endTimestamp ?? this.endTimestamp,
       mediaUrl: mediaUrl ?? this.mediaUrl,
       adType: adType ?? this.adType,
-      impressions: impressions ?? this.impressions,
       clickUrl: clickUrl ?? this.clickUrl,
     );
   }
@@ -96,7 +89,6 @@ class Ad {
       'endTimestamp': this.endTimestamp,
       'mediaUrl': this.mediaUrl,
       'adType': this.adType,
-      'impressions': this.impressions,
       'clickUrl': this.clickUrl,
     };
   }
@@ -110,7 +102,6 @@ class Ad {
       endTimestamp: map['endTimestamp'] as int,
       mediaUrl: map['mediaUrl'] as String,
       adType: map['adType'] as String,
-      impressions: map['impressions'] as int,
       clickUrl: map['clickUrl'] as String,
     );
   }
