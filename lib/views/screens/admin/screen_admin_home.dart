@@ -12,6 +12,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 import '../../../helpers/styles.dart';
+import '../../layouts/admin/layout_partners_admin.dart';
 
 class AdminHomeScreen extends StatelessWidget {
   const AdminHomeScreen({Key? key}) : super(key: key);
@@ -30,7 +31,9 @@ class AdminHomeScreen extends StatelessWidget {
       UsersLayoutAdmin(),
       OrganizersLayoutAdmin(),
       LinksLayout(),
-      LayoutAdminAds()
+      LayoutAdminAds(),
+      LayoutPartnersAdmin(),
+
     ];
 
 
@@ -87,6 +90,10 @@ class AdminHomeScreen extends StatelessWidget {
               BottomNavigationBarItem(
                 icon: Icon(Icons.pages),
                 label: 'Ads',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.supervisor_account),
+                label: 'Partners',
               ),
             ],
             currentIndex: controller.selectedPage.value,
